@@ -1,0 +1,32 @@
+
+<http://amarger.murloc.fr/AlignmentOntology#alignBetween> rdf:type owl:ObjectProperty ,owl:SymmetricProperty ;rdfs:domain :Alignment ;rdfs:range :Element .
+
+:belongsTo rdf:type owl:ObjectProperty ;
+           
+           rdfs:domain :Element ;
+           
+           rdfs:range :Source .
+
+:hasName rdf:type owl:DatatypeProperty ;
+         
+         rdfs:domain :Source ;
+         
+         rdfs:range rdfs:Literal .
+
+
+:trustScore rdf:type owl:DatatypeProperty ;
+            
+            rdfs:domain :Alignment ;
+            
+            rdfs:range xsd:float .
+
+
+:Alignment rdf:type owl:Class .
+
+
+:Element rdf:type owl:Class .
+
+
+:Source rdf:type owl:Class .
+
+
