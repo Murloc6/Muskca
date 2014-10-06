@@ -330,43 +330,43 @@ public class Fusionner implements Serializable
     {
         String ret = "";
         
-        ret +="@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> . \n";
-        ret += "@prefix : <http://www.w3.org/ns/prov#> . \n";
-        ret += "@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> . \n";
-        ret += "@prefix owl: <http://www.w3.org/2002/07/owl#> . \n";
-        ret += "@prefix xsd: <http://www.w3.org/2001/XMLSchema#> . \n";
+        ret +="PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>  \n";
+        ret += "PREFIX : <http://www.w3.org/ns/prov#>  \n";
+        ret += "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>  \n";
+        ret += "PREFIX owl: <http://www.w3.org/2002/07/owl#>  \n";
+        ret += "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>  \n";
         
         
-         ret += "@prefix : <http://www.w3.org/2002/07/owl#> . \n" +
-                    "@prefix owl: <http://www.w3.org/2002/07/owl#> . \n" +
-                    "@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> . \n" +
-                    "@prefix xml: <http://www.w3.org/XML/1998/namespace> . \n" +
-                    "@prefix xsd: <http://www.w3.org/2001/XMLSchema#> . \n" +
-                    "@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> . \n" +
-                    "@prefix skos: <http://www.w3.org/2004/02/skos/core#> . \n" +
-                    "@prefix swrl: <http://www.w3.org/2003/11/swrl#> . \n" +
-                    "@prefix swrlb: <http://www.w3.org/2003/11/swrlb#> . \n" +
-                    "@prefix terms: <http://purl.org/dc/terms/> . \n" +
-                    "@prefix AgronomicTaxon: <http://ontology.irstea.fr/AgronomicTaxon#> . \n";
+         ret += "PREFIX : <http://www.w3.org/2002/07/owl#>  \n" +
+                    "PREFIX owl: <http://www.w3.org/2002/07/owl#>  \n" +
+                    "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>  \n" +
+                    "PREFIX xml: <http://www.w3.org/XML/1998/namespace>  \n" +
+                    "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>  \n" +
+                    "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>  \n" +
+                    "PREFIX skos: <http://www.w3.org/2004/02/skos/core#>  \n" +
+                    "PREFIX swrl: <http://www.w3.org/2003/11/swrl#>  \n" +
+                    "PREFIX swrlb: <http://www.w3.org/2003/11/swrlb#>  \n" +
+                    "PREFIX terms: <http://purl.org/dc/terms/>  \n" +
+                    "PREFIX AgronomicTaxon: <http://ontology.irstea.fr/AgronomicTaxon#>  \n";
         return ret;
     }
     
-    public String allCandidatesToProvo(String provoFile, String adomFile, String baseUri)
+    public SparqlProxy allCandidatesToProvo(String provoFile, String provoSpOut, String adomFile, String baseUri)
     {
+        SparqlProxy spOutProvo = SparqlProxy.getSparqlProxy(provoSpOut);
+        spOutProvo.clearSp();
         
         this.instCandidates.sort(new InstanceCandidateComparator());
-        //String ret = "Instance Candidate (nb : "+this.instCandidates.size()+" : \n";
-        String ret = this.setPrefix();
-        ret += this.getOwlFileToTtl(provoFile);
-        ret += this.getOwlFileToTtl(adomFile);
+        spOutProvo.storeData(new StringBuilder(this.setPrefix()+"  INSERT DATA {"+this.getOwlFileToTtl(provoFile)+"}"));
+        spOutProvo.storeData(new StringBuilder(this.setPrefix()+" INSERT DATA {"+this.getOwlFileToTtl(adomFile)+"}"));
         int numInst = 1;
         for(InstanceCandidate ic : this.instCandidates)
         {
-            ret += ic.toProvO(baseUri, numInst);
+            spOutProvo.storeData(new StringBuilder(this.setPrefix()+" INSERT DATA {"+ic.toProvO(baseUri, numInst)+"}"));
             numInst ++;
         }
         
-        return ret;
+        return spOutProvo;
     }
     
     public String allCandidatesToCSV()

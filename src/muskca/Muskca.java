@@ -10,6 +10,7 @@ import Alignment.Aligner;
 import Alignment.AlignerLogMap;
 import MultiSources.Fusionner;
 import Source.Source;
+import Source.SparqlProxy;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -186,12 +187,15 @@ public class Muskca
         
         String retFile = fusionner.allCandidatesToString();
         
+        System.out.println("EXPORTING stats file ...");
          Muskca.exportFile(retFile, projectName+"_HypCandidate_stats.txt");
         //AlignRKBAgroTaxon.exportFile(fusionner.allCandidatesToCSV(), projectName+".csv");
         System.out.println("FILE PERSO EXPORTED");
         
-        String retProvo = fusionner.allCandidatesToProvo(provoFile, adomFile, baseUriMuskca);
-        Muskca.exportFile(retProvo, projectName+"_CandProvo.owl");
+        System.out.println("EXPORTING provo owl file ...");
+        SparqlProxy spProvo = fusionner.allCandidatesToProvo(provoFile, spOutProvo, adomFile, baseUriMuskca);
+        //Muskca.exportFile(spProvo., projectName+"_CandProvo.owl");
+        spProvo.writeKBFile(projectName+"_CandProvo.owl");
         System.out.println("FILE PROVO EXPORTED");
         
         System.out.println("NB SAVED ON MONGO : "+fusionner.nbMongoSaved);

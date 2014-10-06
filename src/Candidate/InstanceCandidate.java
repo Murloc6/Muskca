@@ -275,7 +275,7 @@ public class InstanceCandidate extends Candidate
         String uriCand =Muskca.uriMuskca+this.sElem+"/"+numInst;
         String uriOntObj = baseUri+this.sElem+"/"+numInst; 
         String ret = "<"+uriCand+"> rdf:type :Entity; rdf:type rdf:Statement; rdf:subject <"+uriOntObj+">; rdf:predicate rdf:type; rdf:object rdfs:Ressource.\n ";
-        ret += "<"+uriCand+"> <"+Muskca.uriMuskca+"hadTrustScore> "+this.getTrustScore()+"^^xsd:double.\n";
+        ret += "<"+uriCand+"> <"+Muskca.uriMuskca+"hadTrustScore> \""+this.getTrustScore()+"\"^^xsd:double.\n";
         //String ret = "Instance Candidate ("+this.trustScore+" -- Source : "+this.trustSource+" | Aligns : "+this.trustAlign+" | ICHR : "+this.trustICHR+"): \n";
         for(Entry<Source, String> e : this.uriImplicate.entrySet())
         {

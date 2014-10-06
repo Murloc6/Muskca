@@ -1,1 +1,25 @@
-PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>PREFIX owl:    <http://www.w3.org/2002/07/owl#>PREFIX skos: <http://www.w3.org/2004/02/skos/core#>PREFIX  xsd:  <http://www.w3.org/2001/XMLSchema#>PREFIX agrovoc: <http://aims.fao.org/aos/agrontology#>PREFIX : <http://www.amarger.murloc.fr/AlignmentOntology#> INSERT DATA {<http://s2.fr#x21> rdf:type :Element; :belongsTo <http://s2.fr#>.<http://s3.fr#x31> rdf:type :Element; :belongsTo <http://s3.fr#>.:Alignment_1 rdf:type :Alignment; :alignBetween <http://s2.fr#x21>; :alignBetween <http://s3.fr#x31>; :trustScore "0.9"^^xsd:float .
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>PREFIX owl:    <http://www.w3.org/2002/07/owl#>PREFIX skos: <http://www.w3.org/2004/02/skos/core#>PREFIX  xsd:  <http://www.w3.org/2001/XMLSchema#>PREFIX agrovoc: <http://aims.fao.org/aos/agrontology#>PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>  
+PREFIX : <http://www.w3.org/ns/prov#>  
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>  
+PREFIX owl: <http://www.w3.org/2002/07/owl#>  
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>  
+PREFIX : <http://www.w3.org/2002/07/owl#>  
+PREFIX owl: <http://www.w3.org/2002/07/owl#>  
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>  
+PREFIX xml: <http://www.w3.org/XML/1998/namespace>  
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>  
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>  
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>  
+PREFIX swrl: <http://www.w3.org/2003/11/swrl#>  
+PREFIX swrlb: <http://www.w3.org/2003/11/swrlb#>  
+PREFIX terms: <http://purl.org/dc/terms/>  
+PREFIX AgronomicTaxon: <http://ontology.irstea.fr/AgronomicTaxon#>  
+ INSERT DATA {<http://muscka_system.fr/Alpha1/InstanceCandidate/54> rdf:type :Entity; rdf:type rdf:Statement; rdf:subject <http://muskca_system.fr/mini_Triticum/InstanceCandidate/54>; rdf:predicate rdf:type; rdf:object rdfs:Ressource.
+ <http://muscka_system.fr/Alpha1/InstanceCandidate/54> <http://muscka_system.fr/Alpha1/hadTrustScore> 0.6666667^^xsd:double.
+<http://aims.fao.org/aos/agrovoc/c_7957> rdf:type :Entity; rdf:type rdf:Statement.
+<http://muscka_system.fr/Alpha1/InstanceCandidate/54> :wasDerivedFrom <http://aims.fao.org/aos/agrovoc/c_7957>. 
+<http://inpn.mnhn.fr/espece/cd_nom/127827> rdf:type :Entity; rdf:type rdf:Statement.
+<http://muscka_system.fr/Alpha1/InstanceCandidate/54> :wasDerivedFrom <http://inpn.mnhn.fr/espece/cd_nom/127827>. 
+<http://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=58933> rdf:type :Entity; rdf:type rdf:Statement.
+<http://muscka_system.fr/Alpha1/InstanceCandidate/54> :wasDerivedFrom <http://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=58933>. 
+}
