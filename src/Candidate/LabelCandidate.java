@@ -9,6 +9,7 @@ package Candidate;
 import Source.Source;
 import com.mongodb.BasicDBObject;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -99,7 +100,7 @@ public class LabelCandidate extends Candidate
             //sourcesScore += s.getSourceQualityScore();
             sourcesScore ++;
         }
-
+        
         this.trustScore = (this.jRValue.size()+this.ic.getTrustScore()+avgJR+sourcesScore)/trustLcMax;
     }
     
@@ -118,7 +119,26 @@ public class LabelCandidate extends Candidate
         
         return ret;
     }
-
+    
+    public String getRefId()
+    {
+        HashMap<String, String> sourcesLabels = new HashMap<>();
+        ArrayList<String> sourcesList = new ArrayList<>();
+        for(Source s : this.label.keySet())
+        {
+            sourcesLabels.put(s.getName(), this.label.get(s));
+            sourcesList.add(s.getName());
+        }
+        Collections.sort(sourcesList);
+        
+        String ret = "";
+        for(String s : sourcesList)
+        {
+            ret += s+"->"+sourcesLabels.get(ret)+"/";
+        }
+        return ret;
+    }
+    
     @Override
     public BasicDBObject toDBObject()
     {
@@ -144,11 +164,8 @@ public class LabelCandidate extends Candidate
         }
         doc.append("labels", labelsObj);
 
-        //Compute ir trust SCORE here! 
-        System.out.println("TEST : "+this.getTrustScore());
+        //System.out.println("TEST : "+this.getTrustScore());
         doc.append("trustScore", this.getTrustScore());
-
-        //System.out.println(doc);
         
         return doc;
     }

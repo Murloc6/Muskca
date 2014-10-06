@@ -121,9 +121,13 @@ public class InstanceCandidate extends Candidate
         this.labelCands.add(labelC);
     }
     
-    public void addAllLabelsCandidate(ArrayList<LabelCandidate> labelCs)
+    public void addAllLabelsCandidate(ArrayList<LabelCandidate> labelCs, float trustLcMax)
     {
-        this.labelCands.addAll(labelCs);
+        for(LabelCandidate lc : labelCs)
+        {
+            lc.computeTrustScore(trustLcMax);
+            this.labelCands.add(lc);
+        }
     }
     
     public ArrayList<LabelCandidate> getLabelCandidates()
@@ -314,5 +318,22 @@ public class InstanceCandidate extends Candidate
         }*/
         
         return ret;
+    }
+    
+    public void clearLabelsCandidates()
+    {
+        ArrayList<LabelCandidate> newLabels = new ArrayList<>();
+        ArrayList<String> lcTreated = new ArrayList<>();
+        for(LabelCandidate lc : this.labelCands)
+        {
+           //String typeURI = lc.getDataProp();
+            String refLC = lc.getRefId();
+            if(!lcTreated.contains(refLC))
+            {
+               lcTreated.add(refLC);
+               newLabels.add(lc);
+            }
+       }
+        this.labelCands = newLabels;
     }
 }

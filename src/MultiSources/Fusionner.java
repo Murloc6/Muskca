@@ -641,7 +641,7 @@ public class Fusionner implements Serializable
          DBCollection collMongo = null;
         if(mongoCollectionLabels != null)
         {
-            this.connectMongo(mongoCollectionLabels);
+            collMongo = connectMongo(mongoCollectionLabels);
         }
         for(InstanceCandidate ic : this.instCandidates)
         {
@@ -651,25 +651,23 @@ public class Fusionner implements Serializable
                 if(lcs != null && lcs.size() > 0)
                 {
                     //ic.addLabelCandidates(dataProp, lcs);
-                    ic.addAllLabelsCandidate(lcs);
+                    ic.addAllLabelsCandidate(lcs, trustLcMax);
                 }
             }
+            ic.clearLabelsCandidates();
             if(mongoCollectionLabels != null)
             {
+                ArrayList<String> lcTreated = new ArrayList<>();
                  for(LabelCandidate lc : ic.getLabelCandidates())
                  {
-                    String typeURI = lc.getDataProp();
-                    lc.computeTrustScore(trustLcMax);
-
                     try
                     {
-                          WriteResult wr =collMongo.insert(lc.toDBObject());
+                         WriteResult wr =collMongo.insert(lc.toDBObject());
                     }
                     catch(NullPointerException ex)
                     {
-                        System.err.println("ERROR Mongo Writer null ...");
-                        System.err.println(ex);
-                        //System.exit(0);
+                        System.err.println("ERROR Mongo Writer null (LC) ...");
+                        System.exit(0);
                     }
                 }
             }

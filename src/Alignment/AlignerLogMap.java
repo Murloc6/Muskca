@@ -64,6 +64,7 @@ public class AlignerLogMap extends Aligner
 
             for (MappingObjectStr mapping: logmap2_mappings)
             {
+                //System.out.println(mapping.getTypeOfMapping()+" -- "+mapping.getConfidence());
                 if(mapping.getTypeOfMapping() == MappingObjectStr.INSTANCES && mapping.getConfidence() >= limitSimScore)
                 {
                     /*ArrayList<JsonNode> repLabelsS1 = this.s1.getAllPrefLabesl(mapping.getIRIStrEnt1());
@@ -79,7 +80,8 @@ public class AlignerLogMap extends Aligner
                     if(! (uri1.startsWith("http://ontology.irstea.fr/AgronomicTaxon") && uri2.startsWith("http://ontology.irstea.fr/AgronomicTaxon")) && !(uri1.startsWith("http://www.w3.org/2004/02/skos/core") && uri2.startsWith("http://www.w3.org/2004/02/skos/core")))
                     {
                         System.out.println("NEW CLASS ALIGN !!");
-                        System.out.println(mapping.toString());
+                        //System.out.println(mapping.toString());
+                        System.out.println("Alignment founded : "+mapping.getIRIStrEnt1()+" --> "+mapping.getIRIStrEnt2()+" ("+mapping.getConfidence()+")");
                         System.out.println(" ----------- ");
                     }
                 }
