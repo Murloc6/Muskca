@@ -26,7 +26,10 @@ public class Muskca
 {
     
     
-    public static String uriMuskca = "http://muscka_system.fr/Alpha1/";
+    //public static String uriMuskca = "http://muscka_system.fr/Alpha1/";
+    public static String muskcaVersion = "Alpha1";
+    public static String dateBegin = "";
+    public static String dateEnd = "";
     
     /**
      * @param args the command line arguments
@@ -44,6 +47,7 @@ public class Muskca
          urisLabelsImp.add("http://ontology.irstea.fr/AgronomicTaxon#hasVernacularName");
          
          
+          Muskca.dateBegin = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").format(new Date());
          String projectName = "mini_Triticum";
          String mongoCollection  = "triticumCandidate"; // null for don't save candidates on mongoDB 
          //String mongoCollection  = null;
@@ -187,6 +191,10 @@ public class Muskca
         
         String retFile = fusionner.allCandidatesToString();
         
+        System.out.println("NB SAVED ON MONGO : "+fusionner.nbMongoSaved);
+        
+        Muskca.dateEnd = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").format(new Date());
+        
         System.out.println("EXPORTING stats file ...");
          Muskca.exportFile(retFile, projectName+"_HypCandidate_stats.txt");
         //AlignRKBAgroTaxon.exportFile(fusionner.allCandidatesToCSV(), projectName+".csv");
@@ -197,8 +205,6 @@ public class Muskca
         //Muskca.exportFile(spProvo., projectName+"_CandProvo.owl");
         spProvo.writeKBFile(projectName+"_CandProvo.owl");
         System.out.println("FILE PROVO EXPORTED");
-        
-        System.out.println("NB SAVED ON MONGO : "+fusionner.nbMongoSaved);
         
      }
     

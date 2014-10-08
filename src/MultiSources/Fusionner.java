@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map.Entry;
+import muskca.Muskca;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 
@@ -337,8 +338,7 @@ public class Fusionner implements Serializable
         ret += "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>  \n";
         
         
-         ret += "PREFIX : <http://www.w3.org/2002/07/owl#>  \n" +
-                    "PREFIX owl: <http://www.w3.org/2002/07/owl#>  \n" +
+         ret += "PREFIX owl: <http://www.w3.org/2002/07/owl#>  \n" +
                     "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>  \n" +
                     "PREFIX xml: <http://www.w3.org/XML/1998/namespace>  \n" +
                     "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>  \n" +
@@ -356,13 +356,35 @@ public class Fusionner implements Serializable
         SparqlProxy spOutProvo = SparqlProxy.getSparqlProxy(provoSpOut);
         spOutProvo.clearSp();
         
-        this.instCandidates.sort(new InstanceCandidateComparator());
+       //this.instCandidates.sort(new InstanceCandidateComparator());
         spOutProvo.storeData(new StringBuilder(this.setPrefix()+"  INSERT DATA {"+this.getOwlFileToTtl(provoFile)+"}"));
         spOutProvo.storeData(new StringBuilder(this.setPrefix()+" INSERT DATA {"+this.getOwlFileToTtl(adomFile)+"}"));
         int numInst = 1;
+        
+        String query = this.setPrefix()+" INSERT DATA {";
+        
+        String uriKbMerge = baseUri+"ActivityKBMerge";
+        
+        query += "<"+baseUri+"Muskca/"+Muskca.muskcaVersion+"> rdf:type :SoftwareAgent.";
+        query += "<"+uriKbMerge+"> rdf:type :Activity; :startedAtTime \""+Muskca.dateBegin+"\"^^xsd:dateTime; :endedAtTime \""+Muskca.dateEnd+"\"^^xsd:dateTime; :wasAssociatedWith <"+baseUri+"Muskca/"+Muskca.muskcaVersion+">.";
+        query += "<"+baseUri+"weightedKB> rdf:type :Collection.";
+        
+        HashMap<Source, String> provoSourceUri = new HashMap<>();
+        for (Source s : this.sources)
+        {
+            String sUri = baseUri+"Source/"+s.getName();
+            provoSourceUri.put(s, sUri);
+            query += "<"+sUri+"> rdf:type :Collection.";
+            query += "<"+uriKbMerge+"> :used <"+sUri+">.";
+            query += "<"+baseUri+"weightedKB> :wasDerivedFrom <"+sUri+">.";
+        }
+        query +="}";
+        
+        spOutProvo.storeData(new StringBuilder(query));
+        
         for(InstanceCandidate ic : this.instCandidates)
         {
-            spOutProvo.storeData(new StringBuilder(this.setPrefix()+" INSERT DATA {"+ic.toProvO(baseUri, numInst)+"}"));
+            spOutProvo.storeData(new StringBuilder(this.setPrefix()+" INSERT DATA {"+ic.toProvO(baseUri, numInst, provoSourceUri, uriKbMerge)+"}"));
             numInst ++;
         }
         

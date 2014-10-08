@@ -170,10 +170,25 @@ public class LabelCandidate extends Candidate
         return doc;
     }
 
-    @Override
-    public String toProvO(String baseUri, int numCand)
+    public String toProvO(String baseUri, int numCand, int instCand, HashMap<Source, String> sourcesUri,HashMap<Source, String> uriInst, String uriOntObj, String uriKbMerge)
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+         String uriCand =baseUri+this.sElem+"/Cand/"+instCand+"/"+numCand;
+        String labelOO = this.label.get((Source)sourcesUri.keySet().toArray()[0]); //get the label of the first source
+        String ret = "<"+uriCand+"> rdf:type :Entity; rdf:type rdf:Statement; rdf:subject <"+uriOntObj+">; rdf:predicate rdfs:label; rdf:object  \""+labelOO+"\".\n ";
+        ret += "<"+uriKbMerge+"> :hadMember <"+uriCand+">.";
+        ret += "<"+uriCand+"> <"+baseUri+"hadTrustScore> \""+this.getTrustScore()+"\"^^xsd:double.\n";
+        int idStatement = 1;
+        for( Entry<Source, String> e : this.label.entrySet())
+        {
+            String uriStatement = baseUri+this.sElem+"/"+e.getKey().getName()+"/"+instCand+"/"+numCand+"/"+idStatement;
+            ret += "<"+uriStatement+"> rdf:type :Entity; rdf:type rdf:Statement.\n";
+            ret += "<"+uriStatement+"> rdf:subject <"+uriInst.get(e.getKey())+">; rdf:predicate rdfs:label; rdf:object \""+e.getValue()+"\". \n";
+            ret += "<"+sourcesUri.get(e.getKey())+"> :hadMember <"+uriStatement+">.\n";
+            ret += "<"+uriCand+"> :wasDerivedFrom <"+uriStatement+">. \n";
+            idStatement++;
+        }
+        
+        return ret;
     }
     
 }

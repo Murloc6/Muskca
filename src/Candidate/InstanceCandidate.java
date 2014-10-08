@@ -22,6 +22,9 @@ public class InstanceCandidate extends Candidate
 {
     
      
+    private static int numInstGlob = 1;
+    private int numInst = -1;
+    
      ArrayList<Alignment> aligns;
     
     
@@ -269,18 +272,47 @@ public class InstanceCandidate extends Candidate
            return doc;
     }
 
-    @Override
-    public String toProvO(String baseUri, int numInst)
+    public String getUriOntObj(String baseUri)
     {
-        String uriCand =Muskca.uriMuskca+this.sElem+"/"+numInst;
-        String uriOntObj = baseUri+this.sElem+"/"+numInst; 
-        String ret = "<"+uriCand+"> rdf:type :Entity; rdf:type rdf:Statement; rdf:subject <"+uriOntObj+">; rdf:predicate rdf:type; rdf:object rdfs:Ressource.\n ";
-        ret += "<"+uriCand+"> <"+Muskca.uriMuskca+"hadTrustScore> \""+this.getTrustScore()+"\"^^xsd:double.\n";
+        String ret = "";
+        
+        if(this.numInst < 0)
+        {
+            this.numInst = InstanceCandidate.numInstGlob;
+            InstanceCandidate.numInstGlob++;
+        }
+        ret = baseUri+this.sElem+"/"+this.numInst;
+        
+        return ret;
+    }
+    
+    public String getUriCand(String baseUri)
+    {
+        String ret = "";
+        
+        if(this.numInst < 0)
+        {
+            this.numInst = InstanceCandidate.numInstGlob;
+            InstanceCandidate.numInstGlob++;
+        }
+        ret = baseUri+this.sElem+"/Cand/"+this.numInst;
+        
+        return ret;
+    }
+    
+    public String toProvO(String baseUri, int numInst, HashMap<Source, String> sourcesUri, String uriKbMerge)
+    {
+        String uriCand = this.getUriCand(baseUri);
+        String uriOntObj = this.getUriOntObj(baseUri);
+        String ret = "<"+uriCand+"> rdf:type :Entity; rdf:type rdf:Statement; rdf:subject <"+uriOntObj+">; rdf:predicate rdf:type; rdf:object owl:Thing.\n ";
+        ret += "<"+uriCand+"> <"+baseUri+"hadTrustScore> \""+this.getTrustScore()+"\"^^xsd:double.\n";
         //String ret = "Instance Candidate ("+this.trustScore+" -- Source : "+this.trustSource+" | Aligns : "+this.trustAlign+" | ICHR : "+this.trustICHR+"): \n";
         for(Entry<Source, String> e : this.uriImplicate.entrySet())
         {
             //ret += "\t "+e.getKey().getName()+"("+e.getKey().getSourceQualityScore()+") : "+e.getValue()+"\n";
             ret += "<"+e.getValue()+"> rdf:type :Entity; rdf:type rdf:Statement.\n";
+            ret += "<"+uriOntObj+"> owl:sameAs <"+e.getValue()+">.\n";
+            ret += "<"+sourcesUri.get(e.getKey())+"> :hadMember <"+e.getValue()+">.\n";
             ret += "<"+uriCand+"> :wasDerivedFrom <"+e.getValue()+">. \n";
         }
         
@@ -289,33 +321,36 @@ public class InstanceCandidate extends Candidate
             ret += "\t \t *** "+a.getUri()+" -->"+a.getUriAlign()+" ("+a.getValue()+") \n";
         }*/
         
-        /*if(this.typeCands.size() > 0)
+        if(this.typeCands.size() > 0)
         {
-            ret += "\t Type Candidate : \n";
+            int numType = 1;
             for(TypeCandidate tc : this.typeCands)
             {
-                ret += tc.toString();
+                ret += tc.toProvO(baseUri, numType, this.numInst, sourcesUri, this.uriImplicate,  uriOntObj, uriKbMerge);
+                numType ++;
             }
         }
         
         if(this.labelCands.size() > 0)
         {
-             ret += "\t Label Candidate : \n";
+            int numLabel = 1;
              for(LabelCandidate lc : this.labelCands)
              {
-                 ret += lc.toString();
+                 ret += lc.toProvO(baseUri, numLabel, this.numInst, sourcesUri, this.uriImplicate, uriOntObj, uriKbMerge);
+                 numLabel ++;
              }
-        }*/
+        }
         
-        /*
+        
         if(this.relCands.size() > 0)
         {
-            ret += "\t Relation Candidate : \n";
+            int numRel = 1;
             for(RelationCandidate rc : this.relCands)
             {
-                ret += rc.toString();
+                ret += rc.toProvO(baseUri, numRel, this.numInst, sourcesUri, this.uriImplicate,  uriOntObj, uriKbMerge);
+                numRel++;
             }
-        }*/
+        }
         
         return ret;
     }

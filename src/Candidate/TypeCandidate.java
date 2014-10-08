@@ -11,6 +11,7 @@ import com.mongodb.BasicDBObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 /**
  *
@@ -96,10 +97,24 @@ public class TypeCandidate extends Candidate
         return doc;
     }
 
-    @Override
-    public String toProvO(String baseUri, int numCand)
+    public String toProvO(String baseUri, int numCand, int instCand, HashMap<Source, String> sourcesUri, HashMap<Source, String> uriInst, String uriOntObj, String uriKbMerge)
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String uriCand =baseUri+this.sElem+"/Cand/"+instCand+"/"+numCand;
+        String uriTypeOO = baseUri+this.sElem+"/"+instCand+"/"+numCand;
+        String ret = "<"+uriCand+"> rdf:type :Entity; rdf:type rdf:Statement; rdf:subject <"+uriOntObj+">; rdf:predicate rdf:type; rdf:object   <"+uriTypeOO+">.\n ";
+        ret += "<"+uriCand+"> <"+baseUri+"hadTrustScore> \""+this.getTrustScore()+"\"^^xsd:double.\n";
+        
+        for( Entry<Source, String> e : this.uriImplicate.entrySet())
+        {
+            String uriStatement = baseUri+this.sElem+"/"+e.getKey().getName()+"/"+instCand+"/"+numCand;
+            ret += "<"+uriStatement+"> rdf:type :Entity; rdf:type rdf:Statement.\n";
+            ret += "<"+uriStatement+"> rdf:subject <"+uriInst.get(e.getKey())+">; rdf:predicate rdf:type; rdf:object <"+e.getValue()+">. \n";
+            ret += "<"+uriTypeOO+"> owl:sameAs <"+uriStatement+">.\n";
+            ret += "<"+sourcesUri.get(e.getKey())+"> :hadMember <"+uriStatement+">.\n";
+            ret += "<"+uriCand+"> :wasDerivedFrom <"+uriStatement+">. \n";
+        }
+        
+        return ret;
     }
     
 }

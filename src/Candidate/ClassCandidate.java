@@ -45,7 +45,6 @@ public class ClassCandidate extends Candidate
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    @Override
     public String toProvO(String baseUri, int numCand)
     {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.

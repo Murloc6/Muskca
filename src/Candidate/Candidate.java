@@ -38,6 +38,6 @@ public abstract class Candidate
     
     public abstract BasicDBObject toDBObject();
     
-    public abstract String toProvO(String baseUri, int nbCand);
+    //public abstract String toProvO(String baseUri, int nbCand, HashMap<Source, String> sourcesUri);
     
 }

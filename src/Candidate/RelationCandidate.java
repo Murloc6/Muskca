@@ -9,6 +9,7 @@ package Candidate;
 import Source.Source;
 import com.mongodb.BasicDBObject;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -111,10 +112,27 @@ public class RelationCandidate extends Candidate
         return doc;
     }
 
-    @Override
-    public String toProvO(String baseUri, int nbCand)
+
+    public String toProvO(String baseUri, int numCand, int instCand,  HashMap<Source, String> sourcesUri, HashMap<Source, String> uriInst, String uriOntObj, String uriKbMerge)
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String rel = this.relImp;
+        InstanceCandidate ic2 = this.icHR;
+        String uriCand =baseUri+this.sElem+"/Cand/"+instCand+"/"+numCand;
+        String ic2OntObj = ic2.getUriOntObj(baseUri);
+        String ret = "<"+uriCand+"> rdf:type :Entity; rdf:type rdf:Statement; rdf:subject <"+uriOntObj+">; rdf:predicate <"+rel+">; rdf:object <"+ic2OntObj+">.\n ";
+        ret += "<"+uriKbMerge+"> :hadMember <"+uriCand+">.";
+        ret += "<"+uriCand+"> <"+baseUri+"hadTrustScore> \""+this.getTrustScore()+"\"^^xsd:double.\n";
+        
+        for( Source s : this.sourcesHR)
+        {
+            String uriStatement = baseUri+this.sElem+"/"+s.getName()+"/"+instCand+"/"+numCand;
+            ret += "<"+uriStatement+"> rdf:type :Entity; rdf:type rdf:Statement.\n";
+            ret += "<"+uriStatement+"> rdf:subject <"+uriInst.get(s)+">; rdf:predicate <"+rel+">; rdf:object <"+this.icHR.getUriIC(s)+">. \n";
+            ret += "<"+sourcesUri.get(s)+"> :hadMember <"+uriStatement+">.\n";
+            ret += "<"+uriCand+"> :wasDerivedFrom <"+uriStatement+">. \n";
+        }
+        
+        return ret;
     }
     
 }
