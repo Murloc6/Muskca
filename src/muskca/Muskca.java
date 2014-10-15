@@ -203,7 +203,7 @@ public class Muskca
         System.out.println("EXPORTING provo owl file ...");
         SparqlProxy spProvo = fusionner.allCandidatesToProvo(provoFile, spOutProvo, adomFile, baseUriMuskca);
         //Muskca.exportFile(spProvo., projectName+"_CandProvo.owl");
-        spProvo.writeKBFile(projectName+"_CandProvo.owl");
+        spProvo.writeKBFile(projectName+"_CandProvo");
         System.out.println("FILE PROVO EXPORTED");
         
      }
