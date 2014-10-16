@@ -25,16 +25,18 @@ public class LabelCandidate extends Candidate
     
     private String dataProperty;
     
+    private float sumSQ = 0;
     
     private InstanceCandidate ic;
     
-    public LabelCandidate(InstanceCandidate ic, String dataProperty)
+    public LabelCandidate(InstanceCandidate ic, String dataProperty, float sumSQ)
     {
         super();
         this.label = new HashMap<>();
         this.ic = ic;
         this.jRValue = new HashMap<>();
         this.dataProperty = dataProperty;
+        this.sumSQ = sumSQ;
     }
     
     public void addValue(Source s, float value)
@@ -87,21 +89,16 @@ public class LabelCandidate extends Candidate
     
     public void computeTrustScore(float trustLcMax)
     {
-        float avgJR = 0;
+        
+        float rootTrust = this.ic.getTrustScore();
+        float sumStringDegree = 0;
         for(float f : this.jRValue.values())
         {
-            avgJR += f;
+            sumStringDegree += f;
         }
-        avgJR /= this.jRValue.size();
+        sumStringDegree /= this.sumSQ;
         
-        float sourcesScore = 0;
-        for(Source s : this.label.keySet())
-        {
-            //sourcesScore += s.getSourceQualityScore();
-            sourcesScore ++;
-        }
-        
-        this.trustScore = (this.jRValue.size()+this.ic.getTrustScore()+avgJR+sourcesScore)/trustLcMax;
+        this.trustScore = (rootTrust+sumStringDegree)/trustLcMax;
     }
     
     @Override

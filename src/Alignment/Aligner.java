@@ -27,6 +27,8 @@ public abstract class Aligner implements Serializable
     protected HashMap<String, ArrayList<Alignment>> s1Aligns;
     protected HashMap<String, ArrayList<Alignment>> s2Aligns;
     
+    protected HashMap<String, ArrayList<Alignment>> classAligns;
+    
     protected Fusionner fusionner;
     
     protected boolean isAligned;
@@ -44,13 +46,16 @@ public abstract class Aligner implements Serializable
         
         this.s1Aligns = new HashMap<>();
         this.s2Aligns = new HashMap<>();
+        
+        
+        this.classAligns = new HashMap<>();
     }
     
     public abstract String alignSources(float limitSimScore);
     
-    protected void addAlignment(String uri, String label, String uriAlign, String labelAlign, float value)
+    protected void addAlignment(String uri, String uriAlign, float value)
     {
-        Alignment a = new Alignment (uri, label, uriAlign, labelAlign, value);
+        Alignment a = new Alignment (uri, uriAlign, value);
         ArrayList<Alignment> res = s1Aligns.get(uri);
         if(res == null)
         {
@@ -59,16 +64,27 @@ public abstract class Aligner implements Serializable
         }
         res.add(a);
 
-        Alignment a2 = new Alignment (uriAlign, labelAlign, uri, label, value);
+        /*Alignment a2 = new Alignment (uriAlign, labelAlign, uri, label, value);
         ArrayList<Alignment> res2 = s2Aligns.get(uriAlign);
         if(res2 == null)
         {
             res2 = new ArrayList<>();
             s2Aligns.put(uriAlign, res2);
         }
-        res2.add(a2);
+        res2.add(a2);*/
     }
     
+     protected void addClassAlignment(String uri, String uriAlign, float value)
+    {
+        Alignment a = new Alignment (uri, uriAlign, value);
+        ArrayList<Alignment> res = this.classAligns.get(uri);
+        if(res == null)
+        {
+            res = new ArrayList<>();
+            this.classAligns.put(uri, res);
+        }
+        res.add(a);
+    }
     
     
     protected String sortAligns(HashMap<String, ArrayList<Alignment>> aligns)
@@ -98,6 +114,21 @@ public abstract class Aligner implements Serializable
                for(Alignment a : e.getValue())
                {
                    this.fusionner.addAlignmentCandidateSP(a, this.s1, this.s2);
+               }
+           }
+        }
+    }
+    
+    public void fusionClassAlignmentsCandidate()
+    {
+        if(this.isAligned)
+        {
+           for(Entry<String, ArrayList<Alignment>> e: this.classAligns.entrySet())
+           {
+               for(Alignment a : e.getValue())
+               {
+                   System.out.println("Add class align : "+a.getUri()+" / "+a.getUriAlign()+" -> "+a.getValue());
+                   this.fusionner.addAlignmentClassCandidateSP(a, this.s1, this.s2);
                }
            }
         }

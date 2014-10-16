@@ -48,6 +48,7 @@ public class AlignerLogMap extends Aligner
         OWLOntology onto2;
         OWLOntologyManager onto_manager;
         int nbAlign = 0;
+        int nbClassAlign = 0;
         try
         {
             String onto1_iri = "file:out/temp/"+fileNameS1;
@@ -69,11 +70,11 @@ public class AlignerLogMap extends Aligner
                 {
                     /*ArrayList<JsonNode> repLabelsS1 = this.s1.getAllPrefLabesl(mapping.getIRIStrEnt1());
                     ArrayList<JsonNode> repLabelsS2 = this.s2.getAllPrefLabesl(mapping.getIRIStrEnt2());*/
-                    this.addAlignment(mapping.getIRIStrEnt1(), "", mapping.getIRIStrEnt2(), "", (float)mapping.getConfidence());
-                    System.out.println("Alignment founded : "+mapping.getIRIStrEnt1()+" --> "+mapping.getIRIStrEnt2()+" ("+mapping.getConfidence()+")");
+                    this.addAlignment(mapping.getIRIStrEnt1(),mapping.getIRIStrEnt2(),(float)mapping.getConfidence());
+                    //System.out.println("Alignment founded : "+mapping.getIRIStrEnt1()+" --> "+mapping.getIRIStrEnt2()+" ("+mapping.getConfidence()+")");
                     nbAlign ++;
                 }
-                else
+                else if(mapping.getTypeOfMapping() == MappingObjectStr.CLASSES && mapping.getConfidence() >= limitSimScore)
                 {
                     String uri1 = mapping.getIRIStrEnt1();
                     String uri2 = mapping.getIRIStrEnt2();
@@ -83,6 +84,8 @@ public class AlignerLogMap extends Aligner
                         //System.out.println(mapping.toString());
                         System.out.println("Alignment founded : "+mapping.getIRIStrEnt1()+" --> "+mapping.getIRIStrEnt2()+" ("+mapping.getConfidence()+")");
                         System.out.println(" ----------- ");
+                        nbClassAlign ++;
+                        this.addClassAlignment(uri1, uri2,(float)mapping.getConfidence());
                     }
                 }
             }
@@ -97,6 +100,7 @@ public class AlignerLogMap extends Aligner
         this.sortAligns(this.s2Aligns);
 
         this.stats = "Nb instances aligned (LogMap) between "+this.s1.getName()+" and "+this.s2.getName()+" ==> "+nbAlign;
+        this.stats += "\t nb classes : "+nbClassAlign;
         this.isAligned = true;
             
         return this.stats;

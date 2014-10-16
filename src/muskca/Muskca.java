@@ -54,6 +54,7 @@ public class Muskca
          String mongoCollectionICHR = "triticumICHR";
          String mongoCollectionType= "triticumTypeCandidate";
          String mongoCollectionLabel = "triticumLabelCandidate";
+         String mongoCollectionClass = "triticumClassCandidate";
          
          String provoFile = "in/prov-o.owl";
          String adomFile = "in/agronomicTaxon.owl";
@@ -152,13 +153,14 @@ public class Muskca
         System.out.println("Source : "+sNCBI.getName()+" added. SQ = "+sNCBI.getSourceQualityScore());*/
          
          
-        Fusionner fusionner = new Fusionner( "http://amarger.murloc.fr:8080/tempAlign/");
+        Fusionner fusionner = new Fusionner( "http://amarger.murloc.fr:8080/tempAlign/", "http://amarger.murloc.fr:8080/tempClassAlign/");
         fusionner.initSources(sources);
         
         float trustIcMax = fusionner.getIcTrustMax();
         float trustRcMax = fusionner.getRcTrustMax();
         float trustTcMax = fusionner.getTcTrustMax();
         float trustLcMax = fusionner.getLcTrustMax();
+        float trustCcMax = fusionner.getCcTrustMax();
         
         
         for(int i = 0; i< sources.size(); i++)
@@ -175,36 +177,44 @@ public class Muskca
                 System.out.println("Aligner ended !");
                 String stats = aligner.alignSources(0); // score min = 0 to keep all alignment (filter will be done by taken the first one)
                 System.out.println(stats);
-                aligner.fusionAlignmentsCandidate(); //TEST hypothesis
+                aligner.fusionAlignmentsCandidate();
+                aligner.fusionClassAlignmentsCandidate();
                 System.out.println("Hypothesis updated");
             }
         }
+         fusionner.computeClassCandidate(mongoCollectionClass, trustCcMax);
         fusionner.computeInstanceCandidate(mongoCollection, trustIcMax);
         String retRelCandidate = "";
         for(String uriRel : urisRelImp)
         {
             fusionner.computeRelationCandidate(mongoCollectionICHR, uriRel, trustRcMax);
         }
-        
         fusionner.computeTypeCandidate(mongoCollectionType, trustTcMax);
         fusionner.computeLabelCandidate(mongoCollectionLabel, urisLabelsImp, trustLcMax);
         
-        String retFile = fusionner.allCandidatesToString();
         
         System.out.println("NB SAVED ON MONGO : "+fusionner.nbMongoSaved);
         
         Muskca.dateEnd = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").format(new Date());
         
+        
+        String retClassFile = fusionner.allClassCandidatesToString();
+        System.out.println("EXPORTING class stats file ...");
+         Muskca.exportFile(retClassFile, projectName+"_HypClassCandidate_stats.txt");
+        //AlignRKBAgroTaxon.exportFile(fusionner.allCandidatesToCSV(), projectName+".csv");
+        System.out.println("FILE CLASS PERSO EXPORTED");
+        
+        String retFile = retClassFile+"\n\n"+fusionner.allCandidatesToString();
         System.out.println("EXPORTING stats file ...");
          Muskca.exportFile(retFile, projectName+"_HypCandidate_stats.txt");
         //AlignRKBAgroTaxon.exportFile(fusionner.allCandidatesToCSV(), projectName+".csv");
         System.out.println("FILE PERSO EXPORTED");
         
-        System.out.println("EXPORTING provo owl file ...");
+       /* System.out.println("EXPORTING provo owl file ...");
         SparqlProxy spProvo = fusionner.allCandidatesToProvo(provoFile, spOutProvo, adomFile, baseUriMuskca);
         //Muskca.exportFile(spProvo., projectName+"_CandProvo.owl");
         spProvo.writeKBFile(projectName+"_CandProvo");
-        System.out.println("FILE PROVO EXPORTED");
+        System.out.println("FILE PROVO EXPORTED");*/
         
      }
     

@@ -12,14 +12,14 @@ import java.util.Comparator;
  *
  * @author fabien.amarger
  */
-public class InstanceCandidateComparator implements Comparator<InstanceCandidate>
+public class CandidateComparator implements Comparator<Candidate>
 {
 
     @Override
-    public int compare(InstanceCandidate ic1, InstanceCandidate ic2)
+    public int compare(Candidate c1, Candidate c2)
     {
-        float trustIC1 = ic1.getTrustScore();
-        float trustIC2 = ic2.getTrustScore();
+        float trustIC1 = c1.getTrustScore();
+        float trustIC2 = c2.getTrustScore();
         return trustIC1 > trustIC2 ? -1 : trustIC1 == trustIC2 ? 0 : 1;
     }
     

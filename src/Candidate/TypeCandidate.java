@@ -22,6 +22,7 @@ public class TypeCandidate extends Candidate
 
     private InstanceCandidate ic;
     private String uriTypeCandidate;
+    private ClassCandidate cc;
     
     public TypeCandidate(InstanceCandidate ic, String uriTypeCandidate)
     {
@@ -29,6 +30,14 @@ public class TypeCandidate extends Candidate
         this.uriImplicate = new HashMap<>();
         this.ic = ic;
         this.uriTypeCandidate = uriTypeCandidate;
+    }
+    
+    public TypeCandidate (InstanceCandidate ic, ClassCandidate cc)
+    {
+        super();
+        this.uriImplicate = new HashMap<>();
+        this.ic = ic;
+        this.cc = cc;
     }
     
     @Override
@@ -41,6 +50,11 @@ public class TypeCandidate extends Candidate
     public void computeTrustScore(float trustMax)
     {
         this.trustScore = ic.getTrustScore();
+        if(this.cc != null)
+        {
+            this.trustScore += this.cc.trustScore;
+            this.trustScore /= 2;
+        }
         for(Source s : this.uriImplicate.keySet())
         {
             //relCandidateTrustScore += s.getSourceQualityScore();
@@ -54,7 +68,20 @@ public class TypeCandidate extends Candidate
     {
         String ret = "";
         
-         ret += "\t ->("+this.trustScore+")  "+this.uriTypeCandidate+"(";
+         ret += "\t ->("+this.trustScore+")  ";
+         if(this.cc != null)
+         {
+             ret += "\n \t \t Class Candidate (";
+             for(Entry<Source, String> e : this.cc.uriImplicate.entrySet())
+             {
+                 ret += e.getKey()+" -> "+e.getValue()+" | ";
+             }
+             ret += ") (";
+         }
+         else
+         {
+             ret += this.uriTypeCandidate+"(";
+         }
         for(Source s : this.uriImplicate.keySet())
         {
             ret += s.getName()+",";

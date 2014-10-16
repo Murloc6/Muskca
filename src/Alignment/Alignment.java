@@ -9,19 +9,15 @@ import java.io.Serializable;
 public class Alignment implements Serializable
 {
     String uri;
-    String label;
     String uriAlign;
-    String labelAlign;
     float value;
     
     Alignment inverseAlignment;
     
-    public Alignment(String uri, String label, String uriAlign, String labelAlign, float value)
+    public Alignment(String uri, String uriAlign, float value)
     {
         this.uri = uri;
-        this.label = label;
         this.uriAlign = uriAlign;
-        this.labelAlign = labelAlign;
         this.value = value;
     }
     

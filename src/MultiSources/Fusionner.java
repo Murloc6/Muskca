@@ -8,8 +8,9 @@ package MultiSources;
 
 import Alignment.Alignment;
 import Alignment.StringDistance;
+import Candidate.CandidateComparator;
+import Candidate.ClassCandidate;
 import Candidate.InstanceCandidate;
-import Candidate.InstanceCandidateComparator;
 import Candidate.LabelCandidate;
 import Candidate.RelationCandidate;
 import Candidate.TypeCandidate;
@@ -43,21 +44,28 @@ public class Fusionner implements Serializable
    
     
     private ArrayList<InstanceCandidate>instCandidates;
+    private ArrayList<ClassCandidate>classCandidates;
     private SparqlProxy spAlignTemp;
+    private SparqlProxy spClassAlignTemp;
     private HashMap<String, Alignment> uriAlignment;
+    private HashMap<String, Alignment> uriClassAlignment;
     private ArrayList<Source> sources;
     private HashMap<InstanceCandidate, InstanceCandidate> icHRs;
    
     private int idAlign = 0;
+    private int idClassAlign = 0;
     
     public int nbMongoSaved = 0;
     
-    public Fusionner( String spUri)
+    public Fusionner( String spUri, String spClassAlignTempUri)
     {
         this.spAlignTemp = SparqlProxy.getSparqlProxy(spUri);
+        this.spClassAlignTemp = SparqlProxy.getSparqlProxy(spClassAlignTempUri);
         this.uriAlignment = new HashMap<>();
+        this.uriClassAlignment = new HashMap<>();
         
         this.instCandidates = new ArrayList<>();
+        this.classCandidates = new ArrayList<>();
         this.icHRs = new HashMap<>();
     }
     
@@ -124,16 +132,9 @@ public class Fusionner implements Serializable
         return collMongo;
     }
     
-    public void computeInstanceCandidate(String mongoCollection, float trustIcMax)
+    
+    public ArrayList<JsonNode> getFusionnedCandidate(SparqlProxy sp)
     {
-          DBCollection collMongo = null;
-        if(mongoCollection != null)
-        {
-            collMongo = connectMongo(mongoCollection);
-        }
-        System.out.println("BEGIN COMPUTE Instance CANDIDATE");
-       
-        
         String query = "PREFIX : <http://www.amarger.murloc.fr/AlignmentOntology#> \n SELECT  ?a ?b ?c ?saName ?sbName ?scName ?align1 ?align2 ?align3 \n" +
                 "WHERE\n" +
 "{\n" +
@@ -185,7 +186,20 @@ public class Fusionner implements Serializable
 "}\n" +
 "}";
         
-        ArrayList<JsonNode> jsonCandidates = this.spAlignTemp.getResponse(query);
+        return sp.getResponse(query);
+    }
+    
+    public void computeInstanceCandidate(String mongoCollection, float trustIcMax)
+    {
+          DBCollection collMongo = null;
+        if(mongoCollection != null)
+        {
+            collMongo = connectMongo(mongoCollection);
+        }
+        System.out.println("BEGIN COMPUTE Instance CANDIDATE");
+       
+        
+        ArrayList<JsonNode> jsonCandidates = this.getFusionnedCandidate(this.spAlignTemp);
         ArrayList<String> hashCandidate ;
         HashMap<String, InstanceCandidate> icTreated = new HashMap<>();
         int nbCandidate = 0;
@@ -277,13 +291,147 @@ public class Fusionner implements Serializable
         System.out.println("Nb candidate generated : "+nbCandidate);
     }
     
+    
+    
+    public void computeClassCandidate(String mongoCollection, float trustCcMax)
+    {
+          DBCollection collMongo = null;
+        if(mongoCollection != null)
+        {
+            collMongo = connectMongo(mongoCollection);
+        }
+        System.out.println("BEGIN COMPUTE Class CANDIDATE");
+        
+        ArrayList<JsonNode> jsonCandidates = this.getFusionnedCandidate(this.spClassAlignTemp);
+        
+        ArrayList<String> hashCandidate ;
+        HashMap<String, ClassCandidate> ccTreated = new HashMap<>();
+        int nbCandidate = 0;
+        for(JsonNode jn : jsonCandidates)
+        {
+            hashCandidate = new ArrayList<>();
+            String a = this.getValueByNode(jn, "a");
+            String b = this.getValueByNode(jn, "b");
+            String c = this.getValueByNode(jn, "c");
+            hashCandidate.add(a);
+            hashCandidate.add(b);
+            if(c != null)
+            {
+                hashCandidate.add(c);
+            }
+           Collections.sort(hashCandidate);
+           String hashID = "";
+           for(String s : hashCandidate)
+           {
+               if(s != null)
+                hashID += s;
+           }
+           
+           ClassCandidate candidate = ccTreated.get(hashID);
+           if(candidate == null)
+           {
+               //System.out.println(jn);
+               ArrayList<Alignment> aligns = new ArrayList<>();
+               //System.out.println(hashID);
+               ClassCandidate cc = new ClassCandidate();
+               
+               
+               
+               Source sa = this.getSourceByName(this.getValueByNode(jn, "saName"));
+               Source sb = this.getSourceByName(this.getValueByNode(jn, "sbName"));
+               String scName = this.getValueByNode(jn, "scName");
+               Source sc = null;
+               if(scName != null)
+               {
+                    sc = this.getSourceByName(scName);
+               }
+               
+               cc.addElem(sa, a);
+               cc.addElem(sb, b);
+               if(c != null)
+                    cc.addElem(sc, c);
+               
+               Alignment a1 = this.uriClassAlignment.get(this.getValueByNode(jn, "align1"));
+               Alignment a2 = this.uriClassAlignment.get(this.getValueByNode(jn, "align2"));
+               Alignment a3 = this.uriClassAlignment.get(this.getValueByNode(jn, "align3"));
+               if(a1 != null)
+                    aligns.add(a1);
+               if(a2 != null)
+                    aligns.add(a2);
+               if(a3 != null)
+                    aligns.add(a3);
+               
+               
+               cc.addAlignments(aligns);
+               
+               
+               ccTreated.put(hashID, cc);
+               this.classCandidates.add(cc);
+               nbCandidate ++;
+                    aligns.add(a1);
+               if(a2 != null)
+                    aligns.add(a2);
+               if(a3 != null)
+                    aligns.add(a3);
+               
+               
+               cc.addAlignments(aligns);
+               
+               cc.computeTrustScore(trustCcMax);
+               
+               if(mongoCollection != null)
+               {
+                   this.nbMongoSaved ++;
+                   
+                   try
+                   {
+                         WriteResult wr =collMongo.insert(cc.toDBObject());
+                   }
+                   catch(NullPointerException e)
+                   {
+                       System.err.println("ERROR Mongo Writer null ...");
+                       System.err.println(e);
+                       //System.exit(0);
+                   }
+               }
+           }
+        }
+        System.out.println("Nb class candidate generated : "+nbCandidate);
+    }
+    
+    public boolean isClassCandidate(String classUri, Source s)
+    {
+        boolean ret = false;
+        for(ClassCandidate cc : this.classCandidates)
+        {
+            if(cc.hasElem(classUri, s))
+            {
+                ret = true;
+            }
+        }
+        
+        return ret;
+    }
+    
     public String allCandidatesToString()
     {
-        this.instCandidates.sort(new InstanceCandidateComparator());
+        this.instCandidates.sort(new CandidateComparator());
         String ret = "Instance Candidate (nb : "+this.instCandidates.size()+" : \n";
         for(InstanceCandidate ic : this.instCandidates)
         {
             ret += ic.toString();
+        }
+        
+        return ret;
+    }
+    
+    public String allClassCandidatesToString()
+    {
+        this.classCandidates.sort(new CandidateComparator());
+        String ret = "Class Candidate (nb : "+this.classCandidates.size()+") : \n";
+        for(ClassCandidate cc : this.classCandidates)
+        {
+            ret += cc.toString();
         }
         
         return ret;
@@ -393,7 +541,7 @@ public class Fusionner implements Serializable
     
     public String allCandidatesToCSV()
     {
-         this.instCandidates.sort(new InstanceCandidateComparator());
+         this.instCandidates.sort(new CandidateComparator());
         //String ret = "Instance Candidate (nb : "+this.instCandidates.size()+" : \n";
          String ret = "";
          int nb = 0;
@@ -486,6 +634,26 @@ public class Fusionner implements Serializable
         System.out.println("NB ICHR : "+nbicHR);
     }
     
+    private ClassCandidate getClassCandidateFromUriImplicate(String uriType, Source s)
+    {
+        ClassCandidate ret = null;
+        
+        int i = 0;
+        boolean founded = false;
+        while(!founded && i<this.classCandidates.size())
+        {
+            ClassCandidate cc = this.classCandidates.get(i);
+            if(cc.hasElem(uriType, s))
+            {
+                ret = cc;
+                founded = true;
+            }
+            i++;
+        }
+        
+        return ret;
+    }
+    
     public void computeTypeCandidate(String mongoCollectionType, float trustTcMax)
     {
         String relImp = "http://www.w3.org/1999/02/22-rdf-syntax-ns#type";
@@ -497,49 +665,90 @@ public class Fusionner implements Serializable
         int nbtc = 0;
         for(InstanceCandidate ic : this.instCandidates)
         {
-            ArrayList<Source> uriType = null;
+            HashMap<Source, String> uriType = null;
             String uriTypeCandidate = "";
             boolean relValid = false;
             for(Entry<Source, String> e : ic.getElemCandidate().entrySet())
             {
                 boolean founded = false;
-                ArrayList<String> urisHR = e.getKey().getRelImportant(e.getValue(), relImp);
-                if(urisHR.size() > 0)
+                ArrayList<String> urisType = e.getKey().getRelImportant(e.getValue(), relImp);
+                if(urisType.size() > 0)
                 {
-                    uriTypeCandidate = urisHR.get(0);
+                    uriTypeCandidate = urisType.get(0);
+                    ClassCandidate cc = null;
                     if(uriTypeCandidate.compareTo("http://ontology.irstea.fr/AgronomicTaxon#Taxon") != 0)
                     {
-                        uriType = new ArrayList<>();
-                        uriType.add(e.getKey());
-                        relValid = true;
-                        //System.out.println("TEST : "+uriTypeCandidate);
-                        for(Entry<Source, String> elem : ic.getElemCandidate().entrySet())
+                        if(uriTypeCandidate.startsWith("http://ontology.irstea.fr/AgronomicTaxon"))
                         {
-                            Source s = elem.getKey();
-                            if(s != e.getKey() && relValid)
+                            uriType = new HashMap<>();
+                            uriType.put(e.getKey(), "");
+                            relValid = true;
+                            //System.out.println("TEST : "+uriTypeCandidate);
+                            for(Entry<Source, String> elem : ic.getElemCandidate().entrySet())
                             {
-                                ArrayList<String> testUri = elem.getKey().getRelImportant(elem.getValue(), relImp);
-                                String otherTypeUri = null;
-                                if(testUri != null)
+                                Source s = elem.getKey();
+                                if(s != e.getKey() && relValid)
                                 {
-                                    otherTypeUri = testUri.get(0);
-                                    //System.out.println("\t other : "+testUri.get(0));
-                                }
-                                if(otherTypeUri != null)
-                                {
-                                    if(otherTypeUri.compareTo(uriTypeCandidate)!= 0)
+                                    ArrayList<String> testUri = elem.getKey().getRelImportant(elem.getValue(), relImp);
+                                    String otherTypeUri = null;
+                                    if(testUri != null)
                                     {
-                                        if(!(otherTypeUri.compareTo("http://ontology.irstea.fr/AgronomicTaxon#Taxon") == 0 && uriType.size() > 1))
-                                        {
-                                            relValid = false;
-                                        }
+                                        otherTypeUri = testUri.get(0);
+                                        //System.out.println("\t other : "+testUri.get(0));
                                     }
-                                    else
+                                    if(otherTypeUri != null)
                                     {
-                                        uriType.add(s);
+                                        if(otherTypeUri.compareTo(uriTypeCandidate)!= 0)
+                                        {
+                                            if(!(otherTypeUri.compareTo("http://ontology.irstea.fr/AgronomicTaxon#Taxon") == 0 && uriType.size() > 1))
+                                            {
+                                                relValid = false;
+                                            }
+                                        }
+                                        else
+                                        {
+                                            uriType.put(s, "");
+                                        }
                                     }
                                 }
                             }
+                        }
+                        else
+                        {
+                            cc = this.getClassCandidateFromUriImplicate(uriTypeCandidate, e.getKey());
+                            if(cc != null)
+                            {
+                                uriType = new HashMap<>();
+                                uriType.put(e.getKey(), uriTypeCandidate);
+                                relValid = true;
+
+                                 for(Entry<Source, String> elem : ic.getElemCandidate().entrySet())
+                                {
+                                    Source s = elem.getKey();
+                                    if(s != e.getKey() && relValid)
+                                    {
+                                        ArrayList<String> testUri = elem.getKey().getRelImportant(elem.getValue(), relImp);
+                                        String otherTypeUri = null;
+                                        if(testUri != null)
+                                        {
+                                            otherTypeUri = testUri.get(0);
+                                            //System.out.println("\t other : "+testUri.get(0));
+                                        }
+                                        if(otherTypeUri != null)
+                                        {
+                                            if(!cc.hasElem(otherTypeUri, s))
+                                            {
+                                                relValid = false;
+                                            }
+                                            else
+                                            {
+                                                uriType.put(s, otherTypeUri);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            
                         }
                     }
                     if(relValid && uriType.size() > 1)
@@ -550,10 +759,18 @@ public class Fusionner implements Serializable
                         System.out.println(uriTypeCandidate+" --> ");
                         System.out.println(uriType);
                         System.out.println("------------");*/
-                        TypeCandidate tc = new TypeCandidate(ic, uriTypeCandidate);
-                        for(Source s : uriType)
+                        TypeCandidate tc = null;
+                        if(cc != null)
                         {
-                            tc.addElem(s, "");
+                            tc = new TypeCandidate(ic, cc);
+                        }
+                        else
+                        {
+                            tc = new TypeCandidate(ic, uriTypeCandidate);
+                        }
+                         for(Entry<Source, String> eUriType : uriType.entrySet())
+                        {
+                            tc.addElem(eUriType.getKey(), eUriType.getValue());
                         }
                         tc.computeTrustScore(trustTcMax);
                         //ic.addTypeCandidate(uriTypeCandidate, uriType);
@@ -609,7 +826,7 @@ public class Fusionner implements Serializable
         }
         if(!founded)
         {
-            LabelCandidate newLC = new LabelCandidate(ic, dataProp);
+            LabelCandidate newLC = new LabelCandidate(ic, dataProp, this.getSumSQ());
             newLC.addElem(s1, l1);
             newLC.addElem(s2, l2);
             newLC.addValue(s1, simValue);
@@ -673,7 +890,7 @@ public class Fusionner implements Serializable
                 if(lcs != null && lcs.size() > 0)
                 {
                     //ic.addLabelCandidates(dataProp, lcs);
-                    ic.addAllLabelsCandidate(lcs, trustLcMax);
+                    ic.addAllLabelsCandidate(lcs, trustLcMax, this.getSumSQ());
                 }
             }
             ic.clearLabelsCandidates();
@@ -708,9 +925,22 @@ public class Fusionner implements Serializable
         this.idAlign ++;
     }
     
+    public void addAlignmentClassCandidateSP(Alignment a, Source s1, Source s2)
+    {
+        StringBuilder query = new StringBuilder("PREFIX : <http://www.amarger.murloc.fr/AlignmentOntology#> INSERT DATA {");
+        query.append("<"+a.getUri()+"> rdf:type :Element; :belongsTo <"+s1.getBaseUri()+">.");
+        query.append("<"+a.getUriAlign()+"> rdf:type :Element; :belongsTo <"+s2.getBaseUri()+">.");
+        query.append(":Alignment_"+this.idClassAlign+" rdf:type :Alignment; :alignBetween <"+a.getUri()+">; :alignBetween <"+a.getUriAlign()+">; :trustScore \""+a.getValue()+"\"^^xsd:float . }");
+        //System.out.println(query);
+        this.spClassAlignTemp.storeData(query);
+        this.uriClassAlignment.put("http://www.amarger.murloc.fr/AlignmentOntology#Alignment_"+this.idClassAlign, a);
+        this.idClassAlign ++;
+    }
+    
     public void initSources(ArrayList<Source> sources)
     {
         this.spAlignTemp.clearSp();
+        this.spClassAlignTemp.clearSp();
         StringBuilder query = new StringBuilder("PREFIX : <http://www.amarger.murloc.fr/AlignmentOntology#> \n INSERT DATA {");
         try
         {
@@ -724,6 +954,7 @@ public class Fusionner implements Serializable
             
             query.append("}");
             this.spAlignTemp.storeData(query);
+            this.spClassAlignTemp.storeData(query);
         } 
         catch (IOException ex)
         {
@@ -737,13 +968,7 @@ public class Fusionner implements Serializable
     {
         int nbSources = sources.size();
         int maxPaire = (nbSources*(nbSources-1))/2;
-        float trustMax = maxPaire;
-        for(Source s : sources)
-        {
-            //trustMax += s.getSourceQualityScore();
-            //trustMax++;
-        }
-        return trustMax;
+        return maxPaire;
     }
     
     
@@ -770,6 +995,12 @@ public class Fusionner implements Serializable
     
     public float getLcTrustMax()
     {
-        return (float) (2+this.getSumSQ());
+        return (float) 2;
+    }
+    
+    public float getCcTrustMax()
+    {
+         int nbSources = sources.size();
+        return  (nbSources*(nbSources-1))/2;
     }
 }

@@ -124,7 +124,7 @@ public class InstanceCandidate extends Candidate
         this.labelCands.add(labelC);
     }
     
-    public void addAllLabelsCandidate(ArrayList<LabelCandidate> labelCs, float trustLcMax)
+    public void addAllLabelsCandidate(ArrayList<LabelCandidate> labelCs, float trustLcMax, float sumSQ)
     {
         for(LabelCandidate lc : labelCs)
         {
@@ -159,11 +159,11 @@ public class InstanceCandidate extends Candidate
      @Override
     public void computeTrustScore(float trustIcMax)
     {
-        float sourceTrustPart = 0;
+        /*float sourceTrustPart = 0;
         for(Source s : this.uriImplicate.keySet())
         {
             sourceTrustPart +=  s.getSourceQualityScore();
-        }
+        }*/
         float alignTrustPart = 0;
         for(Alignment a : this.aligns)
         {
@@ -179,7 +179,7 @@ public class InstanceCandidate extends Candidate
 //            sourcesHRTrustPart = sourcesHRTrustPart/2;
 //        }
         
-        this.trustSource = sourceTrustPart;
+        //this.trustSource = sourceTrustPart;
         this.trustAlign = alignTrustPart;
         /*if(this.icHR != null)
             this.trustICHR = sourcesHRTrustPart*this.icHR.getTrustScore();*/
@@ -206,10 +206,10 @@ public class InstanceCandidate extends Candidate
     @Override
     public String toString()
     {
-        String ret = "Instance Candidate ("+this.trustScore+" -- Source : "+this.trustSource+" | Aligns : "+this.trustAlign+" | ICHR : "+this.trustICHR+"): \n";
+        String ret = "Instance Candidate ("+this.trustScore+"): \n";
         for(Entry<Source, String> e : this.uriImplicate.entrySet())
         {
-            ret += "\t "+e.getKey().getName()+"("+e.getKey().getSourceQualityScore()+") : "+e.getValue()+"\n";
+            ret += "\t "+e.getKey().getName()+" : "+e.getValue()+"\n";
         }
         for(Alignment a : this.aligns)
         {
