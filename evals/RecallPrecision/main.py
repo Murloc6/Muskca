@@ -6,68 +6,60 @@ def getFMeasure(precision, recall):
             ret = (2*(precision*recall))/(precision+recall)
         return ret
 
-limitTrust = 0.6
-limitNbValidatorsTriticum = 2
-limitNbValidatorsAegilops = 3
-limitNbValidatorsOryza = 1
+def computeValues(limitTrust, dataSet, limitNbValidators):
+    #limitNbValidators = 3
+    #limitNbValidatorsAegilops = 2
+    #limitNbValidatorsOryza = 1
+    print "-------"+dataSet.getName()+" -------"
+    print "Inst : "
+    recallInst = dataSet.getRecall(limitTrust, limitNbValidators)
+    print "Recall inst : "+str(recallInst)
+    precisionInst = dataSet.getPrecision(limitTrust, limitNbValidators)
+    print "Precision inst : "+str(precisionInst)
+    print "F-Measure inst : "+str(getFMeasure(precisionInst, recallInst))
+    print "Relation : "
+    precisionRel = dataSet.getPrecisionRelation(limitTrust, limitNbValidators)
+    print "Precision rel : "+str(precisionRel)
+    recallRel = dataSet.getRecallRelation(limitTrust, limitNbValidators)
+    print "Recall rel  : "+str(recallRel)
+    print "F-Measure Relation : "+str(getFMeasure(precisionRel, recallRel))
+    print "Type : "
+    precisionType = dataSet.getPrecisionType(limitTrust, limitNbValidators)
+    print "Precision type  : "+str(precisionType)
+    recallType = dataSet.getRecallType(limitTrust, limitNbValidators)
+    print "Recall type : "+str(recallType)
+    print "F-Measure type : "+str(getFMeasure(precisionType, recallType))
+    print "Labels : "
+    precisionLabels = dataSet.getPrecisionLabels(limitTrust, 1)
+    print "Precision labels : "+str(precisionLabels)
+    recallLabels = dataSet.getRecallLabels(limitTrust, limitNbValidators)
+    print "Recall labels : "+str(recallLabels)
+    if(precisionLabels > 0 and recallLabels > 0):
+        print "F-Measure Labels : "+str(getFMeasure(precisionLabels, recallLabels))
+    else:
+        print "F-Measure Labels : 0"
 
 
-
-triticumDataSet = DataSetMeasure("Triticum_All", "triticumCandidateSQ", "triticumValid", "triticumICHRSQ", "triticumRelationValid", "triticumTypeCandidateSQ", "triticumTypeValid", "triticumLabelCandidateSQ", "triticumLabelsValid")
-
-print "-------Triticum -------"
-
-triticumRecall = triticumDataSet.getRecall(limitTrust, limitNbValidatorsTriticum)
-print "Recall Triticum : "+str(triticumRecall)
-
-triticumPrecision = triticumDataSet.getPrecision(limitTrust, limitNbValidatorsTriticum)
-print "Precision Triticum : "+str(triticumPrecision)
-
-print "F-Measure Triticum : "+str(getFMeasure(triticumPrecision, triticumRecall))
-
-precisionRelTriticum = triticumDataSet.getPrecisionRelation(limitTrust, limitNbValidatorsTriticum)
-print "Precision rel Triticum : "+str(precisionRelTriticum)
-
-recallRelTriticum = triticumDataSet.getRecallRelation(limitTrust, limitNbValidatorsTriticum)
-print "Recall rel Triticum : "+str(recallRelTriticum)
-
-print "F-Measure Relation Triticum : "+str(getFMeasure(precisionRelTriticum, recallRelTriticum))
-
-precisionTypeTriticum = triticumDataSet.getPrecisionType(limitTrust, limitNbValidatorsTriticum)
-print "Precision type Triticum : "+str(precisionTypeTriticum)
-
-recallTypeTriticum = triticumDataSet.getRecallType(limitTrust, limitNbValidatorsTriticum)
-print "Recall type Triticum : "+str(recallTypeTriticum)
-
-print "F-Measure Type Triticum : "+str(getFMeasure(precisionTypeTriticum, recallTypeTriticum))
-
-precisionLabelsTriticum = triticumDataSet.getPrecisionLabels(limitTrust, limitNbValidatorsTriticum)
-print "Precision labels Triticum : "+str(precisionLabelsTriticum)
-
-recallLabelsTriticum = triticumDataSet.getRecallLabels(limitTrust, limitNbValidatorsTriticum)
-print "Recall labels Triticum : "+str(recallLabelsTriticum)
-
-print "F-Measure Labels Triticum : "+str(getFMeasure(precisionLabelsTriticum, recallLabelsTriticum))
+triticumDataSet = DataSetMeasure("Triticum_All", "triticumCandidate", "triticumValid", "triticumICHR", "triticumRelationValid", "triticumTypeCandidate", "triticumTypeValid", "triticumLabelCandidate", "triticumLabelsValid")
+#aegilopsDataSet = DataSetMeasure("Aegilops_All", "aegilopsCandidate", "aegilopsValid", "aegilopsICHR", "aegilopsRelationValid", "loutre", "loutre", "loutre", "loutre")
 
 
-# aegilopsDataSet = DataSetMeasure("Aegilops_All", "aegilopsCandidate", "aegilopsValid", "aegilopsICHR", "aegilopsRelationValid")
-# print "----------Aegilops -------"
-#  
-# aegilopsRecall = aegilopsDataSet.getRecall(limitTrust, limitNbValidatorsAegilops)
-# print "Recall Aegilops : "+str(aegilopsRecall)
-#  
-# aegilopsPrecision = aegilopsDataSet.getPrecision(limitTrust, limitNbValidatorsAegilops)
-# print "Precision Aegilops : "+str(aegilopsPrecision)
-#  
-# print "F-Measure Aegilops : "+str(getFMeasure(aegilopsPrecision, aegilopsRecall))
-#  
-# precisionRelAegilops = aegilopsDataSet.getPrecisionRelation(limitTrust, limitNbValidatorsAegilops)
-# print "Precision rel Aegilops : "+str(precisionRelAegilops)
-#  
-# recallRelAegilops = aegilopsDataSet.getRecallRelation(limitTrust, limitNbValidatorsAegilops)
-# print "Recall rel Aegilops : "+str(recallRelAegilops)
-#  
-# print "F-Measure Relation Aegilops : "+str(getFMeasure(precisionRelAegilops, recallRelAegilops))
+print "-------SIMPLE TRUST----------"
+print "-------------"
+
+computeValues(0, triticumDataSet, 3)
+
+
+print "-------TRUST DEGREE 0.6----------"
+print "-------------"
+
+computeValues(0.6, triticumDataSet, 3)
+
+
+print "-------TRUST DEGREE 0.9----------"
+print "-------------"
+
+computeValues(0.9, triticumDataSet, 3)
 
 
 # print "----------Oryza -------"
