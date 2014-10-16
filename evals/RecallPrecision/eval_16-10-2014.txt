@@ -1,0 +1,81 @@
+-------SIMPLE TRUST----------
+-------------
+-------Triticum_All -------
+Inst : 
+50 / 75
+Recall inst : 0.666666666667
+126 / 146
+Precision inst : 0.86301369863
+F-Measure inst : 0.75223880597
+Relation : 
+21 / 48
+Precision rel : 0.4375
+29 / 57
+Recall rel  : 0.508771929825
+F-Measure Relation : 0.470451911935
+Type : 
+11 / 38
+Precision type  : 0.289473684211
+20 / 46
+Recall type : 0.434782608696
+F-Measure type : 0.347551342812
+Labels : 
+38 / 153
+Precision labels : 0.248366013072
+22 / 62
+Recall labels : 0.354838709677
+F-Measure Labels : 0.292205522545
+-------TRUST DEGREE 0.6----------
+-------------
+-------Triticum_All -------
+Inst : 
+97 / 150
+Recall inst : 0.646666666667
+221 / 247
+Precision inst : 0.894736842105
+F-Measure inst : 0.750739813339
+Relation : 
+21 / 46
+Precision rel : 0.45652173913
+29 / 57
+Recall rel  : 0.508771929825
+F-Measure Relation : 0.481232714342
+Type : 
+10 / 31
+Precision type  : 0.322580645161
+18 / 46
+Recall type : 0.391304347826
+F-Measure type : 0.353634577603
+Labels : 
+6 / 28
+Precision labels : 0.214285714286
+15 / 62
+Recall labels : 0.241935483871
+F-Measure Labels : 0.227272727273
+-------TRUST DEGREE 0.9----------
+-------------
+-------Triticum_All -------
+Inst : 
+118 / 225
+Recall inst : 0.524444444444
+228 / 256
+Precision inst : 0.890625
+F-Measure inst : 0.660156058301
+Relation : 
+18 / 20
+Precision rel : 0.9
+18 / 57
+Recall rel  : 0.315789473684
+F-Measure Relation : 0.467532467532
+Type : 
+10 / 19
+Precision type  : 0.526315789474
+18 / 46
+Recall type : 0.391304347826
+F-Measure type : 0.448877805486
+Labels : 
+0 / 0
+Precision labels : 0
+0 / 62
+Recall labels : 0
+F-Measure Labels : 0
