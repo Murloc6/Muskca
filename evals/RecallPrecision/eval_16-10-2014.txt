@@ -79,3 +79,18 @@ Precision labels : 0
 0 / 62
 Recall labels : 0
 F-Measure Labels : 0
+
+
+Class evaluation : 
+
+simple : 
+	precision : 0.75
+	recall : 7/18 = 0.39
+
+degree 0.6 : 
+	precision : 1
+	recall : 3/18 = 0.17
+
+degree 0.9 : 
+	precision : 0
+	recall : 0

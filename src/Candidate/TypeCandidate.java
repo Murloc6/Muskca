@@ -49,6 +49,7 @@ public class TypeCandidate extends Candidate
     @Override
     public void computeTrustScore(float trustMax)
     {
+        super.computeTrustScore(trustMax);
         this.trustScore = ic.getTrustScore();
         if(this.cc != null)
         {
@@ -68,7 +69,7 @@ public class TypeCandidate extends Candidate
     {
         String ret = "";
         
-         ret += "\t ->("+this.trustScore+")  ";
+         ret += "\t ->(Simple : "+this.trustScoreSimple+" | Degree : "+this.trustScore+")  ";
          if(this.cc != null)
          {
              ret += "\n \t \t Class Candidate (";
@@ -120,6 +121,7 @@ public class TypeCandidate extends Candidate
         //relCandidateTrustScore /= 2;
         
         doc.append("trustScore", this.trustScore);
+        doc.append("trustScoreSimple", this.trustScoreSimple);
         
         return doc;
     }

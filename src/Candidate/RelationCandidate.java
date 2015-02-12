@@ -41,6 +41,8 @@ public class RelationCandidate extends Candidate
     @Override
     public void computeTrustScore(float trustMax) 
     {
+        //super.computeTrustScore(trustMax);
+        this.trustScoreSimple = (float)this.sourcesHR.size()/(float)3;
         this.trustScore = this.ic.getTrustScore();
         this.trustScore += this.icHR.getTrustScore();
         this.trustScore /= 2;
@@ -53,12 +55,12 @@ public class RelationCandidate extends Candidate
         this.trustScore += sourcesQualPart;
         this.trustScore /= trustMax;
     }
-
+    
     @Override
     public String toString() {
         String ret = "";
         
-         ret += "\t        -> <";
+         ret += "\t ->(Simple : "+this.trustScoreSimple+" | Degree : "+this.trustScore+")  <";
         for(String uriElem : this.icHR.uriImplicate.values())
         {
             ret += uriElem+" || ";
@@ -108,6 +110,7 @@ public class RelationCandidate extends Candidate
         doc.append("relation", relImp);
 
         doc.append("trustScore", this.getTrustScore());
+        doc.append("trustScoreSimple", this.trustScoreSimple);
         
         return doc;
     }

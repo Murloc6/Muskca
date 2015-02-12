@@ -1,0 +1,54 @@
+{
+  "projectName" : "mini_Triticum",
+  "moduleFile" : "in/agronomicTaxon.owl",
+  "sources" :
+  [
+    {
+      "name" : "Agrovoc",
+      "baseUri" : "http://aims.fao.org/aos/agrovoc/",
+      "spIn" : "http://amarger.murloc.fr:8080/Agrovoc_mini_Triticum/",
+      "sourceQuality" : 1
+    },
+    {
+      "name" : "TaxRef",
+      "baseUri" : "http://inpn.mnhn.fr/espece/cd_nom/",
+      "spIn" : "http://amarger.murloc.fr:8080/TaxRef_mini_Triticum/",
+      "sourceQuality" : 1
+    },
+    {
+      "name" : "NCBI",
+      "baseUri" : "http://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=",
+      "spIn" : "http://amarger.murloc.fr:8080/NCBI_mini_Triticum/",
+      "sourceQuality" : 1
+    }
+  ],
+  "relImps" :
+  [
+    "http://ontology.irstea.fr/AgronomicTaxon#hasHigherRank"
+  ],
+  "labelRelImps" :
+  [
+    "http://ontology.irstea.fr/AgronomicTaxon#hasScientificName",
+    "http://ontology.irstea.fr/AgronomicTaxon#hasVernacularName"
+  ],
+  "mongoDbs" :
+  {
+    "mongodb" : "candidatesMuskca",
+    "indivCandidateMongoCol" : "triticumCandidate",
+    "objPropArcCandidateMongoCol" : "triticumICHR",
+    "typeArcCandidateMongoCol" : "triticumTypeCandidate",
+    "labelArcCandidateMongoCol" : "triticumLabelCandidate",
+    "classCandidateMongoCol" : "triticumClassCandidate"
+  },
+  "output" :
+  {
+    "spOutProvo" : "http://amarger.murloc.fr:8080/Muskca-provo/",
+    "provoFile" : "in/prov-o.owl",
+    "baseUri" : "http://muskca_system.fr/"
+  },
+  "fusionner" :
+  {
+    "tempAlign" : "http://amarger.murloc.fr:8080/tempAlign/",
+    "tempClassAlign" : "http://amarger.murloc.fr:8080/tempClassAlign/"
+  }
+}

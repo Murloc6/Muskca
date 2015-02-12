@@ -89,7 +89,8 @@ public class LabelCandidate extends Candidate
     
     public void computeTrustScore(float trustLcMax)
     {
-        
+        //super.computeTrustScore(trustLcMax);
+        this.trustScoreSimple = (float)this.label.keySet().size()/(float)3;
         float rootTrust = this.ic.getTrustScore();
         float sumStringDegree = 0;
         for(float f : this.jRValue.values())
@@ -107,7 +108,7 @@ public class LabelCandidate extends Candidate
         String ret = "";
         
          ret += "\t --> Type : "+this.dataProperty+"\n";
-        ret += "\t\t LC ("+this.getTrustScore()+") ------- \n";
+        ret += "\t\t LC (Simple : "+this.trustScoreSimple+" | Degree : "+this.getTrustScore()+") ------- \n";
         for(Entry<Source, String> el : this.label.entrySet())
         {
             ret += "\t\t "+el.getKey().getName()+" -> "+el.getValue()+"\n";
@@ -163,6 +164,7 @@ public class LabelCandidate extends Candidate
 
         //System.out.println("TEST : "+this.getTrustScore());
         doc.append("trustScore", this.getTrustScore());
+        doc.append("trustScoreSimple", this.trustScoreSimple);
         
         return doc;
     }

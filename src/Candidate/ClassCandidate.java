@@ -77,6 +77,7 @@ public class ClassCandidate extends Candidate
     @Override
     public void computeTrustScore(float trustMax)
     {
+        super.computeTrustScore(trustMax);
         /*float sourceTrustPart = 0;
         for(Source s : this.uriImplicate.keySet())
         {
@@ -95,7 +96,7 @@ public class ClassCandidate extends Candidate
     @Override
     public String toString()
     {
-        String ret = "Class Candidate ("+this.trustScore+" ): \n";
+        String ret = "Class Candidate (Simple : "+this.trustScoreSimple+" | Degree : "+this.trustScore+" ): \n";
         for(Map.Entry<Source, String> e : this.uriImplicate.entrySet())
         {
             ret += "\t "+e.getKey().getName()+"("+e.getKey().getSourceQualityScore()+") : "+e.getValue()+"\n";
@@ -120,6 +121,7 @@ public class ClassCandidate extends Candidate
            }
            doc.append("elemCandidates", elemCandidates);
            doc.append("trustScore", this.getTrustScore());
+           doc.append("trustScoreSimple", this.trustScoreSimple);
 
            return doc;
     }

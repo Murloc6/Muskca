@@ -159,6 +159,7 @@ public class InstanceCandidate extends Candidate
      @Override
     public void computeTrustScore(float trustIcMax)
     {
+        super.computeTrustScore(trustIcMax);
         /*float sourceTrustPart = 0;
         for(Source s : this.uriImplicate.keySet())
         {
@@ -206,7 +207,7 @@ public class InstanceCandidate extends Candidate
     @Override
     public String toString()
     {
-        String ret = "Instance Candidate ("+this.trustScore+"): \n";
+        String ret = "Instance Candidate (Simple : "+this.trustScoreSimple+" | Degree : "+this.trustScore+"): \n";
         for(Entry<Source, String> e : this.uriImplicate.entrySet())
         {
             ret += "\t "+e.getKey().getName()+" : "+e.getValue()+"\n";
@@ -268,6 +269,7 @@ public class InstanceCandidate extends Candidate
            }
            doc.append("aligns", alignsObject);*/
            doc.append("trustScore", this.getTrustScore());
+           doc.append("trustScoreSimple", this.trustScoreSimple);
 
            return doc;
     }

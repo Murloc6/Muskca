@@ -51,13 +51,16 @@ public class Fusionner implements Serializable
     private HashMap<String, Alignment> uriClassAlignment;
     private ArrayList<Source> sources;
     private HashMap<InstanceCandidate, InstanceCandidate> icHRs;
+    
+    private String mongodb;
    
     private int idAlign = 0;
     private int idClassAlign = 0;
     
     public int nbMongoSaved = 0;
     
-    public Fusionner( String spUri, String spClassAlignTempUri)
+    
+    public Fusionner( String spUri, String spClassAlignTempUri, String mongodb)
     {
         this.spAlignTemp = SparqlProxy.getSparqlProxy(spUri);
         this.spClassAlignTemp = SparqlProxy.getSparqlProxy(spClassAlignTempUri);
@@ -67,6 +70,8 @@ public class Fusionner implements Serializable
         this.instCandidates = new ArrayList<>();
         this.classCandidates = new ArrayList<>();
         this.icHRs = new HashMap<>();
+        
+        this.mongodb = mongodb;
     }
     
     public ArrayList<InstanceCandidate> getHyp(Source s, String uri)
@@ -120,7 +125,7 @@ public class Fusionner implements Serializable
         try
         {
             MongoClient mongoClient = new MongoClient( "localhost" , 27017 );
-            DB db = mongoClient.getDB( "valRKB" );
+            DB db = mongoClient.getDB(this.mongodb);
            collMongo = db.getCollection(mongoCollection);
            collMongo.remove(new BasicDBObject());
         } 
@@ -191,6 +196,7 @@ public class Fusionner implements Serializable
     
     public void computeInstanceCandidate(String mongoCollection, float trustIcMax)
     {
+        int testDBObject = 0;
           DBCollection collMongo = null;
         if(mongoCollection != null)
         {
@@ -271,7 +277,10 @@ public class Fusionner implements Serializable
                    
                    try
                    {
+                       System.out.println("New DBObject IC : ");
+                       System.out.println(ic.toDBObject());
                          WriteResult wr =collMongo.insert(ic.toDBObject());
+                         testDBObject ++;
                    }
                    catch(NullPointerException e)
                    {
@@ -283,6 +292,7 @@ public class Fusionner implements Serializable
            }
         }
         
+        System.out.print("NB DBObject : "+testDBObject);
         /*for(InstanceCandidate ic : this.instCandidates)
         {
             ic.computeTrustScore();

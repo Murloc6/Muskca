@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import org.apache.commons.io.FileUtils;
 
 /**
@@ -24,9 +25,6 @@ import org.apache.commons.io.FileUtils;
  */
 public class Muskca 
 {
-    
-    
-    //public static String uriMuskca = "http://muscka_system.fr/Alpha1/";
     public static String muskcaVersion = "Alpha1";
     public static String dateBegin = "";
     public static String dateEnd = "";
@@ -35,125 +33,40 @@ public class Muskca
      * @param args the command line arguments
      */
     public static void main(String[] args) 
-    {  
-         ArrayList<Source> sources = new ArrayList<>();
-         //HashMap<String, String> sourcesAlignStats = new HashMap<>();
-         
-         ArrayList<String> urisRelImp = new ArrayList<>();
-         urisRelImp.add("http://ontology.irstea.fr/AgronomicTaxon#hasHigherRank");
-         
-         ArrayList<String> urisLabelsImp = new ArrayList<>();
-         urisLabelsImp.add("http://ontology.irstea.fr/AgronomicTaxon#hasScientificName");
-         urisLabelsImp.add("http://ontology.irstea.fr/AgronomicTaxon#hasVernacularName");
-         
-         
-          Muskca.dateBegin = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").format(new Date());
-         String projectName = "mini_Triticum";
-         String mongoCollection  = "triticumCandidate"; // null for don't save candidates on mongoDB 
-         //String mongoCollection  = null;
-         String mongoCollectionICHR = "triticumICHR";
-         String mongoCollectionType= "triticumTypeCandidate";
-         String mongoCollectionLabel = "triticumLabelCandidate";
-         String mongoCollectionClass = "triticumClassCandidate";
-         
-         String provoFile = "in/prov-o.owl";
-         String adomFile = "in/agronomicTaxon.owl";
-         String spOutProvo = "http://amarger.murloc.fr:8080/Muskca-provo/";
-         String baseUriMuskca = "http://muskca_system.fr/"+projectName+"/";
-         
-        //Source sAgrovoc = new Source("Agrovoc", "http://aims.fao.org/aos/agrovoc/", "http://localhost:3030/Agrovoc2KB_OUT/");
-         Source sAgrovoc = new Source("Agrovoc", "http://aims.fao.org/aos/agrovoc/", "http://amarger.murloc.fr:8080/Agrovoc_mini_Triticum/");
-        //sAgrovoc.setScores(0.7f, 0.4f, 0.9f);
-        sAgrovoc.setScores(1f, 1f, 1f);
-        //sAgrovoc.setScores(0.4f, 0.4f, 0.4f);
-        sources.add(sAgrovoc);
-        System.out.println("Source : "+sAgrovoc.getName()+" added. SQ = "+sAgrovoc.getSourceQualityScore());
+    {   
         
-        //Source sTaxRef =  new Source("TaxRef", "http://inpn.mnhn.fr/espece/cd_nom/", "http://localhost:3030/TaxRef2RKB_out/");
-        Source sTaxRef =  new Source("TaxRef", "http://inpn.mnhn.fr/espece/cd_nom/", "http://amarger.murloc.fr:8080/TaxRef_mini_Triticum/");
-        //sTaxRef.setScores(0.6f, 0.9f, 0.9f);
-        sTaxRef.setScores(1f, 1f, 1f);
-        //sTaxRef.setScores(0.95f, 0.95f, 0.95f);
-        sources.add(sTaxRef);
-        System.out.println("Source : "+sTaxRef.getName()+" added. SQ = "+sTaxRef.getSourceQualityScore());
+        /*
+         * TODO : 
+            -> Change candidate types : 
+                -> node (subtypes indiv. and class) 
+                -> arc (subtypes type, label, objProp)
+            -> Change trust score comutation (trust mix)
+            -> Clean up the source code and the ouput logs
+                -> implements Log4J ?
+         */
         
-        //Source sNCBI = new Source("NCBI", "http://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=", "http://localhost:3030/Ncbi2RKB_out/");
-        Source sNCBI = new Source("NCBI", "http://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=", "http://amarger.murloc.fr:8080/NCBI_mini_Triticum/");
-        //sNCBI.setScores(0.9f, 0.6f, 0.9f);
-        sNCBI.setScores(1f, 1f, 1f);
-        //sNCBI.setScores(0.6f, 0.6f, 0.6f);
-        sources.add(sNCBI);
-        System.out.println("Source : "+sNCBI.getName()+" added. SQ = "+sNCBI.getSourceQualityScore());
+        
+        Muskca.dateBegin = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").format(new Date());
+        
+        ParamsReader params = new ParamsReader();
+        
+        String projectName = params.getParam("projectName");
+        String moduleFile = params.getParam("moduleFile");
+        ArrayList<Source> sources = params.getSources();
+        ArrayList<String> urisRelImp = params.getArrayParams("relImps");
+        ArrayList<String> urisLabelsImp = params.getArrayParams("labelRelImps");
+         
+        HashMap<String, String> mongoDbs = params.getSubParams("mongoDbs");
 
+        HashMap<String, String> outputParams = params.getSubParams("output");
+        String provoFile = outputParams.get("provoFile");
+        String spOutProvo = outputParams.get("spOutProvo");
+        String baseUriMuskca = outputParams.get("baseUri")+projectName+"/";
          
-         
-//          String projectName = "mini_Aegilops";
-//            String mongoCollection  = "aegilopsCandidate"; // null for don't save candidates on mongoDB 
-//          String mongoCollectionICHR = "aegilopsICHR";
-//           //Source sAgrovoc = new Source("Agrovoc", "http://aims.fao.org/aos/agrovoc/", "http://localhost:3030/Agrovoc2KB_OUT/");
-//            Source sAgrovoc = new Source("Agrovoc", "http://aims.fao.org/aos/agrovoc/", "http://amarger.murloc.fr:8080/Agrovoc_mini_Aegilops/");
-//            //sAgrovoc.setScores(0.4f, 0.4f, 0.4f);
-//            sAgrovoc.setScores(0.7f, 0.4f, 0.9f);
-//           sources.add(sAgrovoc);
-//           System.out.println("Source : "+sAgrovoc.getName()+" added. SQ = "+sAgrovoc.getSourceQualityScore());
-//
-//           //Source sTaxRef =  new Source("TaxRef", "http://inpn.mnhn.fr/espece/cd_nom/", "http://localhost:3030/TaxRef2RKB_out/");
-//           Source sTaxRef =  new Source("TaxRef", "http://inpn.mnhn.fr/espece/cd_nom/", "http://amarger.murloc.fr:8080/TaxRef_mini_Aegilops/");
-//           //sTaxRef.setScores(0.9f, 0.9f, 0.9f);
-//           sTaxRef.setScores(0.6f, 0.9f, 0.9f);
-//           sources.add(sTaxRef);
-//           System.out.println("Source : "+sTaxRef.getName()+" added. SQ = "+sTaxRef.getSourceQualityScore());
-//
-//           //Source sNCBI = new Source("NCBI", "http://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=", "http://localhost:3030/Ncbi2RKB_out/");
-//           Source sNCBI = new Source("NCBI", "http://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=", "http://amarger.murloc.fr:8080/NCBI_mini_Aegilops/");
-//           //sNCBI.setScores(0.6f, 0.6f, 0.6f);
-//           sNCBI.setScores(0.9f, 0.6f, 0.9f);
-//           sources.add(sNCBI);
-//           System.out.println("Source : "+sNCBI.getName()+" added. SQ = "+sNCBI.getSourceQualityScore());
-         
-//         String projectName = "mini_Oryza";
-//            String mongoCollection  = "oryzaCandidate"; // null for don't save candidates on mongoDB 
-//
-//           //Source sAgrovoc = new Source("Agrovoc", "http://aims.fao.org/aos/agrovoc/", "http://localhost:3030/Agrovoc2KB_OUT/");
-//            Source sAgrovoc = new Source("Agrovoc", "http://aims.fao.org/aos/agrovoc/", "http://amarger.murloc.fr:8080/Agrovoc_mini_Oryza/");
-//            sAgrovoc.setScores(0.4f, 0.4f, 0.4f);
-//           sources.add(sAgrovoc);
-//           System.out.println("Source : "+sAgrovoc.getName()+" added. SQ = "+sAgrovoc.getSourceQualityScore());
-//
-//           //Source sTaxRef =  new Source("TaxRef", "http://inpn.mnhn.fr/espece/cd_nom/", "http://localhost:3030/TaxRef2RKB_out/");
-//           Source sTaxRef =  new Source("TaxRef", "http://inpn.mnhn.fr/espece/cd_nom/", "http://amarger.murloc.fr:8080/TaxRef_mini_Oryza/");
-//           sTaxRef.setScores(0.9f, 0.9f, 0.9f);
-//           sources.add(sTaxRef);
-//           System.out.println("Source : "+sTaxRef.getName()+" added. SQ = "+sTaxRef.getSourceQualityScore());
-//
-//           //Source sNCBI = new Source("NCBI", "http://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=", "http://localhost:3030/Ncbi2RKB_out/");
-//           Source sNCBI = new Source("NCBI", "http://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=", "http://amarger.murloc.fr:8080/NCBI_mini_Oryza/");
-//           sNCBI.setScores(0.6f, 0.6f, 0.6f);
-//           sources.add(sNCBI);
-//           System.out.println("Source : "+sNCBI.getName()+" added. SQ = "+sNCBI.getSourceQualityScore());
-         
-          /*String projectName = "TEST_expes";
-         
-        //Source sAgrovoc = new Source("Agrovoc", "http://aims.fao.org/aos/agrovoc/", "http://localhost:3030/Agrovoc2KB_OUT/");
-         Source sAgrovoc = new Source("S1", "http://s1.fr#", "http://amarger.murloc.fr:8080/S1/");
-         sAgrovoc.setScores(0.7f, 0.55f, 0.64f);
-        sources.add(sAgrovoc);
-        System.out.println("Source : "+sAgrovoc.getName()+" added. SQ = "+sAgrovoc.getSourceQualityScore());
         
-        //Source sTaxRef =  new Source("TaxRef", "http://inpn.mnhn.fr/espece/cd_nom/", "http://localhost:3030/TaxRef2RKB_out/");
-        Source sTaxRef =  new Source("S2", "http://s2.fr#", "http://amarger.murloc.fr:8080/S2/");
-        sTaxRef.setScores(0.6f, 0.65f, 0.54f);
-        sources.add(sTaxRef);
-        System.out.println("Source : "+sTaxRef.getName()+" added. SQ = "+sTaxRef.getSourceQualityScore());
-        
-        //Source sNCBI = new Source("NCBI", "http://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=", "http://localhost:3030/Ncbi2RKB_out/");
-        Source sNCBI = new Source("S3", "http://s3.fr#", "http://amarger.murloc.fr:8080/S3/");
-        sNCBI.setScores(0.8f, 0.8f, 0.57f);
-        sources.add(sNCBI);
-        System.out.println("Source : "+sNCBI.getName()+" added. SQ = "+sNCBI.getSourceQualityScore());*/
          
-         
-        Fusionner fusionner = new Fusionner( "http://amarger.murloc.fr:8080/tempAlign/", "http://amarger.murloc.fr:8080/tempClassAlign/");
+        HashMap<String, String> fusionnerParams = params.getSubParams("fusionner");
+        Fusionner fusionner = new Fusionner( fusionnerParams.get("tempAlign"), fusionnerParams.get("tempAlign"), mongoDbs.get("mongodb"));
         fusionner.initSources(sources);
         
         float trustIcMax = fusionner.getIcTrustMax();
@@ -182,15 +95,15 @@ public class Muskca
                 System.out.println("Hypothesis updated");
             }
         }
-         fusionner.computeClassCandidate(mongoCollectionClass, trustCcMax);
-        fusionner.computeInstanceCandidate(mongoCollection, trustIcMax);
+         fusionner.computeClassCandidate(mongoDbs.get("classCandidateMongoCol"), trustCcMax);
+        fusionner.computeInstanceCandidate(mongoDbs.get("indivCandidateMongoCol"), trustIcMax);
         String retRelCandidate = "";
         for(String uriRel : urisRelImp)
         {
-            fusionner.computeRelationCandidate(mongoCollectionICHR, uriRel, trustRcMax);
+            fusionner.computeRelationCandidate(mongoDbs.get("objPropArcCandidateMongoCol"), uriRel, trustRcMax);
         }
-        fusionner.computeTypeCandidate(mongoCollectionType, trustTcMax);
-        fusionner.computeLabelCandidate(mongoCollectionLabel, urisLabelsImp, trustLcMax);
+        fusionner.computeTypeCandidate(mongoDbs.get("typeArcCandidateMongoCol"), trustTcMax);
+        fusionner.computeLabelCandidate(mongoDbs.get("labelArcCandidateMongoCol"), urisLabelsImp, trustLcMax);
         
         
         System.out.println("NB SAVED ON MONGO : "+fusionner.nbMongoSaved);
