@@ -24,9 +24,10 @@ public abstract class Aligner implements Serializable
     
     protected Source s1, s2;
     
-    protected HashMap<String, ArrayList<Alignment>> s1Aligns;
-    protected HashMap<String, ArrayList<Alignment>> s2Aligns;
+    /*protected HashMap<String, ArrayList<Alignment>> s1Aligns;
+    protected HashMap<String, ArrayList<Alignment>> s2Aligns;*/
     
+    protected HashMap<String, ArrayList<Alignment>> indAligns;
     protected HashMap<String, ArrayList<Alignment>> classAligns;
     
     protected Fusionner fusionner;
@@ -44,34 +45,28 @@ public abstract class Aligner implements Serializable
         this.s1 = s1;
         this.s2 = s2;
         
-        this.s1Aligns = new HashMap<>();
-        this.s2Aligns = new HashMap<>();
+        //this.s1Aligns = new HashMap<>();
+        //this.s2Aligns = new HashMap<>();
         
-        
+        this.indAligns = new HashMap<>();
         this.classAligns = new HashMap<>();
     }
     
-    public abstract String alignSources(float limitSimScore);
+    public abstract void alignSources(float limitSimScore);
     
-    protected void addAlignment(String uri, String uriAlign, float value)
+    protected void addIndAlignment(String uri, String uriAlign, float value)
     {
         Alignment a = new Alignment (uri, uriAlign, value);
-        ArrayList<Alignment> res = s1Aligns.get(uri);
+        ArrayList<Alignment> res = this.indAligns.get(uri);
         if(res == null)
         {
             res = new ArrayList<>();
-            s1Aligns.put(uri, res);
+            this.indAligns.put(uri, res);
         }
         res.add(a);
-
-        /*Alignment a2 = new Alignment (uriAlign, labelAlign, uri, label, value);
-        ArrayList<Alignment> res2 = s2Aligns.get(uriAlign);
-        if(res2 == null)
-        {
-            res2 = new ArrayList<>();
-            s2Aligns.put(uriAlign, res2);
-        }
-        res2.add(a2);*/
+        
+        this.s1.addIndAlignment(uri, a);
+        this.s2.addIndAlignment(uriAlign, a);
     }
     
      protected void addClassAlignment(String uri, String uriAlign, float value)
@@ -84,10 +79,41 @@ public abstract class Aligner implements Serializable
             this.classAligns.put(uri, res);
         }
         res.add(a);
+        
+        this.s1.addClassAlignment(uri, a);
+        this.s2.addClassAlignment(uriAlign, a);
     }
     
+     public StringBuilder getPrologIndAligns()
+     {
+        StringBuilder mappingString = new StringBuilder();
+        for(Map.Entry<String, ArrayList<Alignment>> e : this.indAligns.entrySet())
+        {
+            ArrayList<Alignment> as = e.getValue();
+            for(Alignment a : as)
+            {
+                mappingString = mappingString.append(a.toPrologData()).append(" \n");
+            }
+        }
+        return mappingString;
+     }
+     
+     public StringBuilder getPrologClassAligns()
+     {
+        StringBuilder mappingString = new StringBuilder();
+        for(Map.Entry<String, ArrayList<Alignment>> e : this.classAligns.entrySet())
+        {
+            ArrayList<Alignment> as = e.getValue();
+            for(Alignment a : as)
+            {
+                mappingString = mappingString.append(a.toPrologData()).append(" \n");
+            }
+        }
+        return mappingString;
+     }
+     
     
-    protected String sortAligns(HashMap<String, ArrayList<Alignment>> aligns)
+    /*protected String sortAligns(HashMap<String, ArrayList<Alignment>> aligns)
     {
         String outAlign = "Alignments : \n";
         for(Map.Entry<String, ArrayList<Alignment>> e : aligns.entrySet())
@@ -102,14 +128,14 @@ public abstract class Aligner implements Serializable
             outAlign += "---------------";
         }
         return outAlign;
-    }
+    }*/
 
-    public void fusionAlignmentsCandidate()
+    /*public void fusionAlignmentsCandidate()
     {
         if(this.isAligned)
         {
-            System.out.println(this.s1Aligns);
-           for(Entry<String, ArrayList<Alignment>> e: this.s1Aligns.entrySet())
+            //System.out.println(this.s1Aligns);
+           for(Entry<String, ArrayList<Alignment>> e: this.indAligns.entrySet())
            {
                for(Alignment a : e.getValue())
                {
@@ -133,6 +159,14 @@ public abstract class Aligner implements Serializable
            }
         }
     }
+    
+    public void fusionAlignments()
+    {
+        this.fusionAlignmentsCandidate();
+        this.fusionClassAlignmentsCandidate();
+    }*/
+    
+  
     
     public Source getS1()
     {

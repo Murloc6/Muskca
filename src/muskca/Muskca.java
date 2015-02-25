@@ -8,9 +8,13 @@ package muskca;
 
 import Alignment.Aligner;
 import Alignment.AlignerLogMap;
+import Candidate.NodeCandidate.ClassCandidate;
+import Candidate.NodeCandidate.IndividualCandidate;
+import Candidate.NodeCandidate.NodeCandidate;
+import MultiSources.Extension;
 import MultiSources.Fusionner;
+import MultiSources.Solver.ExtensionSolver;
 import Source.Source;
-import Source.SparqlProxy;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -37,15 +41,12 @@ public class Muskca
         
         /*
          * TODO : 
-            -> Change candidate types : 
-                -> node (subtypes indiv. and class) 
-                -> arc (subtypes type, label, objProp)
             -> Change trust score comutation (trust mix)
-            -> Clean up the source code and the ouput logs
-                -> implements Log4J ?
+            -> Implements the Log4J lib to improve the logs
+            -> Clean up the Fusionner class and the Source class
          */
         
-        
+        cleanTempDirectory();
         Muskca.dateBegin = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").format(new Date());
         
         ParamsReader params = new ParamsReader();
@@ -62,20 +63,14 @@ public class Muskca
         String provoFile = outputParams.get("provoFile");
         String spOutProvo = outputParams.get("spOutProvo");
         String baseUriMuskca = outputParams.get("baseUri")+projectName+"/";
-         
-        
-         
+
         HashMap<String, String> fusionnerParams = params.getSubParams("fusionner");
-        Fusionner fusionner = new Fusionner( fusionnerParams.get("tempAlign"), fusionnerParams.get("tempAlign"), mongoDbs.get("mongodb"));
-        fusionner.initSources(sources);
+        Fusionner fusionner = new Fusionner(mongoDbs.get("mongodb"));
         
-        float trustIcMax = fusionner.getIcTrustMax();
-        float trustRcMax = fusionner.getRcTrustMax();
-        float trustTcMax = fusionner.getTcTrustMax();
-        float trustLcMax = fusionner.getLcTrustMax();
-        float trustCcMax = fusionner.getCcTrustMax();
+        String dataProlog = fusionner.initPrologSources(sources);
         
-        
+        StringBuilder dataIndProlog = new StringBuilder(dataProlog);
+        StringBuilder dataClassProlog = new StringBuilder(dataProlog);
         for(int i = 0; i< sources.size(); i++)
         {
             Source s1 = sources.get(i);
@@ -86,24 +81,52 @@ public class Muskca
                 
                 System.out.println(s1.getName()+"/"+s2.getName()+ ": ");
                 Aligner aligner = new AlignerLogMap(fusionner, s1, s2);
-                //Aligner aligner = new AlignerTEST(fusionner, s1, s2);
                 System.out.println("Aligner ended !");
-                String stats = aligner.alignSources(0); // score min = 0 to keep all alignment (filter will be done by taken the first one)
-                System.out.println(stats);
-                aligner.fusionAlignmentsCandidate();
-                aligner.fusionClassAlignmentsCandidate();
-                System.out.println("Hypothesis updated");
+                aligner.alignSources(0); // score min = 0 to keep all alignment (filter will be done by taken the first one)
+                dataIndProlog = dataIndProlog.append(aligner.getPrologIndAligns());
+                dataClassProlog = dataClassProlog.append(aligner.getPrologClassAligns());
             }
         }
-         fusionner.computeClassCandidate(mongoDbs.get("classCandidateMongoCol"), trustCcMax);
-        fusionner.computeInstanceCandidate(mongoDbs.get("indivCandidateMongoCol"), trustIcMax);
+        for(Source s : sources)
+        {
+            dataClassProlog = dataClassProlog.append(s.classesToPrologData());
+            dataIndProlog = dataIndProlog.append(s.indsToPrologData());
+        }
+        
+         System.out.println("BEGIN COMPUTE Classes CANDIDATE");
+        ArrayList<ClassCandidate> candidatesClass = fusionner.computeClassCandidate(mongoDbs.get("classCandidateMongoCol"), dataClassProlog);
+        
+        System.out.println("BEGIN COMPUTE Ind. CANDIDATE");
+        ArrayList<IndividualCandidate> candidatesInd = fusionner.computeIndCandidate(mongoDbs.get("indivCandidateMongoCol"), dataIndProlog, sources.size());
+        
+        int nbCandidates = candidatesClass.size()+candidatesInd.size();
+        StringBuilder dataForExtensions = fusionner.allCandidatesToPrologData();
+        
+        System.out.println("Begin compute extensions (nb candidates : "+nbCandidates+")");
+        ArrayList<Extension> extensions =fusionner.computeExtensions(dataForExtensions, nbCandidates);
+        
+        String extExport = "";
+        String extPl = "";
+        for(Extension ext : extensions)
+        {
+            extExport += ext.toString();
+            extPl += ext.toPrologData();
+        }
+        
+        Muskca.dateEnd = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").format(new Date());
+        Muskca.exportFile(extExport, projectName+"_Extensions_data.txt");
+        Muskca.exportFile(extPl, projectName+"_Extensions_data.ecl");
+        System.out.println("End treatment ("+extensions.size()+" extensions generated)");
+        System.out.println(Muskca.dateBegin+" ----> "+Muskca.dateEnd);
+        System.exit(0);
+        
         String retRelCandidate = "";
         for(String uriRel : urisRelImp)
         {
-            fusionner.computeRelationCandidate(mongoDbs.get("objPropArcCandidateMongoCol"), uriRel, trustRcMax);
+            fusionner.computeRelationCandidate(mongoDbs.get("objPropArcCandidateMongoCol"), uriRel);
         }
-        fusionner.computeTypeCandidate(mongoDbs.get("typeArcCandidateMongoCol"), trustTcMax);
-        fusionner.computeLabelCandidate(mongoDbs.get("labelArcCandidateMongoCol"), urisLabelsImp, trustLcMax);
+        fusionner.computeTypeCandidate(mongoDbs.get("typeArcCandidateMongoCol"));
+        fusionner.computeLabelCandidate(mongoDbs.get("labelArcCandidateMongoCol"), urisLabelsImp);
         
         
         System.out.println("NB SAVED ON MONGO : "+fusionner.nbMongoSaved);
@@ -132,7 +155,7 @@ public class Muskca
      }
     
     
-    private static void exportFile(String content, String projectName)
+    private static void cleanTempDirectory()
     {
         try 
         { 
@@ -142,6 +165,11 @@ public class Muskca
         {
             System.err.println("Error during cleaning the out/temp/ directory");
         }
+    }
+    
+    private static void exportFile(String content, String projectName)
+    {
+        cleanTempDirectory();
         String dateFileName = new SimpleDateFormat("dd-MM_HH-mm_").format(new Date());
         try {
             FileUtils.write(new File("out/"+dateFileName+"_Fusion_"+projectName), content);

@@ -13,8 +13,11 @@ package Source;
 public class SourceQualityScore 
 {
     
-    public static int freshnessWeight = 2;
-    public static int reputationWeight = 4;
+    /*
+        the weights are here just in prevision for a better source quality computation. For now all crieteria are same (weight = 1).
+    */
+    public static int freshnessWeight = 1;
+    public static int reputationWeight = 1;
     public static int ADOMSimWeight = 1;
     
     public static float computeQualityScore(float freshness, float reputation, float ADOMSim)

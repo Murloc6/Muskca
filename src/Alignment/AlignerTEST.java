@@ -4,16 +4,16 @@
  * and open the template in the editor.
  */
 
-package Alignment;
+//package Alignment;
 
-import MultiSources.Fusionner;
-import Source.Source;
+//import MultiSources.Fusionner;
+//import Source.Source;
 
 /**
  *
  * @author fabien.amarger
  */
-public class AlignerTEST extends Aligner
+/*public class AlignerTEST extends Aligner
 {
 
     public AlignerTEST(Fusionner fusionner, Source s1, Source s2)
@@ -22,7 +22,7 @@ public class AlignerTEST extends Aligner
     }
 
     @Override
-    public String alignSources(float limitSimScore)
+    public void alignSources(float limitSimScore)
     {
         String ret = "";
         if(this.s1.getName().compareTo("S1") == 0 && this.s2.getName().compareTo("S2") == 0)
@@ -43,8 +43,8 @@ public class AlignerTEST extends Aligner
             this.addAlignment("http://s2.fr#x23", "http://s3.fr#x32",  0.9f);
         }
         this.isAligned = true;
-        return ret;
+        System.out.println(ret);
     }
 
     
-}
+}*/

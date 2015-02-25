@@ -89,7 +89,8 @@ public class ParamsReader
         {
             JsonNode sNode = elem.next();
             Source s = new Source(sNode.path("name").asText(), sNode.path("baseUri").asText(), sNode.path("spIn").asText());
-            s.setScores(sNode.path("SourceQuality").floatValue(), sNode.path("SourceQuality").floatValue(), sNode.path("SourceQuality").floatValue());
+            float sq = sNode.path("sourceQuality").floatValue();
+            s.setScores(sq,sq,sq);
             ret.add(s);
             System.out.println("Add Source : "+s.getName()+" added. SQ = "+s.getSourceQualityScore());
         }

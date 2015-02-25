@@ -7,12 +7,14 @@
 package Source;
 
 import Alignment.Aligner;
+import Alignment.Alignment;
 import com.fasterxml.jackson.databind.JsonNode;
 import java.io.File;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 /**
  *
@@ -23,8 +25,9 @@ public class Source implements Serializable
     private String name;
     private String baseUri;
     private SparqlProxy sp;
-    private ArrayList<String> allTaxons;
-    
+    private HashMap<String, ArrayList<Alignment>> allInd;
+    private HashMap<String, ArrayList<Alignment>> allClasses;
+   
     private ArrayList<Aligner> aligners;
     
     private float trustScoreInstance = 0;
@@ -34,7 +37,7 @@ public class Source implements Serializable
     private float trustScoreInstanceInType = 0;
     private float trustScoreInstanceInObjProp = 0;
     
-    private float sourceQualityScore = 0;
+    private float sourceQualityScore = 1;
 
     private String tempFileName;
     
@@ -43,7 +46,8 @@ public class Source implements Serializable
         this.name = name;
         this.baseUri = baseUri;
         this.sp = SparqlProxy.getSparqlProxy(spUrl);
-        this.allTaxons = new ArrayList<>();
+        this.allInd = new HashMap<>();
+        this.allClasses = new HashMap<>();
         this.aligners = new ArrayList<>();
     }
     
@@ -84,12 +88,88 @@ public class Source implements Serializable
         return this.baseUri;
     }
     
+    
+    public void addClassAlignment(String sClass, Alignment a)
+    {
+        ArrayList<Alignment> cAligns = this.allClasses.get(sClass);
+        if(cAligns == null)
+        {
+            cAligns = new ArrayList<>();
+        }
+        cAligns.add(a);
+        this.allClasses.put(sClass, cAligns);
+    }
+    
+    public void addIndAlignment(String sInd, Alignment a)
+    {
+        ArrayList<Alignment> cAligns = this.allInd.get(sInd);
+        if(cAligns == null)
+        {
+            cAligns = new ArrayList<>();
+        }
+        cAligns.add(a);
+        this.allInd.put(sInd, cAligns);
+    }
+    
+    public ArrayList<String> getAllClasses()
+    {
+        ArrayList<String> ret = new ArrayList<>();
+        
+        for(String s : this.allClasses.keySet())
+        {
+            ret.add(s);
+        }
+        
+        return ret;
+    }
+    
+    public ArrayList<String> getAllInd()
+    {
+        ArrayList<String> ret = new ArrayList<>();
+        for(String s : this.allInd.keySet())
+        {
+            ret.add(s);
+        }
+        
+        return ret;
+    }
+    
+    public Alignment getAlignmentInd(String uriFrom, String uriTo)
+    {
+        Alignment ret = null;
+        ArrayList<Alignment> aligns = this.allInd.get(uriFrom);
+        for(Alignment a : aligns)
+        {
+            if((a.getUri().equalsIgnoreCase(uriFrom) && a.getUriAlign().equalsIgnoreCase(uriTo)) || (a.getUri().equalsIgnoreCase(uriTo) && a.getUriAlign().equalsIgnoreCase(uriFrom)))
+            {
+                ret = a;
+                break;
+            }
+        }
+        return ret;
+    }
+    
+    public Alignment getAlignmentClass(String uriFrom, String uriTo)
+    {
+        Alignment ret = null;
+        ArrayList<Alignment> aligns = this.allClasses.get(uriFrom);
+        for(Alignment a : aligns)
+        {
+            if((a.getUri().equalsIgnoreCase(uriFrom) && a.getUriAlign().equalsIgnoreCase(uriTo)) || (a.getUri().equalsIgnoreCase(uriTo) && a.getUriAlign().equalsIgnoreCase(uriFrom)))
+            {
+                ret = a;
+                break;
+            }
+        }
+        return ret;
+    }
    
     
-    public ArrayList<String> getAllTaxons()
+    /*public ArrayList<String> getAllTaxons()
     {
-        if(this.allTaxons.isEmpty())
+        if(this.allInd.isEmpty())
         {
+            // TODO : Put all the classes usefull in the params file and change the name with get all ind
             String query = "SELECT ?uri WHERE { { SELECT ?uri WHERE { ?uri a <http://ontology.irstea.fr/AgronomicTaxon#Taxon>.}} "+
                     "UNION { SELECT ?uri WHERE { ?uri a <http://ontology.irstea.fr/AgronomicTaxon#ClassRank>} }"+
                     "UNION { SELECT ?uri WHERE { ?uri a <http://ontology.irstea.fr/AgronomicTaxon#FamilyRank>} }"+
@@ -102,12 +182,12 @@ public class Source implements Serializable
             ArrayList<JsonNode> uris = this.sp.getResponse(query);
             for(JsonNode jn : uris)
             {
-                this.allTaxons.add(jn.get("uri").get("value").asText());
+                this.allInd.add(jn.get("uri").get("value").asText());
             }
         }
             
-        return this.allTaxons;
-    }
+        return this.allInd;
+    }*/
     
     public ArrayList<String> getRelImportant(String uri, String uriRelImp)
     {
@@ -201,6 +281,50 @@ public class Source implements Serializable
         }
         
         return this.tempFileName;
+    }
+    
+    public StringBuilder classesToPrologData()
+    {
+        StringBuilder ret = new StringBuilder("oe("+this.name.toLowerCase()+", [");
+        boolean first = true;
+        
+        for(String s : this.getAllClasses())
+        {
+            if(!first)
+            {
+                ret = ret.append(", ");
+            }
+            else
+            {
+                first = false;
+            }
+            ret = ret.append("\"").append(s).append("\"");
+        }
+        
+        ret = ret.append("]). \n");
+        return ret;
+    }
+    
+    public StringBuilder indsToPrologData()
+    {
+        StringBuilder ret = new StringBuilder("oe("+this.name.toLowerCase()+", [");
+        boolean first = true;
+        
+        for(String s : this.getAllInd())
+        {
+            if(!first)
+            {
+                ret = ret.append(", ");
+            }
+            else
+            {
+                first = false;
+            }
+            ret = ret.append("\"").append(s).append("\"");
+        }
+        
+        ret = ret.append("]). \n");
+        return ret;
     }
     
 }

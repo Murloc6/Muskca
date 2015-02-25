@@ -7,19 +7,19 @@
       "name" : "Agrovoc",
       "baseUri" : "http://aims.fao.org/aos/agrovoc/",
       "spIn" : "http://amarger.murloc.fr:8080/Agrovoc_mini_Triticum/",
-      "sourceQuality" : 1
+      "sourceQuality" : 1.0
     },
     {
       "name" : "TaxRef",
       "baseUri" : "http://inpn.mnhn.fr/espece/cd_nom/",
       "spIn" : "http://amarger.murloc.fr:8080/TaxRef_mini_Triticum/",
-      "sourceQuality" : 1
+      "sourceQuality" : 1.0
     },
     {
       "name" : "NCBI",
       "baseUri" : "http://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=",
       "spIn" : "http://amarger.murloc.fr:8080/NCBI_mini_Triticum/",
-      "sourceQuality" : 1
+      "sourceQuality" : 1.0
     }
   ],
   "relImps" :

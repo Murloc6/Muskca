@@ -41,4 +41,9 @@ public class Alignment implements Serializable
         return this.uri;
     }
     
+    public String toPrologData()
+    {
+        return "mapping(\""+this.uri+"\", \""+this.uriAlign+"\").";
+    }
+    
 }
