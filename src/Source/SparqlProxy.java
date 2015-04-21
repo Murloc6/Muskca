@@ -23,6 +23,7 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import muskca.FilePerso;
 import org.apache.commons.io.FileUtils;
 
 /**
@@ -131,7 +132,7 @@ public class SparqlProxy implements Serializable
         {
             try 
             {
-                FileUtils.writeStringToFile(new File("out/backupQueries/"+fileName),query);
+                FileUtils.writeStringToFile(new FilePerso("out/backupQueries/"+fileName),query);
             } 
             catch (IOException ex) 
             {
@@ -260,14 +261,14 @@ public class SparqlProxy implements Serializable
             connection.setRequestMethod("GET");
             String line;
             BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-            FileWriter f = new FileWriter("out/"+fileName+".owl");
+            FileWriter f = new FileWriter(new FilePerso("out/"+fileName+".owl"));
 
             while ((line = reader.readLine()) != null) 
             {
                 f.write(line+"\n");
             }
             
-            ret = new File("out/"+fileName+".owl");
+            ret = new FilePerso("out/"+fileName+".owl");
             reader.close();    
             f.close();
             }

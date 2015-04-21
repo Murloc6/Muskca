@@ -6,6 +6,7 @@ import MultiSources.Fusionner;
 import Source.Source;
 import java.io.File;
 import java.util.Set;
+import muskca.FilePerso;
 
 
 import org.semanticweb.owlapi.apibinding.OWLManager;
@@ -32,7 +33,7 @@ public class AlignerLogMap extends Aligner
 
     private String getAbsolutePathTemp(Source s)
     {
-        File f = new File(s.getTempExport());
+        File f = new FilePerso(s.getTempExport());
         return f.getAbsolutePath();
     }
     
@@ -49,8 +50,10 @@ public class AlignerLogMap extends Aligner
         int nbClassAlign = 0;
         try
         {
-            String onto1_iri = "file:out/temp/"+fileNameS1;
-            String onto2_iri = "file:out/temp/"+fileNameS2;
+            File f = new FilePerso ("out/temp/"+fileNameS1);
+            String onto1_iri = "file:"+f.getAbsolutePath();
+            f = new FilePerso("out/temp/"+fileNameS2);
+            String onto2_iri = "file:"+f.getAbsolutePath();
 
             onto_manager = OWLManager.createOWLOntologyManager();
 

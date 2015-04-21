@@ -6,6 +6,7 @@
 package MultiSources;
 
 import Candidate.NodeCandidate.NodeCandidate;
+import com.mongodb.BasicDBObject;
 import java.util.ArrayList;
 
 /**
@@ -32,6 +33,10 @@ public class Extension
         this.score = (float) 0.5;
     }
     
+    public ArrayList<NodeCandidate> getCandidates()
+    {
+        return this.candidates;
+    }
     
     public String toString()
     {
@@ -59,6 +64,18 @@ public class Extension
         ret = ret.delete(ret.lastIndexOf(","), ret.length());
         ret = ret.append("]");
         
+        return ret;
+    }
+    
+    public BasicDBObject toDBObject()
+    {
+        ArrayList<BasicDBObject> allCands = new ArrayList<>();
+        for(NodeCandidate nc : this.candidates)
+        {
+            allCands.add(nc.toDBObject());
+        }
+        BasicDBObject ret = new BasicDBObject();
+        ret.append("extension", allCands);
         return ret;
     }
     

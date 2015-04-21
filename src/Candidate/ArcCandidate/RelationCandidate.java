@@ -7,6 +7,7 @@
 package Candidate.ArcCandidate;
 
 import Candidate.NodeCandidate.IndividualCandidate;
+import Candidate.NodeCandidate.NodeCandidate;
 import Source.Source;
 import com.mongodb.BasicDBObject;
 import java.util.ArrayList;
@@ -23,23 +24,22 @@ public class RelationCandidate extends ArcCandidate
     private static int numInstGlob = 1;
     private int numInst = -1;
     
-    private IndividualCandidate icTo;
-    private ArrayList<Source> sourcesHR;
-    private String baseUri;
+    private NodeCandidate ncTo;
+    private ArrayList<Source> sourcesImpl;
     
     
-    public RelationCandidate(String relImp, IndividualCandidate ic, IndividualCandidate icTo, ArrayList<Source> sources)
+    public RelationCandidate(NodeCandidate ncFrom, String relImp, NodeCandidate ncTo, ArrayList<Source> sourcesImpl)
     {
-        super(ic, relImp);
-        this.icTo = icTo;
-        this.sourcesHR = sources;
+        super(ncFrom, relImp);
+        this.ncTo = ncTo;
+        this.sourcesImpl = sourcesImpl;
     }
     
     @Override
     public String toString() {
         String ret = super.toString();
         ret += "\t\t ---- TO ---- \n";
-        for(Entry<Source, String> e : this.icTo.getUriImplicate().entrySet())
+        for(Entry<Source, String> e : this.ncTo.getUriImplicate().entrySet())
         {
             ret += "\t\t"+e.getKey().getName()+" -> "+e.getValue()+"\n";
         }
@@ -53,7 +53,7 @@ public class RelationCandidate extends ArcCandidate
         BasicDBObject doc = super.toDBObject();
 
         ArrayList<BasicDBObject> icHRBD = new ArrayList<>();
-        for(Map.Entry<Source, String> icHRE : this.icTo.getUriImplicate().entrySet())
+        for(Map.Entry<Source, String> icHRE : this.ncTo.getUriImplicate().entrySet())
         {
             BasicDBObject icHRObj = new BasicDBObject();
             icHRObj.append("source", icHRE.getKey().getName());
@@ -63,7 +63,7 @@ public class RelationCandidate extends ArcCandidate
         doc.append("icHR", icHRBD);
 
         ArrayList<String> listSourcesInvol = new ArrayList<>();
-        for(Source s :sourcesHR )
+        for(Source s :this.sourcesImpl )
         {
             //relCandidateTrustScore += s.getSourceQualityScore();
             listSourcesInvol.add(s.getName());
@@ -76,14 +76,13 @@ public class RelationCandidate extends ArcCandidate
 
     public String toProvO(String baseUri, int numCand, int instCand,  HashMap<Source, String> sourcesUri, HashMap<Source, String> uriInst, String uriOntObj, String uriKbMerge)
     {
-        this.baseUri = baseUri;
         String ret = super.toProvO(baseUri, numCand, sourcesUri, uriKbMerge);
         
-        for( Source s : this.sourcesHR)
+        for( Source s : this.sourcesImpl)
         {
             String uriStatement = baseUri+this.sElem+"/"+s.getName()+"/"+instCand+"/"+numCand;
             ret += "<"+uriStatement+"> rdf:type :Entity; rdf:type rdf:Statement.\n";
-            ret += "<"+uriStatement+"> rdf:subject <"+uriInst.get(s)+">; rdf:predicate <"+this.dataProperty+">; rdf:object <"+this.icTo.getUriFromSource(s)+">. \n";
+            ret += "<"+uriStatement+"> rdf:subject <"+uriInst.get(s)+">; rdf:predicate <"+this.dataProperty+">; rdf:object <"+this.ncTo.getUriFromSource(s)+">. \n";
             ret += "<"+sourcesUri.get(s)+"> :hadMember <"+uriStatement+">.\n";
             ret += "<"+uriCand+"> :wasDerivedFrom <"+uriStatement+">. \n";
         }
@@ -94,7 +93,8 @@ public class RelationCandidate extends ArcCandidate
     @Override
     public String getObjectProvOValue() 
     {
-        return this.icTo.getUriOntObj(this.baseUri);
+        //return this.ncTo.getUriOntObj(baseUri);
+        return "TODO";
     }
 
     @Override

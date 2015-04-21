@@ -6,7 +6,9 @@
 package Candidate.NodeCandidate;
 
 import Alignment.Alignment;
+import Candidate.ArcCandidate.ArcCandidate;
 import Candidate.ArcCandidate.LabelCandidate;
+import Candidate.ArcCandidate.RelationCandidate;
 import Candidate.Candidate;
 import Source.Source;
 import com.mongodb.BasicDBObject;
@@ -24,6 +26,12 @@ public abstract class NodeCandidate extends Candidate
     private ArrayList<Alignment> aligns;
     
     private ArrayList<LabelCandidate> labelCands;
+    private ArrayList<RelationCandidate> relCands;
+    
+    private static int curId = 0;
+    
+    private int id;
+    private boolean alreadyValidated = false;
     
     protected String uriOntObj = "";
     protected String uriCand = "";
@@ -31,8 +39,31 @@ public abstract class NodeCandidate extends Candidate
     public NodeCandidate()
     {
         super();
+        this.id = NodeCandidate.curId;
+        NodeCandidate.curId++;
         this.aligns = new ArrayList<>();
         this.labelCands = new ArrayList<>();
+        this.relCands = new ArrayList<>();
+    }
+    
+    public void setId(int id)
+    {
+        this.id = id;
+    }
+    
+    public int getId()
+    {
+        return this.id;
+    }
+    
+    public void validate()
+    {
+        this.alreadyValidated = true;
+    }
+    
+    public boolean isValidated()
+    {
+        return this.alreadyValidated;
     }
     
     public void addAlignment(Alignment al)
@@ -46,11 +77,16 @@ public abstract class NodeCandidate extends Candidate
         this.labelCands.add(labelC);
     }
     
+    public void addRelationCandidate(RelationCandidate rc)
+    {
+        this.relCands.add(rc);
+    }
+    
     public void addAllLabelsCandidate(ArrayList<LabelCandidate> labelCs, float trustLcMax, float sumSQ)
     {
         for(LabelCandidate lc : labelCs)
         {
-            lc.computeTrustScore(trustLcMax);
+            //lc.computeTrustScore(trustLcMax);
             this.labelCands.add(lc);
         }
     }
@@ -77,11 +113,32 @@ public abstract class NodeCandidate extends Candidate
         this.labelCands = newLabels;
     }
     
-    @Override
-    public void computeTrustScore(float nbSources)
+    public boolean containsOneOfUri(ArrayList<String> notFoundUris)
     {
-        super.computeTrustScore(nbSources);
+        boolean ret = true;
         
+        for(String s : this.uriImplicate.values())
+        {
+            if(notFoundUris.contains(s))
+            {
+                ret = false;
+                break;
+            }
+        }
+        return ret;
+    }
+    
+    public ArrayList<ArcCandidate> getAllArcCandidates()
+    {
+        ArrayList<ArcCandidate> ret = new ArrayList<>();
+        ret.addAll(this.labelCands);
+        ret.addAll(this.relCands);
+        return ret;
+    }
+    
+    @Override
+    public void computeTrustDegreeScore(float nbSources)
+    {
         float trustDegree = 0;
         for(Alignment al : this.aligns)
         {
@@ -89,6 +146,15 @@ public abstract class NodeCandidate extends Candidate
         }
         float nbMaxCouple = (nbSources*(nbSources-1))/2;
         this.trustDegreeScore = trustDegree/nbMaxCouple;
+    }
+    
+    public void computeTrustScore(float nbSources)
+    {
+        super.computeTrustScore(nbSources);
+        for(ArcCandidate ac : this.getAllArcCandidates())
+        {
+            ac.computeTrustScore(nbSources);
+        }
     }
     
     @Override
@@ -104,13 +170,15 @@ public abstract class NodeCandidate extends Candidate
             alignsObject.add(alignDoc);
         }
         doc.append("aligns", alignsObject);
+        doc.append("ncId", this.id);
+        doc.append("alreadyValidated", this.alreadyValidated);
         
         return doc;
     }
     
     public String toString()
     {
-        String ret = super.toString();
+        String ret = "["+this.id+"] "+super.toString();
         for(Alignment a : this.aligns)
         {
             ret += "\t \t *** "+a.getUri()+" -->"+a.getUriAlign()+" ("+a.getValue()+") \n";
@@ -118,12 +186,27 @@ public abstract class NodeCandidate extends Candidate
         
         if(this.labelCands.size() > 0)
         {
-             ret += "\t Label Candidate : \n";
              for(LabelCandidate lc : this.labelCands)
              {
-                 ret += lc.toString();
+                 ret += "\t"+lc.toString();
              }
         }
+        
+        return ret;
+    }
+    
+    public boolean isCompatible(NodeCandidate nc)
+    {
+        boolean ret = true;
+        for(Entry<Source, String> e : this.uriImplicate.entrySet())
+        {
+            if(nc.hasElem(e.getKey(), e.getValue()))
+            {
+                ret = false;
+                break;
+            }
+        }
+       
         
         return ret;
     }

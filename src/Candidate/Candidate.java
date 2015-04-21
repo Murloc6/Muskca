@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 /**
  *
@@ -20,7 +21,6 @@ import java.util.Map;
 public abstract class Candidate 
 {
     protected float trustDegreeScore = 0;
-    protected float trustSimpleScore = 0;
     protected float trustMixScore = 0;
     protected HashMap<Source,  String> uriImplicate;
     protected String sElem;
@@ -69,14 +69,35 @@ public abstract class Candidate
         }
     }
     
-    public  void computeTrustScore(float nbSources)
+    private double lambdaCompute(float x, float x0, float gamma)
     {
-        this.trustSimpleScore = (float)this.uriImplicate.keySet().size()/nbSources;
+        return Math.atan((x-x0)/gamma);
+    }
+    
+    public void computeTrustDegreeScore(float nbSources)
+    {
+        this.trustDegreeScore = (float)this.uriImplicate.keySet().size()/nbSources;
+    }
+    
+    public  void computeMixTrustScore(float nbSources)
+    {
+        double lambdan = this.lambdaCompute((float)this.uriImplicate.keySet().size(), 2, 1.5f);
+        double lambdaN = this.lambdaCompute(nbSources, 2, 1.5f);
+        double lambda0 = this.lambdaCompute(0f, 2, 1.5f);
+        double mu = (lambdan-lambda0)/(lambdaN-lambda0);
+        
+        this.trustMixScore = (float) (this.trustDegreeScore*mu);
+    }
+    
+    public void computeTrustScore(float nbSources)
+    {
+        this.computeTrustDegreeScore(nbSources);
+        this.computeMixTrustScore(nbSources);
     }
     
     public float getTrustScore()
     {
-        return this.trustSimpleScore;
+        return this.trustMixScore;
     }
     
     public String getRefId()
@@ -100,7 +121,7 @@ public abstract class Candidate
     
     public String toString()
     {
-        String ret = this.sElem+" Candidate (Simple : "+this.trustSimpleScore+" | Degree : "+this.trustDegreeScore+"): \n";
+        String ret = this.sElem+" Candidate (Degree : "+this.trustDegreeScore+" | Mix : "+this.trustMixScore+"): \n";
         for(Map.Entry<Source, String> e : this.uriImplicate.entrySet())
         {
             ret += "\t "+e.getKey().getName()+" : "+e.getValue()+"\n";
@@ -111,15 +132,22 @@ public abstract class Candidate
     public BasicDBObject toDBObject()
     {
          BasicDBObject doc = new BasicDBObject();
-        ArrayList<String> elemCandidates = new ArrayList<>();
-        for(String e : this.uriImplicate.values())
+        ArrayList<BasicDBObject> elemCandidates = new ArrayList<>();
+        for(Entry<Source,String> e : this.uriImplicate.entrySet())
         {
-            if(!e.isEmpty())
-                    elemCandidates.add(e);
+            Source s = e.getKey();
+            String elem = e.getValue();
+            if(!elem.isEmpty())
+            {
+                BasicDBObject elemC = new BasicDBObject();
+                elemC.append("source", s.toDBObject());
+                elemC.append("elem", elem);
+                elemCandidates.add(elemC);
+            }
         }
         doc.append("elemCandidates", elemCandidates);
         doc.append("trustScore", this.getTrustScore());
-        doc.append("trustScoreSimple", this.trustSimpleScore);
+        doc.append("trustDegree", this.trustDegreeScore);
 
         return doc;
     }

@@ -54,6 +54,16 @@ public abstract class Aligner implements Serializable
     
     public abstract void alignSources(float limitSimScore);
     
+    public int nbIndAligned()
+    {
+        return this.indAligns.size();
+    }
+    
+    public int nbClassAligned()
+    {
+        return this.classAligns.size();
+    }
+    
     protected void addIndAlignment(String uri, String uriAlign, float value)
     {
         Alignment a = new Alignment (uri, uriAlign, value);
@@ -106,7 +116,7 @@ public abstract class Aligner implements Serializable
             ArrayList<Alignment> as = e.getValue();
             for(Alignment a : as)
             {
-                mappingString = mappingString.append(a.toPrologData()).append(" \n");
+                mappingString = mappingString.append(a.toPrologData()).append("\n");
             }
         }
         return mappingString;

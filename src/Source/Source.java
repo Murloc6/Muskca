@@ -9,6 +9,7 @@ package Source;
 import Alignment.Aligner;
 import Alignment.Alignment;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.mongodb.BasicDBObject;
 import java.io.File;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
@@ -164,6 +165,15 @@ public class Source implements Serializable
         return ret;
     }
    
+    public BasicDBObject toDBObject()
+    {
+        BasicDBObject ret = new BasicDBObject();
+        ret.append("name", this.name);
+        ret.append("baseUri", this.baseUri);
+        ret.append("qualityScore", this.sourceQualityScore);
+        return ret;
+    }
+    
     
     /*public ArrayList<String> getAllTaxons()
     {

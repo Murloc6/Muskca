@@ -6,7 +6,6 @@
 
 package MultiSources;
 
-import Alignment.Alignment;
 import Alignment.StringDistance;
 import Candidate.CandidateComparator;
 import Candidate.NodeCandidate.ClassCandidate;
@@ -15,11 +14,11 @@ import Candidate.ArcCandidate.LabelCandidate;
 import Candidate.ArcCandidate.RelationCandidate;
 import Candidate.ArcCandidate.TypeCandidate;
 import Candidate.NodeCandidate.NodeCandidate;
-import MultiSources.Solver.CandidatSolver;
-import MultiSources.Solver.ExtensionSolver;
+import MultiSources.Solver.GLPK.ExtensionGlpkSolver;
+import MultiSources.Solver.Prolog.CandidatSolver;
+import MultiSources.Solver.Prolog.ExtensionSolver;
 import Source.Source;
 import Source.SparqlProxy;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
@@ -31,11 +30,11 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map.Entry;
+import java.util.Scanner;
+import muskca.FilePerso;
 import muskca.Muskca;
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 
 /**
@@ -62,14 +61,24 @@ public class Fusionner implements Serializable
     private float trustCcMax;
     
     private String mongodb;
-   
+    private String mongoServer;
+    private int mongoPort;
+    private HashMap<String, String> mongoDbs;
+    
+    private String dataPrologSources;
+    private StringBuilder dataPrologClass;
+    private StringBuilder dataPrologInd;
+    
+    private ArrayList<String> urisLabelsImp;
+    private ArrayList<String> urisRelImp;
+    
     private int idAlign = 0;
     private int idClassAlign = 0;
     
     public int nbMongoSaved = 0;
     
     
-    public Fusionner(String mongodb)
+    public Fusionner(HashMap<String, String> mongoDbs, ArrayList<String> urisLabelsImp, ArrayList<String> urisRelImp)
     {
         //this.uriAlignment = new HashMap<>();
         //this.uriClassAlignment = new HashMap<>();
@@ -77,7 +86,13 @@ public class Fusionner implements Serializable
         this.instCandidates = new ArrayList<>();
         this.classCandidates = new ArrayList<>();
         
-        this.mongodb = mongodb;
+        this.mongoDbs = mongoDbs;
+        this.mongodb = this.mongoDbs.get("mongodb");
+        this.mongoServer = this.mongoDbs.get("mongoServer");
+        this.mongoPort = Integer.parseInt(this.mongoDbs.get("mongoPort"));
+        
+        this.urisLabelsImp = urisLabelsImp;
+        this.urisRelImp = urisRelImp;
     }
     
     
@@ -100,12 +115,27 @@ public class Fusionner implements Serializable
         return ret;
     }
     
+    public ArrayList<Source> getSources()
+    {
+        return this.sources;
+    }
+    
+    public ArrayList<String> getImpRels()
+    {
+        return this.urisRelImp;
+    }
+    
+    public String getMongoDb(String db)
+    {
+        return this.mongoDbs.get(db);
+    }
+    
     private DBCollection connectMongo(String mongoCollection)
     {
         DBCollection collMongo = null;
         try
         {
-            MongoClient mongoClient = new MongoClient( "localhost" , 27017 );
+            MongoClient mongoClient = new MongoClient( this.mongoServer , this.mongoPort);
             DB db = mongoClient.getDB(this.mongodb);
            collMongo = db.getCollection(mongoCollection);
            collMongo.remove(new BasicDBObject());
@@ -116,6 +146,16 @@ public class Fusionner implements Serializable
             System.exit(0);
         }
         return collMongo;
+    }
+    
+    public void setDataPrologClass(StringBuilder dataPrologClass)
+    {
+        this.dataPrologClass = dataPrologClass;
+    }
+    
+    public void setDataPrologInd(StringBuilder dataPrologInd)
+    {
+        this.dataPrologInd = dataPrologInd;
     }
     
     
@@ -132,10 +172,12 @@ public class Fusionner implements Serializable
         return candidates;
     }
     
-    public ArrayList<ClassCandidate> computeClassCandidate(String mongoCollection, StringBuilder data)
+    public ArrayList<ClassCandidate> computeClassCandidate(String mongoDb)
     {
         ArrayList<ClassCandidate> ret;
+        String mongoCollection = this.getMongoDb(mongoDb);
         
+        int nbSources = this.sources.size();
         
         DBCollection collMongo = null;
         if(mongoCollection != null)
@@ -143,18 +185,19 @@ public class Fusionner implements Serializable
             collMongo = connectMongo(mongoCollection);
         }
         
-        CandidatSolver cs = new CandidatSolver(data);
-        ret = cs.getAllClassCandidates(this);
+        CandidatSolver cs = new CandidatSolver(this.dataPrologClass);
+        ret = cs.getAllClassCandidates(this, nbSources);
         int nbCand = ret.size();
         System.out.println("ClassCandidates generated : "+nbCand);
         this.classCandidates = ret;
         return ret;
     }
     
-     public ArrayList<IndividualCandidate> computeIndCandidate(String mongoCollection, StringBuilder data, int nbSources)
+     public ArrayList<IndividualCandidate> computeIndCandidate(String mongoDb)
     {
         ArrayList<IndividualCandidate> ret;
-        
+        String mongoCollection = this.mongoDbs.get(mongoDb);
+        int nbSources = this.sources.size();
         
         DBCollection collMongo = null;
         if(mongoCollection != null)
@@ -162,7 +205,7 @@ public class Fusionner implements Serializable
             collMongo = connectMongo(mongoCollection);
         }
         
-        CandidatSolver cs = new CandidatSolver(data);
+        CandidatSolver cs = new CandidatSolver(this.dataPrologInd);
         ret = cs.getAllIndCandidates(this, nbSources);
         int nbCand = ret.size();
         System.out.println("IndividualCandidates generated : "+nbCand);
@@ -228,6 +271,75 @@ public class Fusionner implements Serializable
         
         return ret;
     }
+    
+    
+    public ExtensionGlpkSolver initSolver(ArrayList<NodeCandidate> allCands)
+    {
+        ExtensionGlpkSolver solver = new ExtensionGlpkSolver();
+        solver.initProblem(allCands);
+        return solver;
+    }
+    
+    public Extension getNextExtension(ExtensionGlpkSolver solver)
+    {
+        Extension ext = null;
+        solver.updateDataFile();
+        if(solver.solve())
+        {
+            ext = solver.getSolution();
+            solver.freeMemory();
+            int i = 0;
+            System.out.println("New extension to validate ("+ext.getCandidates().size()+" candidates)");
+        }
+        
+        return ext;
+    }
+    
+    
+    public void computeTrustScore()
+    {
+        float nbSources = (float) this.sources.size();
+        for(NodeCandidate nc : this.getAllNodeCandidates())
+        {
+            nc.computeTrustScore(nbSources);
+        }
+    }
+    
+    /*public Extension getValidatedExtension(ArrayList<NodeCandidate> allCands)
+    {
+        
+        
+        
+        
+        boolean validatedExtensionFounded = false;
+        while(!validatedExtensionFounded)
+        {
+            
+            
+                
+            }
+            else
+            {
+                System.err.println("Error : no extension founded...");
+                ext = null;
+                validatedExtensionFounded = true;
+            }
+        }
+        
+        
+        if(validatedExtensionFounded && ext != null)
+        {
+            System.out.println("Best extension founded! ");
+            System.out.println(ext);
+        }
+        else
+        {
+            System.out.println("None extension exists with these constraints...");
+        }
+        
+        
+        return ext;
+    }*/
     
     
     public boolean isClassCandidate(String classUri, Source s)
@@ -311,7 +423,7 @@ public class Fusionner implements Serializable
         String ret = "";
         try 
         {
-            ret +=  IOUtils.toString( new FileInputStream(new File(owlFile)));
+            ret +=  IOUtils.toString( new FileInputStream(new FilePerso(owlFile)));
             //ret = ret.replaceAll("^@.+\\.$", "");   // remove Prefix (wrong syntax for SPARQL insert query)
         } 
         catch (IOException ex) 
@@ -401,6 +513,13 @@ public class Fusionner implements Serializable
         return ret;
     }
     
+    public ArrayList<NodeCandidate> getAllNodeCandidates()
+    {
+        ArrayList<NodeCandidate> ret = new ArrayList<>();
+        ret.addAll(this.instCandidates);
+        ret.addAll(this.classCandidates);
+        return ret;
+    }
     
     public void computeRelationCandidate(String mongoCollectionICHR, String relImp)
     {
@@ -410,70 +529,62 @@ public class Fusionner implements Serializable
            collMongo = connectMongo(mongoCollectionICHR);
         }
         int nbicHR = 0;
-        for(IndividualCandidate ic : this.instCandidates)
+        for(NodeCandidate nc : this.getAllNodeCandidates()) // for each node candidate nc
         {
             ArrayList<String> uriHigherRank = new ArrayList<>();
             boolean relValid = false;
-            for(Entry<Source, String> e : ic.getUriImplicate().entrySet())
+            for(Entry<Source, String> e : nc.getUriImplicate().entrySet()) // for each elem in nc
             {
                 boolean founded = false;
-                ArrayList<String> urisHR = e.getKey().getRelImportant(e.getValue(), relImp);
-                if(urisHR.size() > 0)
+                ArrayList<String> urisHR = e.getKey().getRelImportant(e.getValue(), relImp); // get all the uris from <nc> <relIm> <uriHR>
+                if(urisHR.size() > 0) // if uriHR exists (at least one)
                 {
-                    String uriHR = urisHR.get(0);
+                    String uriHR = urisHR.get(0); //consider all objectproperties functionnal (can't be 1:n)
                     
-                    for(IndividualCandidate icHR : this.getIndCandidateFromUriImplicate(uriHR, e.getKey()))
+                    for(NodeCandidate ncHR : this.getNodeCandidateFromUriImplicate(uriHR, e.getKey())) // get all node candidate wich uriHR is implicated
                     {
-                        relValid = true;
-                        founded = true;
+                        founded = false;
                         ArrayList<Source> sourcesHR = new ArrayList<>();
                         sourcesHR.add(e.getKey());
-                        for(Source s : ic.getUriImplicate().keySet())
+                        for(Source s : nc.getUriImplicate().keySet()) // for all sources in nc
                         {
-                            if(s != e.getKey() && relValid)
+                            if(s != e.getKey()) // if source is different from the initial founded ncHR source
                             {
-                                String uriIC = ic.getUriFromSource(s);
-                                String uriICHR = icHR.getUriFromSource(s);
-                                if(!s.isRelImportant(uriIC, relImp, uriICHR))
+                                String uriIC = nc.getUriFromSource(s);
+                                String uriICHR = ncHR.getUriFromSource(s);
+                                if(s.isRelImportant(uriIC, relImp, uriICHR)) // if <nc> <relImp> <uriICHR> exists (rel exsits in other source)
                                 {
-                                    relValid = false;
-                                    founded = false;
-                                }
-                                else
-                                {
-                                    sourcesHR.add(s);
+                                    sourcesHR.add(s); // add the source on the implied sources
+                                    founded = true;
                                 }
                             }
                         }
-                        if(relValid)
+                        //Create a new relation candidate for each nodecandidate whith the associated sourcesHR
+                        RelationCandidate relCandidate = new RelationCandidate(nc,relImp, ncHR, sourcesHR);
+                        //relCandidate.computeTrustScore(this.trustRcMax);
+                        //ic.addIcHR(icHR, sourcesHR);
+                        nc.addRelationCandidate(relCandidate);
+
+                        //this.icHRs.put(ic, icHR);
+                        nbicHR++;
+
+                         if(mongoCollectionICHR != null)
                         {
-                            RelationCandidate relCandidate = new RelationCandidate(relImp, ic, icHR, sourcesHR);
-                            relCandidate.computeTrustScore(this.trustRcMax);
-                            //ic.addIcHR(icHR, sourcesHR);
-                            ic.addRelCandidate(relCandidate);
-     
-                            //this.icHRs.put(ic, icHR);
-                            nbicHR++;
-                            
-                             if(mongoCollectionICHR != null)
+                            try
                             {
-                                try
-                                {
-                                      WriteResult wr =collMongo.insert(relCandidate.toDBObject());
-                                      this.nbMongoSaved ++;
-                                }
-                                catch(NullPointerException ex)
-                                {
-                                    System.err.println("ERROR Mongo Writer null ...");
-                                    System.err.println(ex);
-                                    //System.exit(0);
-                                }
+                                  WriteResult wr =collMongo.insert(relCandidate.toDBObject());
+                                  this.nbMongoSaved ++;
                             }
-                            break;
+                            catch(NullPointerException ex)
+                            {
+                                System.err.println("ERROR Mongo Writer null ...");
+                                System.err.println(ex);
+                                //System.exit(0);
+                            }
                         }
                     }
                 }
-                if(founded)
+                if(founded) // stop considering other implied elements of the initial candidate if relation has been found
                 {
                     break;
                 }
@@ -495,19 +606,21 @@ public class Fusionner implements Serializable
         return ret;
     }
     
-    private ArrayList<IndividualCandidate> getIndCandidateFromUriImplicate(String uriType, Source s)
+    private ArrayList<NodeCandidate> getNodeCandidateFromUriImplicate(String uriType, Source s)
     {
-        ArrayList<IndividualCandidate> ret = new ArrayList<>();
-        for(IndividualCandidate ic : this.instCandidates)
+        ArrayList<NodeCandidate> ret = new ArrayList<>();
+        for(NodeCandidate nc : this.getAllNodeCandidates())
         {
-            if(ic.hasElem(s, uriType))
+            if(nc.hasElem(s, uriType))
             {
-                ret.add(ic);
+                ret.add(nc);
             }
         }
         return ret;
     }
     
+    
+    //TODO change the uri of extracts elements (here irstea:taxon)
     public void computeTypeCandidate(String mongoCollectionType)
     {
         String relImp = "http://www.w3.org/1999/02/22-rdf-syntax-ns#type";
@@ -628,7 +741,7 @@ public class Fusionner implements Serializable
                         {
                             tc.addElem(eUriType.getKey(), eUriType.getValue());
                         }
-                        tc.computeTrustScore(trustTcMax);
+                        //tc.computeTrustScore(trustTcMax);
                         //ic.addTypeCandidate(uriTypeCandidate, uriType);
                         ic.addTypeCandidate(tc);
 
@@ -660,7 +773,7 @@ public class Fusionner implements Serializable
         System.out.println("NB tc : "+nbtc+" / "+this.instCandidates.size());
     }
     
-     private void mergeLabelCandidate(IndividualCandidate ic, ArrayList<LabelCandidate> lcs, String l1, Source s1, String l2, Source s2, float simValue, String dataProp)
+     private void mergeLabelCandidate(NodeCandidate nc, ArrayList<LabelCandidate> lcs, String l1, Source s1, String l2, Source s2, float simValue, String dataProp)
      {
         boolean founded = false;
         for(LabelCandidate lc : lcs)
@@ -682,7 +795,7 @@ public class Fusionner implements Serializable
         }
         if(!founded)
         {
-            LabelCandidate newLC = new LabelCandidate(ic, dataProp, this.getSumSQ());
+            LabelCandidate newLC = new LabelCandidate(nc, dataProp, this.getSumSQ());
             newLC.addElem(s1, l1);
             newLC.addElem(s2, l2);
             newLC.addValue(s1, simValue);
@@ -690,11 +803,11 @@ public class Fusionner implements Serializable
         }
      }
     
-     private ArrayList<LabelCandidate> generateLabelCandidate(String dataProp, IndividualCandidate ic)
+     private ArrayList<LabelCandidate> generateLabelCandidate(String dataProp, NodeCandidate nc)
      {
         HashMap<Source, ArrayList<String>> sourcesLabel = new HashMap<>();
         ArrayList<Source> sourcesInv= new ArrayList<>();
-        for(Entry<Source, String> e : ic.getUriImplicate().entrySet())
+        for(Entry<Source, String> e : nc.getUriImplicate().entrySet())
         {
             ArrayList<String> labels = e.getKey().getRelImportant(e.getValue(), dataProp);
             if(labels != null)
@@ -721,7 +834,7 @@ public class Fusionner implements Serializable
                            float simValue = (float)StringDistance.JaroWinkler(labelS1, labelS2);
                            if(simValue > 0.92)
                            {
-                               this.mergeLabelCandidate(ic, lcs, labelS1, s1, labelS2, s2, simValue, dataProp);
+                               this.mergeLabelCandidate(nc, lcs, labelS1, s1, labelS2, s2, simValue, dataProp);
                            }
                        }
                    }
@@ -731,29 +844,32 @@ public class Fusionner implements Serializable
         return lcs;
      }
     
-    public void computeLabelCandidate(String mongoCollectionLabels, ArrayList<String> urisLabels)
+    public void computeLabelCandidate(String mongoDb)
     {
+        
          DBCollection collMongo = null;
-        if(mongoCollectionLabels != null)
+        if(mongoDb != null)
         {
+            String mongoCollectionLabels = this.getMongoDb(mongoDb);
             collMongo = connectMongo(mongoCollectionLabels);
         }
-        for(IndividualCandidate ic : this.instCandidates)
+        ArrayList<NodeCandidate> allCands = this.getAllNodeCandidates();
+        for(NodeCandidate nc : allCands)
         {
-            for(String dataProp : urisLabels)
+            for(String dataProp : this.urisLabelsImp)
             {
-                ArrayList<LabelCandidate> lcs = this.generateLabelCandidate(dataProp, ic);
+                ArrayList<LabelCandidate> lcs = this.generateLabelCandidate(dataProp, nc);
                 if(lcs != null && lcs.size() > 0)
                 {
                     //ic.addLabelCandidates(dataProp, lcs);
-                    ic.addAllLabelsCandidate(lcs, trustLcMax, this.getSumSQ());
+                    nc.addAllLabelsCandidate(lcs, trustLcMax, this.getSumSQ());
                 }
             }
-            ic.clearLabelsCandidates();
-            if(mongoCollectionLabels != null)
+            nc.clearLabelsCandidates();
+            if(collMongo != null)
             {
                 ArrayList<String> lcTreated = new ArrayList<>();
-                 for(LabelCandidate lc : ic.getLabelCandidates())
+                 for(LabelCandidate lc : nc.getLabelCandidates())
                  {
                     try
                     {
@@ -838,7 +954,13 @@ public class Fusionner implements Serializable
         this.trustLcMax = this.getLcTrustMax();
         this.trustCcMax = this.getCcTrustMax();
         
+        this.dataPrologSources = sData;
         return sData;
+    }
+    
+    public String getDataPrologSources()
+    {
+        return this.dataPrologSources;
     }
     
     public float getIcTrustMax()

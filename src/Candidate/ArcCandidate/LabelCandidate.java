@@ -68,6 +68,7 @@ public class LabelCandidate extends ArcCandidate
         return doc;
     }
 
+    @Override
      public String getUriOntObj(String baseUri)
     {
         String ret = "";

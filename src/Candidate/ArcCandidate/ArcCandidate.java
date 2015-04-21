@@ -41,13 +41,13 @@ public abstract class ArcCandidate extends Candidate
     {
         String ret = super.toString();
         
-        ret += "\t --> Type : "+this.dataProperty+"\n";
-        ret += "\t\t (Simple : "+this.trustSimpleScore+" | Degree : "+this.trustDegreeScore+") ------- \n";
+        /*ret += "\t --> Type : "+this.dataProperty+"(Simple : "+this.trustSimpleScore+" | Degree : "+this.trustDegreeScore+")\n";
+        ret += "\t\t ------- \n";
         for(Map.Entry<Source, String> el : this.uriImplicate.entrySet())
         {
             ret += "\t\t "+el.getKey().getName()+" -> "+el.getValue()+"\n";
         }
-        ret +="\t\t --------- \n";
+        ret +="\t\t ------- \n";*/
         
         return ret;
     }
@@ -55,8 +55,8 @@ public abstract class ArcCandidate extends Candidate
     @Override
     public BasicDBObject toDBObject()
     {
-        BasicDBObject doc = new BasicDBObject();
-        ArrayList<BasicDBObject> icBDBO = new ArrayList<>();
+        BasicDBObject doc = super.toDBObject();
+        /*ArrayList<BasicDBObject> icBDBO = new ArrayList<>();
         for(Map.Entry<Source, String> icE: this.fromCandidate.getUriImplicate().entrySet())
         {
             BasicDBObject icObj = new BasicDBObject();
@@ -64,13 +64,12 @@ public abstract class ArcCandidate extends Candidate
             icObj.append("uri", icE.getValue());
             icBDBO.add(icObj);
         }
-        doc.append("ic", icBDBO);
-
+        doc.append("ic", icBDBO);*/
+         
         doc.append("type", this.dataProperty);
 
         //System.out.println("TEST : "+this.getTrustScore());
         doc.append("trustScore", this.getTrustScore());
-        doc.append("trustScoreSimple", this.trustSimpleScore);
         
         return doc;
     }
