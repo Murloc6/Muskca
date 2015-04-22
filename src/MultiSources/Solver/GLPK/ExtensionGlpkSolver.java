@@ -7,6 +7,7 @@ package MultiSources.Solver.GLPK;
 
 import Candidate.NodeCandidate.NodeCandidate;
 import MultiSources.Extension;
+import MultiSources.Fusionner;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
@@ -30,8 +31,9 @@ public class ExtensionGlpkSolver extends GlpkSolver
 
     private HashMap<String, NodeCandidate> allCands;
     
-    private int[] costs;
+    private float[] trust;
     private int[][] conflicts;
+    private float[][] trustArc;
     private int[] defined;
     
     private String dataTemp="";
@@ -79,30 +81,51 @@ public class ExtensionGlpkSolver extends GlpkSolver
         File f = new FilePerso("out/temp/glpk_solver_data.dat");
         this.dataFileName = f.getAbsolutePath();
 
-        this.dataTemp += "param n:="+costs.length+";\n";
+        this.dataTemp += "param n:="+trust.length+";\n";
         
-        this.dataTemp += "param cost:= ";
-        for(int i = 1; i<= costs.length; i++)
+        this.dataTemp += "param trust:= ";
+        for(int i = 1; i<= trust.length; i++)
         {
-            this.dataTemp += " "+i+" "+this.costs[i-1];
+            this.dataTemp += " "+i+" "+this.trust[i-1];
         }
         this.dataTemp+=";\n";
 
         this.dataTemp += "param conflict\n";
         this.dataTemp += "\t:";
-        for(int i = 1; i<=costs.length; i++)
+        for(int i = 1; i<=trust.length; i++)
         {
             this.dataTemp += " "+i;
         }
         this.dataTemp += ":=\n";
-        for(int i = 1; i<=costs.length; i++)
+        for(int i = 1; i<=trust.length; i++)
         {
             this.dataTemp += "\t"+i;
-            for(int j = 1; j<= costs.length; j++)
+            for(int j = 1; j<= trust.length; j++)
             {
                 this.dataTemp += " "+conflicts[i-1][j-1];
             }
-            if(i == costs.length)
+            if(i == trust.length)
+            {
+                this.dataTemp+=";";
+            }
+            this.dataTemp += "\n";
+        }
+        
+        this.dataTemp += "param trustArc\n";
+        this.dataTemp += "\t:";
+        for(int i = 1; i<=trust.length; i++)
+        {
+            this.dataTemp += " "+i;
+        }
+        this.dataTemp += ":=\n";
+        for(int i = 1; i<=trust.length; i++)
+        {
+            this.dataTemp += "\t"+i;
+            for(int j = 1; j<= trust.length; j++)
+            {
+                this.dataTemp += " "+trustArc[i-1][j-1];
+            }
+            if(i == trust.length)
             {
                 this.dataTemp+=";";
             }
@@ -110,25 +133,19 @@ public class ExtensionGlpkSolver extends GlpkSolver
         }
     }
     
-    public void initProblem(ArrayList<NodeCandidate> initCands) 
+    public void initProblem(ArrayList<NodeCandidate> initCands, Fusionner fusionner) 
     {
         for(int i = 1; i<=initCands.size(); i++)
         {
             NodeCandidate nc = initCands.get(i-1);
-            nc.setId(i);
-            this.allCands.put(""+i, initCands.get(i-1));
+            //nc.setId(i);
+            this.allCands.put(""+nc.getId(), initCands.get(i-1));
         }
-        costs = new int[initCands.size()];
-        Arrays.fill(costs, 1);
         
         defined = new int[initCands.size()];
         Arrays.fill(defined, -1);
         
-        conflicts = new int[initCands.size()][initCands.size()];
-        for(int[] a : conflicts)
-        {
-            Arrays.fill(a, 0);
-        }
+        
         /*conflicts[0][1] = 1; conflicts[1][0] = 1;
         conflicts[0][4] = 1; conflicts[4][0] = 1;
         conflicts[1][4] = 1; conflicts[1][4] = 1;
@@ -148,12 +165,21 @@ public class ExtensionGlpkSolver extends GlpkSolver
         conflicts[4][5] = 1; conflicts[5][4] = 1;*/
         int nbConflict = 0;
         int nbTotal = 0;
+        trust = new float[initCands.size()];
+        trustArc = new float[initCands.size()][initCands.size()];
+        conflicts = new int[initCands.size()][initCands.size()];
+        for(int[] a : conflicts)
+        {
+            Arrays.fill(a, 0);
+        }
         for(int i = 0; i< initCands.size(); i++)
         {
+            NodeCandidate nc = initCands.get(i);
+            trust[i] = nc.getTrustScore()+nc.getSumArcCandIntr();
             for(int j = i+1; j < initCands.size(); j++)
             {
-                NodeCandidate nc = initCands.get(i);
                 NodeCandidate nc2 = initCands.get(j);
+                trustArc[i][j] = nc.getSumArcCandImplied(nc2)+nc2.getSumArcCandImplied(nc);
                 nbTotal ++;
                 if(!nc.isCompatible(nc2))
                 {
@@ -205,7 +231,7 @@ public class ExtensionGlpkSolver extends GlpkSolver
                 }
             }     
         }
-        
+        ext.sortCandidates();
         return ext;
     }
     

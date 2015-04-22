@@ -56,13 +56,8 @@ public class TypeCandidate extends ArcCandidate
         }
         else
         {
-            ret += this.uriTypeCandidate+"(";
+            ret += "\t\t"+this.uriTypeCandidate+"\n";
         }
-       for(Source s : this.uriImplicate.keySet())
-       {
-           ret += s.getName()+",";
-       }
-       ret += ") \n";
 
        return ret;
     }

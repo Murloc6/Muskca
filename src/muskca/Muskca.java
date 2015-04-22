@@ -56,7 +56,12 @@ public class Muskca
         String baseUriMuskca = outputParams.get("baseUri")+projectName+"/";
 
         HashMap<String, String> fusionnerParams = params.getSubParams("fusionner");
-        Fusionner fusionner = new Fusionner(mongoDbs, urisLabelsImp, urisRelImp);
+        
+        String uriTypeBase = params.getParam("uriTypeBase");
+        ArrayList<String> urisTypeImp = params.getArrayParams("uriTypeImps");
+        
+        
+        Fusionner fusionner = new Fusionner(mongoDbs, urisLabelsImp, urisRelImp, uriTypeBase, urisTypeImp);
         String dataProlog = fusionner.initPrologSources(sources);
         
         return fusionner;

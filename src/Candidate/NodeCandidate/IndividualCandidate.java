@@ -6,6 +6,8 @@
 
 package Candidate.NodeCandidate;
 
+import Candidate.ArcCandidate.ArcCandidate;
+import Candidate.ArcCandidate.LabelCandidate;
 import Candidate.ArcCandidate.RelationCandidate;
 import Candidate.ArcCandidate.TypeCandidate;
 import Source.Source;
@@ -21,22 +23,20 @@ public class IndividualCandidate extends NodeCandidate
     private static int numInstGlob = 1;
     private int numInst = -1;
 
-    
-    private ArrayList<RelationCandidate> relCands;
     private ArrayList<TypeCandidate> typeCands;
+    private ArrayList<RelationCandidate> relCands;
     
     public IndividualCandidate()
     {
         super();
-       
-        this.relCands = new ArrayList<>();
         this.typeCands = new ArrayList<>();
+        this.relCands = new ArrayList<>();
     }
     
-    public void addRelCandidate(RelationCandidate relC)
-    {
-        this.relCands.add(relC);
-    }
+//    public void addRelCandidate(RelationCandidate relC)
+//    {
+//        this.relCands.add(relC);
+//    }
     
     
     public void addTypeCandidate(TypeCandidate typeC)
@@ -44,7 +44,58 @@ public class IndividualCandidate extends NodeCandidate
         this.typeCands.add(typeC);
     }
     
+    public void addRelationCandidate(RelationCandidate rc)
+    {
+        boolean isPresent = false;
+        for(RelationCandidate relCand : this.relCands)
+        {
+            if(rc.isSameCand(relCand))
+            {
+                isPresent = true;
+                break;
+            }
+        }
+        if(!isPresent)
+            this.relCands.add(rc);
+    }
     
+    @Override
+    public ArrayList<ArcCandidate> getAllArcCandidates()
+    {
+        ArrayList<ArcCandidate> ret = super.getAllArcCandidates();
+        ret.addAll(this.typeCands);
+        ret.addAll(this.relCands);
+        return ret;
+    }
+    
+    @Override
+    public float getSumArcCandIntr()
+    {
+        float ret = super.getSumArcCandIntr();
+        for(TypeCandidate tc : this.typeCands)
+        {
+            ret += tc.getTrustScore();
+        }
+        return ret;
+    }
+    
+        public float getSumArcCandImplied(NodeCandidate nc)
+    {
+        float ret = super.getSumArcCandImplied(nc);
+        for(RelationCandidate rc : this.relCands)
+        {
+            if(rc.isToNc(nc))
+            {
+                ret += rc.getTrustScore();
+//                System.out.println("RC trust score ---------------------------------------");
+//                System.out.println(this.toString());
+//                System.out.println(nc.toString());
+//                System.out.println(rc.toString());
+//                System.out.println("---------------------------------------------------------------------");
+            }
+        }
+        return ret;
+    }
     
     @Override
     public String toString()
@@ -59,16 +110,13 @@ public class IndividualCandidate extends NodeCandidate
                 ret += tc.toString();
             }
         }
-        
-        if(this.relCands.size() > 0)
+        if(this.relCands.size()>0)
         {
-            ret += "\t Relation Candidate : \n";
             for(RelationCandidate rc : this.relCands)
             {
-                ret += rc.toString();
+                ret += "\t"+rc.toString();
             }
         }
-        
         return ret;
     }
     
@@ -124,15 +172,15 @@ public class IndividualCandidate extends NodeCandidate
             }
         }
         
-        if(this.relCands.size() > 0)
-        {
-            int numRel = 1;
-            for(RelationCandidate rc : this.relCands)
-            {
-                ret += rc.toProvO(baseUri, numRel, this.numInst, sourcesUri, this.uriImplicate,  this.uriOntObj, uriKbMerge);
-                numRel++;
-            }
-        }
+//        if(this.relCands.size() > 0)
+//        {
+//            int numRel = 1;
+//            for(RelationCandidate rc : this.relCands)
+//            {
+//                ret += rc.toProvO(baseUri, numRel, this.numInst, sourcesUri, this.uriImplicate,  this.uriOntObj, uriKbMerge);
+//                numRel++;
+//            }
+//        }
         
         return ret;
     }

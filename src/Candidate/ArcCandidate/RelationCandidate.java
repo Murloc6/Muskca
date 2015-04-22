@@ -33,19 +33,30 @@ public class RelationCandidate extends ArcCandidate
         super(ncFrom, relImp);
         this.ncTo = ncTo;
         this.sourcesImpl = sourcesImpl;
+        for(Source s : sourcesImpl)
+        {
+            String uriSubject = ncFrom.getUriFromSource(s);
+            String uriObject = ncTo.getUriFromSource(s);
+            this.addElem(s, uriSubject+" "+relImp+" "+uriObject);
+        }
     }
     
-    @Override
-    public String toString() {
-        String ret = super.toString();
-        ret += "\t\t ---- TO ---- \n";
-        for(Entry<Source, String> e : this.ncTo.getUriImplicate().entrySet())
-        {
-            ret += "\t\t"+e.getKey().getName()+" -> "+e.getValue()+"\n";
-        }
-
-        return ret;
+    public boolean isToNc(NodeCandidate nc)
+    {
+        return this.ncTo == nc;
     }
+    
+//    @Override
+//    public String toString() {
+//        String ret = super.toString();
+//        ret += "\t\t ---- TO ---- \n";
+//        for(Entry<Source, String> e : this.ncTo.getUriImplicate().entrySet())
+//        {
+//            ret += "\t\t"+e.getKey().getName()+" -> "+e.getValue()+"\n";
+//        }
+//
+//        return ret;
+//    }
 
     @Override
     public BasicDBObject toDBObject() 

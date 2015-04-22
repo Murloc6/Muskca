@@ -26,7 +26,6 @@ public abstract class NodeCandidate extends Candidate
     private ArrayList<Alignment> aligns;
     
     private ArrayList<LabelCandidate> labelCands;
-    private ArrayList<RelationCandidate> relCands;
     
     private static int curId = 0;
     
@@ -43,7 +42,6 @@ public abstract class NodeCandidate extends Candidate
         NodeCandidate.curId++;
         this.aligns = new ArrayList<>();
         this.labelCands = new ArrayList<>();
-        this.relCands = new ArrayList<>();
     }
     
     public void setId(int id)
@@ -75,11 +73,6 @@ public abstract class NodeCandidate extends Candidate
     public void addLabelCandidate(LabelCandidate labelC)
     {
         this.labelCands.add(labelC);
-    }
-    
-    public void addRelationCandidate(RelationCandidate rc)
-    {
-        this.relCands.add(rc);
     }
     
     public void addAllLabelsCandidate(ArrayList<LabelCandidate> labelCs, float trustLcMax, float sumSQ)
@@ -132,7 +125,22 @@ public abstract class NodeCandidate extends Candidate
     {
         ArrayList<ArcCandidate> ret = new ArrayList<>();
         ret.addAll(this.labelCands);
-        ret.addAll(this.relCands);
+        return ret;
+    }
+    
+    public float getSumArcCandIntr()
+    {
+        float ret = 0;
+        for(LabelCandidate lc : this.labelCands)
+        {
+            ret += lc.getTrustScore();
+        }
+        return ret;
+    }
+    
+    public float getSumArcCandImplied(NodeCandidate nc)
+    {
+        float ret = 0;
         return ret;
     }
     
@@ -148,6 +156,7 @@ public abstract class NodeCandidate extends Candidate
         this.trustDegreeScore = trustDegree/nbMaxCouple;
     }
     
+    @Override
     public void computeTrustScore(float nbSources)
     {
         super.computeTrustScore(nbSources);
@@ -183,7 +192,7 @@ public abstract class NodeCandidate extends Candidate
         {
             ret += "\t \t *** "+a.getUri()+" -->"+a.getUriAlign()+" ("+a.getValue()+") \n";
         }
-        
+        ret += "\t arcImpl : "+this.getSumArcCandIntr()+"\n";
         if(this.labelCands.size() > 0)
         {
              for(LabelCandidate lc : this.labelCands)
@@ -191,7 +200,6 @@ public abstract class NodeCandidate extends Candidate
                  ret += "\t"+lc.toString();
              }
         }
-        
         return ret;
     }
     
@@ -274,6 +282,8 @@ public abstract class NodeCandidate extends Candidate
                  numLabel ++;
              }
         }
+         
+         //TODO add relation candidates here
         
         return ret;
     }

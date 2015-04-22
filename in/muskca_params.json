@@ -24,13 +24,17 @@
   ],
   "relImps" :
   [
-    "http://ontology.irstea.fr/AgronomicTaxon#hasHigherRank",
-    "http://www.w3.org/2000/01/rdf-schema#type"
+    "http://ontology.irstea.fr/AgronomicTaxon#hasHigherRank"
   ],
   "labelRelImps" :
   [
     "http://ontology.irstea.fr/AgronomicTaxon#hasScientificName",
     "http://ontology.irstea.fr/AgronomicTaxon#hasVernacularName"
+  ],
+  "uriTypeBase" : "http://ontology.irstea.fr/AgronomicTaxon",
+  "uriTypeImps" : 
+  [
+  	"http://ontology.irstea.fr/AgronomicTaxon#Taxon"
   ],
   "mongoDbs" :
   {

@@ -1,15 +1,16 @@
 param n>0 integer; /* the number candidate*/
 set I := 1..n;
-param cost{i in I};
+param trust{i in I};
 param conflict{ i in I, j in I};#1 si confi
+param trustArc{i in I, j in I}; # sum arc cands trust shared
 param defined{i in I};
 
 /* Decision variables */
 var x{i in I},  binary; #zero si selectionne 1 sinon
-var test{i in I};
 
 /* Objective function */
-maximize z: sum{i in I}cost[i]*x[i];
+/* maximize z: sum{i in I}trust[i]*x[i];*/
+maximize z: sum{i in I}(trust[i]*x[i]+sum{j in I: j>i}trustArc[i, j]*x[j]);
 
 /* Constraints */
 s.t.Cconfict{i in I, j in I}:conflict[i,j]*(x[i]+x[j])<=1;

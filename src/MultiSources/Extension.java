@@ -8,6 +8,8 @@ package MultiSources;
 import Candidate.NodeCandidate.NodeCandidate;
 import com.mongodb.BasicDBObject;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 /**
  *
@@ -36,6 +38,20 @@ public class Extension
     public ArrayList<NodeCandidate> getCandidates()
     {
         return this.candidates;
+    }
+    
+    public void sortCandidates()
+    {
+        Collections.sort(this.candidates, new Comparator<NodeCandidate>() {
+            @Override
+            public int compare(NodeCandidate  nc1, NodeCandidate  nc2)
+            {
+                float nc1Trust = nc1.getTrustScore()+nc1.getSumArcCandIntr();
+                float nc2Trust = nc2.getTrustScore()+nc2.getSumArcCandIntr();
+                return (nc1Trust < nc2Trust ? 1 :(nc1Trust == nc2Trust ? 0 : -1));
+            }
+        });
+
     }
     
     public String toString()

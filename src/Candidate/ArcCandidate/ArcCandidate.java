@@ -37,20 +37,20 @@ public abstract class ArcCandidate extends Candidate
         return this.dataProperty;
     }
     
-    public String toString()
-    {
-        String ret = super.toString();
-        
-        /*ret += "\t --> Type : "+this.dataProperty+"(Simple : "+this.trustSimpleScore+" | Degree : "+this.trustDegreeScore+")\n";
-        ret += "\t\t ------- \n";
-        for(Map.Entry<Source, String> el : this.uriImplicate.entrySet())
-        {
-            ret += "\t\t "+el.getKey().getName()+" -> "+el.getValue()+"\n";
-        }
-        ret +="\t\t ------- \n";*/
-        
-        return ret;
-    }
+//    public String toString()
+//    {
+//        String ret = super.toString();
+//        
+//        /*ret += "\t --> Type : "+this.dataProperty+"(Simple : "+this.trustSimpleScore+" | Degree : "+this.trustDegreeScore+")\n";
+//        ret += "\t\t ------- \n";
+//        for(Map.Entry<Source, String> el : this.uriImplicate.entrySet())
+//        {
+//            ret += "\t\t "+el.getKey().getName()+" -> "+el.getValue()+"\n";
+//        }
+//        ret +="\t\t ------- \n";*/
+//        
+//        return ret;
+//    }
     
     @Override
     public BasicDBObject toDBObject()

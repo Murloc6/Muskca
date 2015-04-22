@@ -69,6 +69,23 @@ public abstract class Candidate
         }
     }
     
+    public boolean isSameCand(Candidate c)
+    {
+        boolean ret = true;
+        
+        for(Entry<Source, String> e : this.uriImplicate.entrySet())
+        {
+            String uriTest = c.getUriFromSource(e.getKey());
+            if(uriTest == null || uriTest.compareTo(e.getValue()) != 0)
+            {
+                ret = false;
+                break;
+            }
+        }
+        
+        return ret;
+    }
+    
     private double lambdaCompute(float x, float x0, float gamma)
     {
         return Math.atan((x-x0)/gamma);

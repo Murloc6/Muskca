@@ -71,6 +71,8 @@ public class Fusionner implements Serializable
     
     private ArrayList<String> urisLabelsImp;
     private ArrayList<String> urisRelImp;
+    private String uriTypeBase;
+    private ArrayList<String> urisTypeImp;
     
     private int idAlign = 0;
     private int idClassAlign = 0;
@@ -78,7 +80,7 @@ public class Fusionner implements Serializable
     public int nbMongoSaved = 0;
     
     
-    public Fusionner(HashMap<String, String> mongoDbs, ArrayList<String> urisLabelsImp, ArrayList<String> urisRelImp)
+    public Fusionner(HashMap<String, String> mongoDbs, ArrayList<String> urisLabelsImp, ArrayList<String> urisRelImp, String uriTypeBase, ArrayList<String> urisTypeImp)
     {
         //this.uriAlignment = new HashMap<>();
         //this.uriClassAlignment = new HashMap<>();
@@ -276,7 +278,7 @@ public class Fusionner implements Serializable
     public ExtensionGlpkSolver initSolver(ArrayList<NodeCandidate> allCands)
     {
         ExtensionGlpkSolver solver = new ExtensionGlpkSolver();
-        solver.initProblem(allCands);
+        solver.initProblem(allCands, this);
         return solver;
     }
     
@@ -290,6 +292,7 @@ public class Fusionner implements Serializable
             solver.freeMemory();
             int i = 0;
             System.out.println("New extension to validate ("+ext.getCandidates().size()+" candidates)");
+            System.out.println(ext);
         }
         
         return ext;
@@ -303,6 +306,14 @@ public class Fusionner implements Serializable
         {
             nc.computeTrustScore(nbSources);
         }
+    }
+    
+    public float getSumArcTrust(NodeCandidate nc1, NodeCandidate nc2)
+    {
+        float ret = 0;
+        
+        
+        return ret;
     }
     
     /*public Extension getValidatedExtension(ArrayList<NodeCandidate> allCands)
@@ -529,11 +540,11 @@ public class Fusionner implements Serializable
            collMongo = connectMongo(mongoCollectionICHR);
         }
         int nbicHR = 0;
-        for(NodeCandidate nc : this.getAllNodeCandidates()) // for each node candidate nc
+        for(IndividualCandidate ic : this.instCandidates) // for each node candidate nc
         {
             ArrayList<String> uriHigherRank = new ArrayList<>();
             boolean relValid = false;
-            for(Entry<Source, String> e : nc.getUriImplicate().entrySet()) // for each elem in nc
+            for(Entry<Source, String> e : ic.getUriImplicate().entrySet()) // for each elem in nc
             {
                 boolean founded = false;
                 ArrayList<String> urisHR = e.getKey().getRelImportant(e.getValue(), relImp); // get all the uris from <nc> <relIm> <uriHR>
@@ -546,11 +557,11 @@ public class Fusionner implements Serializable
                         founded = false;
                         ArrayList<Source> sourcesHR = new ArrayList<>();
                         sourcesHR.add(e.getKey());
-                        for(Source s : nc.getUriImplicate().keySet()) // for all sources in nc
+                        for(Source s : ic.getUriImplicate().keySet()) // for all sources in nc
                         {
                             if(s != e.getKey()) // if source is different from the initial founded ncHR source
                             {
-                                String uriIC = nc.getUriFromSource(s);
+                                String uriIC = ic.getUriFromSource(s);
                                 String uriICHR = ncHR.getUriFromSource(s);
                                 if(s.isRelImportant(uriIC, relImp, uriICHR)) // if <nc> <relImp> <uriICHR> exists (rel exsits in other source)
                                 {
@@ -560,26 +571,29 @@ public class Fusionner implements Serializable
                             }
                         }
                         //Create a new relation candidate for each nodecandidate whith the associated sourcesHR
-                        RelationCandidate relCandidate = new RelationCandidate(nc,relImp, ncHR, sourcesHR);
-                        //relCandidate.computeTrustScore(this.trustRcMax);
-                        //ic.addIcHR(icHR, sourcesHR);
-                        nc.addRelationCandidate(relCandidate);
-
-                        //this.icHRs.put(ic, icHR);
-                        nbicHR++;
-
-                         if(mongoCollectionICHR != null)
+                        if( sourcesHR.size() > 1)
                         {
-                            try
+                            RelationCandidate relCandidate = new RelationCandidate(ic,relImp, ncHR, sourcesHR);
+                            //relCandidate.computeTrustScore(this.trustRcMax);
+                            //ic.addIcHR(icHR, sourcesHR);
+                            ic.addRelationCandidate(relCandidate);
+
+                            //this.icHRs.put(ic, icHR);
+                            nbicHR++;
+
+                             if(mongoCollectionICHR != null)
                             {
-                                  WriteResult wr =collMongo.insert(relCandidate.toDBObject());
-                                  this.nbMongoSaved ++;
-                            }
-                            catch(NullPointerException ex)
-                            {
-                                System.err.println("ERROR Mongo Writer null ...");
-                                System.err.println(ex);
-                                //System.exit(0);
+                                try
+                                {
+                                      WriteResult wr =collMongo.insert(relCandidate.toDBObject());
+                                      this.nbMongoSaved ++;
+                                }
+                                catch(NullPointerException ex)
+                                {
+                                    System.err.println("ERROR Mongo Writer null ...");
+                                    System.err.println(ex);
+                                    //System.exit(0);
+                                }
                             }
                         }
                     }
@@ -648,7 +662,7 @@ public class Fusionner implements Serializable
                         if(uriTypeCandidate.startsWith("http://ontology.irstea.fr/AgronomicTaxon"))
                         {
                             uriType = new HashMap<>();
-                            uriType.put(e.getKey(), "");
+                            uriType.put(e.getKey(), e.getValue()+" "+relImp+" "+uriTypeCandidate);
                             relValid = true;
                             //System.out.println("TEST : "+uriTypeCandidate);
                             for(Entry<Source, String> elem : ic.getUriImplicate().entrySet())
@@ -674,7 +688,7 @@ public class Fusionner implements Serializable
                                         }
                                         else
                                         {
-                                            uriType.put(s, "");
+                                            uriType.put(s, elem.getValue()+" "+relImp+" "+uriTypeCandidate);
                                         }
                                     }
                                 }
