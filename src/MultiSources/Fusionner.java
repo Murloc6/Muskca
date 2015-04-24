@@ -95,6 +95,8 @@ public class Fusionner implements Serializable
         
         this.urisLabelsImp = urisLabelsImp;
         this.urisRelImp = urisRelImp;
+        this.uriTypeBase = uriTypeBase;
+        this.urisTypeImp = urisTypeImp;
     }
     
     
@@ -189,8 +191,36 @@ public class Fusionner implements Serializable
         
         CandidatSolver cs = new CandidatSolver(this.dataPrologClass);
         ret = cs.getAllClassCandidates(this, nbSources);
+        
+         ArrayList<ClassCandidate> aloneCands = new ArrayList<>();
+        
+        System.out.println("Start considering the alone class candidates (so sad!)");
+        for(Source s : this.sources)
+        {
+            ArrayList<String> uriAlones = s.getAllClassUris(this.uriTypeBase);
+            for(String uriAlone : uriAlones)
+            {
+                boolean isAlreadyImplied = false;
+                for(ClassCandidate cc : ret)
+                {
+                    if(cc.hasElem(s, uriAlone))
+                    {
+                       isAlreadyImplied = true;
+                       break;
+                    }
+                }
+                if(!isAlreadyImplied)
+                {
+                    ClassCandidate aloneCc = new ClassCandidate();
+                    aloneCc.addElem(s, uriAlone);
+                    aloneCands.add(aloneCc);
+                }
+            }
+        }
+        ret.addAll(aloneCands);
+        
         int nbCand = ret.size();
-        System.out.println("ClassCandidates generated : "+nbCand);
+        System.out.println("ClassCandidates generated : "+nbCand+" ("+aloneCands.size()+" alone cands)");
         this.classCandidates = ret;
         return ret;
     }
@@ -209,8 +239,38 @@ public class Fusionner implements Serializable
         
         CandidatSolver cs = new CandidatSolver(this.dataPrologInd);
         ret = cs.getAllIndCandidates(this, nbSources);
+        
+        ArrayList<IndividualCandidate> aloneCands = new ArrayList<>();
+        
+        System.out.println("Start considering the alone individuals candidates (so sad!)");
+        for(Source s : this.sources)
+        {
+            for(String uriClassInd : this.urisTypeImp)
+            {
+                ArrayList<String> uriAlones = s.getAllIndividualUris(uriClassInd);
+                for(String uriAlone : uriAlones)
+                {
+                    boolean isAlreadyImplied = false;
+                    for(IndividualCandidate ic : ret)
+                    {
+                        if(ic.hasElem(s, uriAlone))
+                        {
+                           isAlreadyImplied = true;
+                           break;
+                        }
+                    }
+                    if(!isAlreadyImplied)
+                    {
+                        IndividualCandidate aloneIc = new IndividualCandidate();
+                        aloneIc.addElem(s, uriAlone);
+                        aloneCands.add(aloneIc);
+                    }
+                }
+            }
+        }
+        ret.addAll(aloneCands);
         int nbCand = ret.size();
-        System.out.println("IndividualCandidates generated : "+nbCand);
+        System.out.println("IndividualCandidates generated : "+nbCand+" ("+aloneCands.size()+" alone cands)");
         this.instCandidates = ret;
         return ret;
     }
@@ -292,7 +352,7 @@ public class Fusionner implements Serializable
             solver.freeMemory();
             int i = 0;
             System.out.println("New extension to validate ("+ext.getCandidates().size()+" candidates)");
-            System.out.println(ext);
+            //System.out.println(ext);
         }
         
         return ext;
@@ -301,7 +361,7 @@ public class Fusionner implements Serializable
     
     public void computeTrustScore()
     {
-        float nbSources = (float) this.sources.size();
+        int nbSources =  this.sources.size();
         for(NodeCandidate nc : this.getAllNodeCandidates())
         {
             nc.computeTrustScore(nbSources);
@@ -571,15 +631,16 @@ public class Fusionner implements Serializable
                             }
                         }
                         //Create a new relation candidate for each nodecandidate whith the associated sourcesHR
-                        if( sourcesHR.size() > 1)
-                        {
+                        //if( sourcesHR.size() > 1)
+                        //{
                             RelationCandidate relCandidate = new RelationCandidate(ic,relImp, ncHR, sourcesHR);
                             //relCandidate.computeTrustScore(this.trustRcMax);
                             //ic.addIcHR(icHR, sourcesHR);
-                            ic.addRelationCandidate(relCandidate);
-
+                            if(ic.addRelationCandidate(relCandidate))
+                            {
+                                nbicHR++;
+                            }
                             //this.icHRs.put(ic, icHR);
-                            nbicHR++;
 
                              if(mongoCollectionICHR != null)
                             {
@@ -595,7 +656,7 @@ public class Fusionner implements Serializable
                                     //System.exit(0);
                                 }
                             }
-                        }
+                        //}
                     }
                 }
                 if(founded) // stop considering other implied elements of the initial candidate if relation has been found
@@ -633,8 +694,6 @@ public class Fusionner implements Serializable
         return ret;
     }
     
-    
-    //TODO change the uri of extracts elements (here irstea:taxon)
     public void computeTypeCandidate(String mongoCollectionType)
     {
         String relImp = "http://www.w3.org/1999/02/22-rdf-syntax-ns#type";
@@ -646,136 +705,71 @@ public class Fusionner implements Serializable
         int nbtc = 0;
         for(IndividualCandidate ic : this.instCandidates)
         {
-            HashMap<Source, String> uriType = null;
-            String uriTypeCandidate = "";
             boolean relValid = false;
             for(Entry<Source, String> e : ic.getUriImplicate().entrySet())
             {
                 boolean founded = false;
                 ArrayList<String> urisType = e.getKey().getRelImportant(e.getValue(), relImp);
-                if(urisType.size() > 0)
+                for(String uriTypeCandidate : urisType)
                 {
-                    uriTypeCandidate = urisType.get(0);
-                    ClassCandidate cc = null;
-                    if(uriTypeCandidate.compareTo("http://ontology.irstea.fr/AgronomicTaxon#Taxon") != 0)
+                    //System.out.println(uriTypeCandidate);
+                    if(uriTypeCandidate.startsWith(this.uriTypeBase))
                     {
-                        if(uriTypeCandidate.startsWith("http://ontology.irstea.fr/AgronomicTaxon"))
+                        HashMap<Source, String> uriType = new HashMap<>();
+                        uriType.put(e.getKey(), e.getValue()+" "+relImp+" "+uriTypeCandidate);
+                        relValid = true;
+                        //System.out.println("TEST : "+uriTypeCandidate);
+                        for(Entry<Source, String> elem : ic.getUriImplicate().entrySet())
                         {
-                            uriType = new HashMap<>();
-                            uriType.put(e.getKey(), e.getValue()+" "+relImp+" "+uriTypeCandidate);
-                            relValid = true;
-                            //System.out.println("TEST : "+uriTypeCandidate);
-                            for(Entry<Source, String> elem : ic.getUriImplicate().entrySet())
+                            Source s = elem.getKey();
+                            if(s != e.getKey() && relValid)
                             {
-                                Source s = elem.getKey();
-                                if(s != e.getKey() && relValid)
+                                ArrayList<String> testUri = elem.getKey().getRelImportant(elem.getValue(), relImp);
+                                String otherTypeUri = null;
+                                if(testUri != null && !testUri.isEmpty())
                                 {
-                                    ArrayList<String> testUri = elem.getKey().getRelImportant(elem.getValue(), relImp);
-                                    String otherTypeUri = null;
-                                    if(testUri != null)
+                                    if(testUri.contains(uriTypeCandidate))
                                     {
-                                        otherTypeUri = testUri.get(0);
-                                        //System.out.println("\t other : "+testUri.get(0));
-                                    }
-                                    if(otherTypeUri != null)
-                                    {
-                                        if(otherTypeUri.compareTo(uriTypeCandidate)!= 0)
-                                        {
-                                            if(!(otherTypeUri.compareTo("http://ontology.irstea.fr/AgronomicTaxon#Taxon") == 0 && uriType.size() > 1))
-                                            {
-                                                relValid = false;
-                                            }
-                                        }
-                                        else
-                                        {
                                             uriType.put(s, elem.getValue()+" "+relImp+" "+uriTypeCandidate);
-                                        }
+                                            //System.out.println("\t ADD "+uriTypeCandidate);
                                     }
                                 }
                             }
                         }
-                        else
+                        if(relValid && uriType.size() > 0)
                         {
-                           /* cc = this.getClassCandidateFromUriImplicate(e.getKey(), uriTypeCandidate);
-                            if(cc != null)
+                            founded = true;
+                            
+//                            System.out.println("TYPE CANDIDATE FOUNDED !");
+//                            System.out.println(uriTypeCandidate+" --> ");
+//                            System.out.println(uriType);
+//                            System.out.println("------------");
+                            TypeCandidate tc = new TypeCandidate(ic, uriTypeCandidate);
+                            for(Entry<Source, String> eUriType : uriType.entrySet())
                             {
-                                uriType = new HashMap<>();
-                                uriType.put(e.getKey(), uriTypeCandidate);
-                                relValid = true;
+                                tc.addElem(eUriType.getKey(), eUriType.getValue());
+                            }
+                            if(ic.addTypeCandidate(tc))
+                                nbtc ++;
 
-                                 for(Entry<Source, String> elem : ic.getUriImplicate().entrySet())
+                             if(mongoCollectionType != null)
+                            {
+                                this.nbMongoSaved ++;
+
+
+                                try
                                 {
-                                    Source s = elem.getKey();
-                                    if(s != e.getKey() && relValid)
-                                    {
-                                        ArrayList<String> testUri = elem.getKey().getRelImportant(elem.getValue(), relImp);
-                                        String otherTypeUri = null;
-                                        if(testUri != null)
-                                        {
-                                            otherTypeUri = testUri.get(0);
-                                            //System.out.println("\t other : "+testUri.get(0));
-                                        }
-                                        if(otherTypeUri != null)
-                                        {
-                                            if(!cc.hasElem(s, otherTypeUri))
-                                            {
-                                                relValid = false;
-                                            }cc
-                                            else
-                                            {
-                                                uriType.put(s, otherTypeUri);
-                                            }
-                                        }
-                                    }
+                                      WriteResult wr =collMongo.insert(tc.toDBObject());
                                 }
-                            }*/
-                            /**
-                             * TODO : Changer le traitement des ClassCandidate ici pour récupérer la liste des classes candidates générées
-                             */
-                        }
-                    }
-                    if(relValid && uriType.size() > 1)
-                    {
-                        founded = true;
-                        nbtc ++;
-                        /*System.out.println("TYPE CANDIDATE FOUNDED !");
-                        System.out.println(uriTypeCandidate+" --> ");
-                        System.out.println(uriType);
-                        System.out.println("------------");*/
-                        TypeCandidate tc = null;
-                        if(cc != null)
-                        {
-                            tc = new TypeCandidate(ic, cc);
-                        }
-                        else
-                        {
-                            tc = new TypeCandidate(ic, uriTypeCandidate);
-                        }
-                         for(Entry<Source, String> eUriType : uriType.entrySet())
-                        {
-                            tc.addElem(eUriType.getKey(), eUriType.getValue());
-                        }
-                        //tc.computeTrustScore(trustTcMax);
-                        //ic.addTypeCandidate(uriTypeCandidate, uriType);
-                        ic.addTypeCandidate(tc);
-
-                         if(mongoCollectionType != null)
-                        {
-                            this.nbMongoSaved ++;
-                           
-
-                            try
-                            {
-                                  WriteResult wr =collMongo.insert(tc.toDBObject());
+                                catch(NullPointerException ex)
+                                {
+                                    System.err.println("ERROR Mongo Writer null ...");
+                                    System.err.println(ex);
+                                    //System.exit(0);
+                                }
                             }
-                            catch(NullPointerException ex)
-                            {
-                                System.err.println("ERROR Mongo Writer null ...");
-                                System.err.println(ex);
-                                //System.exit(0);
-                            }
+                            //break;
                         }
-                        break;
                     }
                 }
                 if(founded)

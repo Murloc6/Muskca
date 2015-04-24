@@ -24,7 +24,8 @@
   ],
   "relImps" :
   [
-    "http://ontology.irstea.fr/AgronomicTaxon#hasHigherRank"
+    "http://ontology.irstea.fr/AgronomicTaxon#hasHigherRank",
+    "http://www.w3.org/1999/02/22-rdf-syntax-ns#type"
   ],
   "labelRelImps" :
   [

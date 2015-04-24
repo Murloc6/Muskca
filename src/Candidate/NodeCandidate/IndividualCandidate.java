@@ -39,12 +39,30 @@ public class IndividualCandidate extends NodeCandidate
 //    }
     
     
-    public void addTypeCandidate(TypeCandidate typeC)
+    public boolean addTypeCandidate(TypeCandidate typeC)
     {
-        this.typeCands.add(typeC);
+        //this.typeCands.add(typeC);
+        
+         boolean isPresent = false;
+        for(TypeCandidate typeCand : this.typeCands)
+        {
+            if(typeC.isSameCand(typeCand))
+            {
+                isPresent = true;
+                break;
+            }
+            else if(typeCand.isSameCand(typeC))
+            {
+                this.typeCands.remove(typeCand);
+                break;
+            }
+        }
+        if(!isPresent)
+            this.typeCands.add(typeC);
+        return !isPresent;
     }
     
-    public void addRelationCandidate(RelationCandidate rc)
+    public boolean addRelationCandidate(RelationCandidate rc)
     {
         boolean isPresent = false;
         for(RelationCandidate relCand : this.relCands)
@@ -54,9 +72,15 @@ public class IndividualCandidate extends NodeCandidate
                 isPresent = true;
                 break;
             }
+            else if(relCand.isSameCand(rc))
+            {
+                this.relCands.remove(relCand);
+                break;
+            }
         }
         if(!isPresent)
             this.relCands.add(rc);
+        return !isPresent;
     }
     
     @Override

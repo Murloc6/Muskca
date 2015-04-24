@@ -91,22 +91,33 @@ public abstract class Candidate
         return Math.atan((x-x0)/gamma);
     }
     
-    public void computeTrustDegreeScore(float nbSources)
+    protected double mu(float n, int nMax)
+    {
+        double lambdan = this.lambdaCompute(n, 2, 1.5f);
+        double lambdaN = this.lambdaCompute((float)nMax, 2, 1.5f);
+        double lambda0 = this.lambdaCompute(0f, 2, 1.5f);
+        double mu = (lambdan-lambda0)/(lambdaN-lambda0);
+        
+        return mu;
+    }
+    
+    protected double mu(int n, int nMax)
+    {
+        return this.mu((float) n , nMax);
+    }
+    
+    public void computeTrustDegreeScore(int nbSources)
     {
         this.trustDegreeScore = (float)this.uriImplicate.keySet().size()/nbSources;
     }
     
-    public  void computeMixTrustScore(float nbSources)
+    public  void computeMixTrustScore(int nbSources)
     {
-        double lambdan = this.lambdaCompute((float)this.uriImplicate.keySet().size(), 2, 1.5f);
-        double lambdaN = this.lambdaCompute(nbSources, 2, 1.5f);
-        double lambda0 = this.lambdaCompute(0f, 2, 1.5f);
-        double mu = (lambdan-lambda0)/(lambdaN-lambda0);
-        
-        this.trustMixScore = (float) (this.trustDegreeScore*mu);
+        //this.trustMixScore = (float) (this.trustDegreeScore*this.mu(this.uriImplicate.keySet().size(), nbSources));
+        this.trustMixScore = this.trustDegreeScore;
     }
     
-    public void computeTrustScore(float nbSources)
+    public void computeTrustScore(int nbSources)
     {
         this.computeTrustDegreeScore(nbSources);
         this.computeMixTrustScore(nbSources);

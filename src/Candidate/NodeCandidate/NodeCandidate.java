@@ -13,6 +13,8 @@ import Candidate.Candidate;
 import Source.Source;
 import com.mongodb.BasicDBObject;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -27,7 +29,7 @@ public abstract class NodeCandidate extends Candidate
     
     private ArrayList<LabelCandidate> labelCands;
     
-    private static int curId = 0;
+    private static int curId = 1;
     
     private int id;
     private boolean alreadyValidated = false;
@@ -73,6 +75,26 @@ public abstract class NodeCandidate extends Candidate
     public void addLabelCandidate(LabelCandidate labelC)
     {
         this.labelCands.add(labelC);
+    }
+    
+    private void addLabelCandIfNoteExists(LabelCandidate lc)
+    {
+        boolean alreadyExists = false;
+         for(LabelCandidate labelCand : this.labelCands)
+        {
+            if(lc.isSameCand(labelCand))
+            {
+                alreadyExists = true;
+                break;
+            }
+            else if(labelCand.isSameCand(lc))
+            {
+                this.labelCands.remove(labelCand);
+                break;
+            }
+        }
+        if(!alreadyExists)
+            this.labelCands.add(lc);
     }
     
     public void addAllLabelsCandidate(ArrayList<LabelCandidate> labelCs, float trustLcMax, float sumSQ)
@@ -144,20 +166,56 @@ public abstract class NodeCandidate extends Candidate
         return ret;
     }
     
+//    @Override
+//    public void computeTrustDegreeScore(float nbSources)
+//    {
+//        float trustDegree = 0;
+//        for(Alignment al : this.aligns)
+//        {
+//            trustDegree += al.getValue();
+//        }
+//        float nbMaxCouple = (nbSources*(nbSources-1))/2;
+//        this.trustDegreeScore = trustDegree/nbMaxCouple;
+//    }
+    
     @Override
-    public void computeTrustDegreeScore(float nbSources)
+    public void computeTrustDegreeScore(int nbSources)
     {
-        float trustDegree = 0;
-        for(Alignment al : this.aligns)
+        Collections.sort(this.aligns, new Comparator<Alignment>() {
+            @Override
+            public int compare(Alignment  a1, Alignment  a2)
+            {
+                float a1Value = a1.getValue();
+                float a2Value = a2.getValue();
+                return (a1Value < a2Value ? -1 :(a1Value == a2Value ? 0 : 1));
+            }
+        });
+        
+        float trust = 0;
+        float curVal = 0;
+        float preVal = 0;
+        if(!this.aligns.isEmpty())
         {
-            trustDegree += al.getValue();
+            for(int i = 0; i< this.aligns.size(); i++)
+            {
+                Alignment a = this.aligns.get(i);
+                curVal = a.getValue();
+                if(curVal != preVal)
+                {
+                    trust += (curVal - preVal)*this.mu(this.aligns.size()-i, nbSources);
+                    preVal = curVal;
+                }
+            }
         }
-        float nbMaxCouple = (nbSources*(nbSources-1))/2;
-        this.trustDegreeScore = trustDegree/nbMaxCouple;
+        else // nodecandidate alone
+        {
+            trust = (float) this.mu(0.5f, nbSources);
+        }
+        this.trustDegreeScore = trust;
     }
     
     @Override
-    public void computeTrustScore(float nbSources)
+    public void computeTrustScore(int nbSources)
     {
         super.computeTrustScore(nbSources);
         for(ArcCandidate ac : this.getAllArcCandidates())

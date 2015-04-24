@@ -175,6 +175,36 @@ public class Source implements Serializable
     }
     
     
+    public ArrayList<String> getAllIndividualUris(String uriClassInd)
+    {
+        ArrayList<String> ret = new ArrayList<>();
+        String query = " SELECT ?uri WHERE { ?uri a ?cls. ?cls rdfs:subClassOf* <"+uriClassInd+">.} ";
+        ArrayList<JsonNode> uris = this.sp.getResponse(query);
+        for(JsonNode jn : uris)
+        {
+            ret.add(jn.get("uri").get("value").asText());
+        }
+            
+        return ret;
+    }
+    
+    public ArrayList<String> getAllClassUris(String baseModule)
+    {
+        ArrayList<String> ret = new ArrayList<>();
+        String query = " SELECT ?uri WHERE { ?uri a owl:Class.} ";
+        ArrayList<JsonNode> uris = this.sp.getResponse(query);
+        for(JsonNode jn : uris)
+        {
+            String uri =jn.get("uri").get("value").asText();
+            if(!uri.startsWith(baseModule))
+            {
+                ret.add(uri);
+            }
+        }
+            
+        return ret; 
+   }
+    
     /*public ArrayList<String> getAllTaxons()
     {
         if(this.allInd.isEmpty())
