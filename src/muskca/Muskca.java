@@ -48,20 +48,20 @@ public class Muskca
         ArrayList<String> urisRelImp = params.getArrayParams("relImps");
         ArrayList<String> urisLabelsImp = params.getArrayParams("labelRelImps");
          
-        HashMap<String, String> mongoDbs = params.getSubParams("mongoDbs");
+        //HashMap<String, String> mongoDbs = params.getSubParams("mongoDbs");
 
         HashMap<String, String> outputParams = params.getSubParams("output");
         String provoFile = outputParams.get("provoFile");
         String spOutProvo = outputParams.get("spOutProvo");
         String baseUriMuskca = outputParams.get("baseUri")+projectName+"/";
 
-        HashMap<String, String> fusionnerParams = params.getSubParams("fusionner");
+        //HashMap<String, String> fusionnerParams = params.getSubParams("fusionner");
         
         String uriTypeBase = params.getParam("uriTypeBase");
         ArrayList<String> urisTypeImp = params.getArrayParams("uriTypeImps");
         
         
-        Fusionner fusionner = new Fusionner(mongoDbs, urisLabelsImp, urisRelImp, uriTypeBase, urisTypeImp);
+        Fusionner fusionner = new Fusionner(urisLabelsImp, urisRelImp, uriTypeBase, urisTypeImp);
         String dataProlog = fusionner.initPrologSources(sources);
         
         return fusionner;

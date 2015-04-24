@@ -60,10 +60,10 @@ public class Fusionner implements Serializable
     private float trustLcMax;
     private float trustCcMax;
     
-    private String mongodb;
-    private String mongoServer;
-    private int mongoPort;
-    private HashMap<String, String> mongoDbs;
+//    private String mongodb;
+//    private String mongoServer;
+//    private int mongoPort;
+//    private HashMap<String, String> mongoDbs;
     
     private String dataPrologSources;
     private StringBuilder dataPrologClass;
@@ -80,7 +80,7 @@ public class Fusionner implements Serializable
     public int nbMongoSaved = 0;
     
     
-    public Fusionner(HashMap<String, String> mongoDbs, ArrayList<String> urisLabelsImp, ArrayList<String> urisRelImp, String uriTypeBase, ArrayList<String> urisTypeImp)
+    public Fusionner(ArrayList<String> urisLabelsImp, ArrayList<String> urisRelImp, String uriTypeBase, ArrayList<String> urisTypeImp)
     {
         //this.uriAlignment = new HashMap<>();
         //this.uriClassAlignment = new HashMap<>();
@@ -88,10 +88,10 @@ public class Fusionner implements Serializable
         this.instCandidates = new ArrayList<>();
         this.classCandidates = new ArrayList<>();
         
-        this.mongoDbs = mongoDbs;
-        this.mongodb = this.mongoDbs.get("mongodb");
-        this.mongoServer = this.mongoDbs.get("mongoServer");
-        this.mongoPort = Integer.parseInt(this.mongoDbs.get("mongoPort"));
+//        this.mongoDbs = mongoDbs;
+//        this.mongodb = this.mongoDbs.get("mongodb");
+//        this.mongoServer = this.mongoDbs.get("mongoServer");
+//        this.mongoPort = Integer.parseInt(this.mongoDbs.get("mongoPort"));
         
         this.urisLabelsImp = urisLabelsImp;
         this.urisRelImp = urisRelImp;
@@ -129,28 +129,28 @@ public class Fusionner implements Serializable
         return this.urisRelImp;
     }
     
-    public String getMongoDb(String db)
-    {
-        return this.mongoDbs.get(db);
-    }
+//    public String getMongoDb(String db)
+//    {
+//        return this.mongoDbs.get(db);
+//    }
     
-    private DBCollection connectMongo(String mongoCollection)
-    {
-        DBCollection collMongo = null;
-        try
-        {
-            MongoClient mongoClient = new MongoClient( this.mongoServer , this.mongoPort);
-            DB db = mongoClient.getDB(this.mongodb);
-           collMongo = db.getCollection(mongoCollection);
-           collMongo.remove(new BasicDBObject());
-        } 
-        catch (UnknownHostException ex)
-        {
-            System.err.println("ERROR during connection to mongoDB ...");
-            System.exit(0);
-        }
-        return collMongo;
-    }
+//    private DBCollection connectMongo(String mongoCollection)
+//    {
+//        DBCollection collMongo = null;
+//        try
+//        {
+//            MongoClient mongoClient = new MongoClient( this.mongoServer , this.mongoPort);
+//            DB db = mongoClient.getDB(this.mongodb);
+//           collMongo = db.getCollection(mongoCollection);
+//           collMongo.remove(new BasicDBObject());
+//        } 
+//        catch (UnknownHostException ex)
+//        {
+//            System.err.println("ERROR during connection to mongoDB ...");
+//            System.exit(0);
+//        }
+//        return collMongo;
+//    }
     
     public void setDataPrologClass(StringBuilder dataPrologClass)
     {
@@ -179,15 +179,15 @@ public class Fusionner implements Serializable
     public ArrayList<ClassCandidate> computeClassCandidate(String mongoDb)
     {
         ArrayList<ClassCandidate> ret;
-        String mongoCollection = this.getMongoDb(mongoDb);
+        //String mongoCollection = this.getMongoDb(mongoDb);
         
         int nbSources = this.sources.size();
         
-        DBCollection collMongo = null;
-        if(mongoCollection != null)
-        {
-            collMongo = connectMongo(mongoCollection);
-        }
+//        DBCollection collMongo = null;
+//        if(mongoCollection != null)
+//        {
+//            collMongo = connectMongo(mongoCollection);
+//        }
         
         CandidatSolver cs = new CandidatSolver(this.dataPrologClass);
         ret = cs.getAllClassCandidates(this, nbSources);
@@ -228,14 +228,14 @@ public class Fusionner implements Serializable
      public ArrayList<IndividualCandidate> computeIndCandidate(String mongoDb)
     {
         ArrayList<IndividualCandidate> ret;
-        String mongoCollection = this.mongoDbs.get(mongoDb);
+        //String mongoCollection = this.mongoDbs.get(mongoDb);
         int nbSources = this.sources.size();
         
-        DBCollection collMongo = null;
-        if(mongoCollection != null)
-        {
-            collMongo = connectMongo(mongoCollection);
-        }
+//        DBCollection collMongo = null;
+//        if(mongoCollection != null)
+//        {
+//            collMongo = connectMongo(mongoCollection);
+//        }
         
         CandidatSolver cs = new CandidatSolver(this.dataPrologInd);
         ret = cs.getAllIndCandidates(this, nbSources);
@@ -594,11 +594,11 @@ public class Fusionner implements Serializable
     
     public void computeRelationCandidate(String mongoCollectionICHR, String relImp)
     {
-         DBCollection collMongo = null;
-        if(mongoCollectionICHR != null)
-        {
-           collMongo = connectMongo(mongoCollectionICHR);
-        }
+//         DBCollection collMongo = null;
+//        if(mongoCollectionICHR != null)
+//        {
+//           collMongo = connectMongo(mongoCollectionICHR);
+//        }
         int nbicHR = 0;
         for(IndividualCandidate ic : this.instCandidates) // for each node candidate nc
         {
@@ -642,20 +642,20 @@ public class Fusionner implements Serializable
                             }
                             //this.icHRs.put(ic, icHR);
 
-                             if(mongoCollectionICHR != null)
-                            {
-                                try
-                                {
-                                      WriteResult wr =collMongo.insert(relCandidate.toDBObject());
-                                      this.nbMongoSaved ++;
-                                }
-                                catch(NullPointerException ex)
-                                {
-                                    System.err.println("ERROR Mongo Writer null ...");
-                                    System.err.println(ex);
-                                    //System.exit(0);
-                                }
-                            }
+//                             if(mongoCollectionICHR != null)
+//                            {
+//                                try
+//                                {
+//                                      WriteResult wr =collMongo.insert(relCandidate.toDBObject());
+//                                      this.nbMongoSaved ++;
+//                                }
+//                                catch(NullPointerException ex)
+//                                {
+//                                    System.err.println("ERROR Mongo Writer null ...");
+//                                    System.err.println(ex);
+//                                    //System.exit(0);
+//                                }
+//                            }
                         //}
                     }
                 }
@@ -697,11 +697,11 @@ public class Fusionner implements Serializable
     public void computeTypeCandidate(String mongoCollectionType)
     {
         String relImp = "http://www.w3.org/1999/02/22-rdf-syntax-ns#type";
-         DBCollection collMongo = null;
-        if(mongoCollectionType != null)
-        {
-            collMongo = connectMongo(mongoCollectionType);
-        }
+//         DBCollection collMongo = null;
+//        if(mongoCollectionType != null)
+//        {
+//            collMongo = connectMongo(mongoCollectionType);
+//        }
         int nbtc = 0;
         for(IndividualCandidate ic : this.instCandidates)
         {
@@ -752,22 +752,22 @@ public class Fusionner implements Serializable
                             if(ic.addTypeCandidate(tc))
                                 nbtc ++;
 
-                             if(mongoCollectionType != null)
-                            {
-                                this.nbMongoSaved ++;
-
-
-                                try
-                                {
-                                      WriteResult wr =collMongo.insert(tc.toDBObject());
-                                }
-                                catch(NullPointerException ex)
-                                {
-                                    System.err.println("ERROR Mongo Writer null ...");
-                                    System.err.println(ex);
-                                    //System.exit(0);
-                                }
-                            }
+//                             if(mongoCollectionType != null)
+//                            {
+//                                this.nbMongoSaved ++;
+//
+//
+//                                try
+//                                {
+//                                      WriteResult wr =collMongo.insert(tc.toDBObject());
+//                                }
+//                                catch(NullPointerException ex)
+//                                {
+//                                    System.err.println("ERROR Mongo Writer null ...");
+//                                    System.err.println(ex);
+//                                    //System.exit(0);
+//                                }
+//                            }
                             //break;
                         }
                     }
@@ -855,12 +855,12 @@ public class Fusionner implements Serializable
     public void computeLabelCandidate(String mongoDb)
     {
         
-         DBCollection collMongo = null;
-        if(mongoDb != null)
-        {
-            String mongoCollectionLabels = this.getMongoDb(mongoDb);
-            collMongo = connectMongo(mongoCollectionLabels);
-        }
+//         DBCollection collMongo = null;
+//        if(mongoDb != null)
+//        {
+//            String mongoCollectionLabels = this.getMongoDb(mongoDb);
+//            collMongo = connectMongo(mongoCollectionLabels);
+//        }
         ArrayList<NodeCandidate> allCands = this.getAllNodeCandidates();
         for(NodeCandidate nc : allCands)
         {
@@ -874,22 +874,22 @@ public class Fusionner implements Serializable
                 }
             }
             nc.clearLabelsCandidates();
-            if(collMongo != null)
-            {
-                ArrayList<String> lcTreated = new ArrayList<>();
-                 for(LabelCandidate lc : nc.getLabelCandidates())
-                 {
-                    try
-                    {
-                         WriteResult wr =collMongo.insert(lc.toDBObject());
-                    }
-                    catch(NullPointerException ex)
-                    {
-                        System.err.println("ERROR Mongo Writer null (LC) ...");
-                        System.exit(0);
-                    }
-                }
-            }
+//            if(collMongo != null)
+//            {
+//                ArrayList<String> lcTreated = new ArrayList<>();
+//                 for(LabelCandidate lc : nc.getLabelCandidates())
+//                 {
+//                    try
+//                    {
+//                         WriteResult wr =collMongo.insert(lc.toDBObject());
+//                    }
+//                    catch(NullPointerException ex)
+//                    {
+//                        System.err.println("ERROR Mongo Writer null (LC) ...");
+//                        System.exit(0);
+//                    }
+//                }
+//            }
         }
     }
     

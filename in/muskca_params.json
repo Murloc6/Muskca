@@ -37,26 +37,10 @@
   [
   	"http://ontology.irstea.fr/AgronomicTaxon#Taxon"
   ],
-  "mongoDbs" :
-  {
-    "mongoServer": "amarger.murloc.fr",
-    "mongoPort" : "27017",
-    "mongodb" : "candidatesMuskca",
-    "indivCandidateMongoCol" : "triticumCandidate",
-    "objPropArcCandidateMongoCol" : "triticumICHR",
-    "typeArcCandidateMongoCol" : "triticumTypeCandidate",
-    "labelArcCandidateMongoCol" : "triticumLabelCandidate",
-    "classCandidateMongoCol" : "triticumClassCandidate"
-  },
   "output" :
   {
     "spOutProvo" : "http://amarger.murloc.fr:8080/Muskca-provo/",
     "provoFile" : "in/prov-o.owl",
     "baseUri" : "http://muskca_system.fr/"
-  },
-  "fusionner" :
-  {
-    "tempAlign" : "http://amarger.murloc.fr:8080/tempAlign/",
-    "tempClassAlign" : "http://amarger.murloc.fr:8080/tempClassAlign/"
   }
 }

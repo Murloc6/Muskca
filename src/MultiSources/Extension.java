@@ -46,12 +46,6 @@ public class Extension
             @Override
             public int compare(NodeCandidate  nc1, NodeCandidate  nc2)
             {
-                System.out.println(nc1);
-                System.out.println(nc2);
-                System.out.println(nc1.getTrustScore());
-                System.out.println(nc2.getTrustScore());
-                System.out.println(nc1.getSumArcCandIntr());
-                System.out.println(nc2.getSumArcCandIntr());
                 float nc1Trust = nc1.getTrustScore()+nc1.getSumArcCandIntr();
                 float nc2Trust = nc2.getTrustScore()+nc2.getSumArcCandIntr();
                 return (nc1Trust < nc2Trust ? 1 :(nc1Trust == nc2Trust ? 0 : -1));
