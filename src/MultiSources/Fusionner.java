@@ -362,9 +362,14 @@ public class Fusionner implements Serializable
     public void computeTrustScore()
     {
         int nbSources =  this.sources.size();
+        float maxSourceQual = 0;
+        for(Source s : this.sources)
+        {
+            maxSourceQual += s.getSourceQualityScore();
+        }
         for(NodeCandidate nc : this.getAllNodeCandidates())
         {
-            nc.computeTrustScore(nbSources);
+            nc.computeTrustScore(nbSources, maxSourceQual);
         }
     }
     

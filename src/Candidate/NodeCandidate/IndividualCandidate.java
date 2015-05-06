@@ -103,6 +103,7 @@ public class IndividualCandidate extends NodeCandidate
         return ret;
     }
     
+    @Override
         public float getSumArcCandImplied(NodeCandidate nc)
     {
         float ret = super.getSumArcCandImplied(nc);

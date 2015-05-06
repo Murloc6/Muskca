@@ -178,49 +178,86 @@ public abstract class NodeCandidate extends Candidate
 //        this.trustDegreeScore = trustDegree/nbMaxCouple;
 //    }
     
-    @Override
-    public void computeTrustDegreeScore(int nbSources)
-    {
-        Collections.sort(this.aligns, new Comparator<Alignment>() {
-            @Override
-            public int compare(Alignment  a1, Alignment  a2)
-            {
-                float a1Value = a1.getValue();
-                float a2Value = a2.getValue();
-                return (a1Value < a2Value ? -1 :(a1Value == a2Value ? 0 : 1));
-            }
-        });
-        
-        float trust = 0;
-        float curVal = 0;
-        float preVal = 0;
-        if(!this.aligns.isEmpty())
-        {
-            for(int i = 0; i< this.aligns.size(); i++)
-            {
-                Alignment a = this.aligns.get(i);
-                curVal = a.getValue();
-                if(curVal != preVal)
-                {
-                    trust += (curVal - preVal)*this.mu(this.aligns.size()-i, nbSources);
-                    preVal = curVal;
-                }
-            }
-        }
-        else // nodecandidate alone
-        {
-            trust = (float) this.mu(0.5f, nbSources);
-        }
-        this.trustDegreeScore = trust;
-    }
     
     @Override
-    public void computeTrustScore(int nbSources)
+    public ArrayList<Float> getAllTrustScore()
     {
-        super.computeTrustScore(nbSources);
+        ArrayList<Float> ret = super.getAllTrustScore();
+        for(Alignment a : this.aligns)
+        {
+            if(!ret.contains(a.getValue()))
+            {
+                ret.add(a.getValue());
+            }
+        }
+        Collections.sort(ret);
+        return ret;
+    }
+    
+    
+    @Override
+    public float getUtilityWithMin(float min, int nbSources, float maxSourceQual)
+    {
+        float utilitySources = super.getUtilityWithMin(min, nbSources, maxSourceQual);
+        int nbM = 0;
+        for(Alignment a : this.aligns)
+        {
+            if( a.getValue() >= min)
+            {
+                nbM ++;
+            }
+        }
+        int nbMaxMappings = ((nbSources * (nbSources-1))/2);
+        float utilityMappings = (float)nbM/(float)nbMaxMappings;
+        
+        //TODO : set ponderation here!
+        return (utilityMappings+utilitySources)/2;
+        
+    }
+    
+//    @Override
+//    public void computeTrustDegreeScore(int nbSources)
+//    {
+//        Collections.sort(this.aligns, new Comparator<Alignment>() {
+//            @Override
+//            public int compare(Alignment  a1, Alignment  a2)
+//            {
+//                float a1Value = a1.getValue();
+//                float a2Value = a2.getValue();
+//                return (a1Value < a2Value ? -1 :(a1Value == a2Value ? 0 : 1));
+//            }
+//        });
+//        
+//        float trust = 0;
+//        float curVal = 0;
+//        float preVal = 0;
+//        if(!this.aligns.isEmpty())
+//        {
+//            for(int i = 0; i< this.aligns.size(); i++)
+//            {
+//                Alignment a = this.aligns.get(i);
+//                curVal = a.getValue();
+//                if(curVal != preVal)
+//                {
+//                    trust += (curVal - preVal)*this.mu(this.aligns.size()-i, nbSources);
+//                    preVal = curVal;
+//                }
+//            }
+//        }
+//        else // nodecandidate alone
+//        {
+//            trust = (float) this.mu(0.5f, nbSources);
+//        }
+//        this.trustDegreeScore = trust;
+//    }
+    
+    @Override
+    public void computeTrustScore(int nbSources, float maxSourceQual)
+    {
+        super.computeTrustScore(nbSources, maxSourceQual);
         for(ArcCandidate ac : this.getAllArcCandidates())
         {
-            ac.computeTrustScore(nbSources);
+            ac.computeTrustScore(nbSources, maxSourceQual);
         }
     }
     

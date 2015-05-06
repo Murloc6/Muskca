@@ -181,6 +181,7 @@ public class Muskca
         while(extCur != null && !validatedExtensionFounded)
         {            
             int i = 0;
+            System.out.println(extCur);
             for(NodeCandidate nc : extCur.getCandidates())
             {
                 if(nc.isValidated())

@@ -8,8 +8,10 @@ package Candidate;
 
 import Source.Source;
 import com.mongodb.BasicDBObject;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -20,8 +22,7 @@ import java.util.Map.Entry;
  */
 public abstract class Candidate 
 {
-    protected float trustDegreeScore = 0;
-    protected float trustMixScore = 0;
+    protected float trustChoquet = 0;
     protected HashMap<Source,  String> uriImplicate;
     protected String sElem;
     
@@ -91,41 +92,67 @@ public abstract class Candidate
         return Math.atan((x-x0)/gamma);
     }
     
-    protected double mu(float n, int nMax)
+    protected float mu(float n, float nMax)
     {
         double lambdan = this.lambdaCompute(n, 2, 1.5f);
         double lambdaN = this.lambdaCompute((float)nMax, 2, 1.5f);
         double lambda0 = this.lambdaCompute(0f, 2, 1.5f);
         double mu = (lambdan-lambda0)/(lambdaN-lambda0);
         
-        return mu;
+        return (float)mu;
     }
     
-    protected double mu(int n, int nMax)
+    protected float mu(int n, int nMax)
     {
-        return this.mu((float) n , nMax);
+        return this.mu((float) n , (float)nMax);
     }
     
-    public void computeTrustDegreeScore(int nbSources)
+    public ArrayList<Float> getAllTrustScore()
     {
-        this.trustDegreeScore = (float)this.uriImplicate.keySet().size()/nbSources;
+        ArrayList<Float> ret = new ArrayList<>();
+        for(Source s : this.uriImplicate.keySet())
+        {
+            if(!ret.contains(s.getSourceQualityScore()))
+            {
+                ret.add(s.getSourceQualityScore());
+            }
+        }
+        Collections.sort(ret);
+        return ret;
     }
     
-    public  void computeMixTrustScore(int nbSources)
+    public float getUtilityWithMin(float min, int nbSources, float maxSourceQual)
     {
-        //this.trustMixScore = (float) (this.trustDegreeScore*this.mu(this.uriImplicate.keySet().size(), nbSources));
-        this.trustMixScore = this.trustDegreeScore;
+        int ret = 0;
+        for(Source s : this.uriImplicate.keySet())
+        {
+            if(s.getSourceQualityScore() >= min)
+            {
+                ret ++;
+            }
+        }
+        
+        return this.mu(ret, maxSourceQual);
+        
     }
     
-    public void computeTrustScore(int nbSources)
+    public void computeTrustScore(int nbSources , float maxSourceQual)
     {
-        this.computeTrustDegreeScore(nbSources);
-        this.computeMixTrustScore(nbSources);
+        float prevThres = 0;
+        float trustTemp = 0;
+        for(float thres : this.getAllTrustScore())
+        {
+            trustTemp += (thres-prevThres) * this.getUtilityWithMin(thres, nbSources, maxSourceQual);
+            prevThres = thres;
+        }
+        
+        
+        this.trustChoquet = (float) (Math.round(trustTemp*100.0)/100.0);
     }
     
     public float getTrustScore()
     {
-        return this.trustMixScore;
+        return this.trustChoquet;
     }
     
     public String getRefId()
@@ -149,7 +176,7 @@ public abstract class Candidate
     
     public String toString()
     {
-        String ret = this.sElem+" Candidate (Degree : "+this.trustDegreeScore+" | Mix : "+this.trustMixScore+"): \n";
+        String ret = this.sElem+" Candidate (Choquet : "+this.trustChoquet+"): \n";
         for(Map.Entry<Source, String> e : this.uriImplicate.entrySet())
         {
             ret += "\t "+e.getKey().getName()+" : "+e.getValue()+"\n";
@@ -175,7 +202,7 @@ public abstract class Candidate
         }
         doc.append("elemCandidates", elemCandidates);
         doc.append("trustScore", this.getTrustScore());
-        doc.append("trustDegree", this.trustDegreeScore);
+        //doc.append("trustDegree", this.trustDegreeScore);
 
         return doc;
     }
