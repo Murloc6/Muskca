@@ -1,0 +1,55 @@
+{
+  "projectName" : "OAEI",
+  "moduleFile" : "in/oaei_conf_module.owl",
+  "sources" :
+  [
+    {
+      "name" : "EKAW",
+      "baseUri" : "http://ekaw#",
+      "spIn" : "http://amarger.murloc.fr:8080/EKAW-out/",
+      "sourceQuality" : 1.0
+    },
+    {
+      "name" : "iasted",
+      "baseUri" : "http://iasted#",
+      "spIn" : "http://amarger.murloc.fr:8080/iasted-out/",
+      "sourceQuality" : 1.0
+    },
+    {
+      "name" : "cmt",
+      "baseUri" : "http://cmt#",
+      "spIn" : "http://amarger.murloc.fr:8080/cmt-out/",
+      "sourceQuality" : 1.0
+    }
+  ],
+  "relImps" :
+  [
+    "http://muskca_evals/hasAuthor",
+    "http://muskca_evals/reviewWrittenBy",
+    "http://www.w3.org/1999/02/22-rdf-syntax-ns#type"
+  ],
+  "labelRelImps" :
+  [
+  ],
+  "uriTypeBase" : "http://muskca_evals/",
+  "uriTypeImps" : 
+  [
+  	"http://muskca_evals/Chair_PC",
+    "http://muskca_evals/Banquet",
+    "http://muskca_evals/Conference",
+    "http://muskca_evals/Reception",
+    "http://muskca_evals/Trip",
+    "http://muskca_evals/Location",
+    "http://muskca_evals/Paper",
+    "http://muskca_evals/Speaker",
+    "http://muskca_evals/Author",
+    "http://muskca_evals/Review",
+    "http://muskca_evals/City"
+  ],
+  "output" :
+  {
+    "spOutProvo" : "http://amarger.murloc.fr:8080/Muskca-provo/",
+    "provoFile" : "in/prov-o.owl",
+    "baseUri" : "http://muskca_system.fr/"
+  }
+}
