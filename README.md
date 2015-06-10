@@ -37,5 +37,54 @@ The file "in/muskca_params.json" contains all the configuration needed.
 -- "spOutProvo": the dataset url where to export the result in the fuseki server
 -- "provoFile": the path to the provo ontology file (prefered "in/*")
 -- "baseUri": the base uri used to generate the new ontological elements in the export format
-- "fusionner": an object containing the fusionner options
--- "tempAlign": 
+
+Example : 
+```
+{
+  "projectName" : "mini_Triticum",
+  "moduleFile" : "in/agronomicTaxon.owl",
+  "sources" :
+  [
+    {
+      "name" : "Agrovoc",
+      "baseUri" : "http://aims.fao.org/aos/agrovoc/",
+      "spIn" : "http://amarger.murloc.fr:8080/Agrovoc_mini_Triticum/",
+      "sourceQuality" : 0.6
+    },
+    {
+      "name" : "TaxRef",
+      "baseUri" : "http://inpn.mnhn.fr/espece/cd_nom/",
+      "spIn" : "http://amarger.murloc.fr:8080/TaxRef_mini_Triticum/",
+      "sourceQuality" : 0.9
+    },
+    {
+      "name" : "NCBI",
+      "baseUri" : "http://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=",
+      "spIn" : "http://amarger.murloc.fr:8080/NCBI_mini_Triticum/",
+      "sourceQuality" : 0.8
+    }
+  ],
+  "relImps" :
+  [
+    "http://ontology.irstea.fr/AgronomicTaxon#hasHigherRank",
+    "http://www.w3.org/1999/02/22-rdf-syntax-ns#type"
+  ],
+  "labelRelImps" :
+  [
+    "http://ontology.irstea.fr/AgronomicTaxon#hasScientificName",
+    "http://ontology.irstea.fr/AgronomicTaxon#hasVernacularName"
+  ],
+  "uriTypeBase" : "http://ontology.irstea.fr/AgronomicTaxon",
+  "uriTypeImps" : 
+  [
+  	"http://ontology.irstea.fr/AgronomicTaxon#Taxon"
+  ],
+  "output" :
+  {
+    "spOutProvo" : "http://amarger.murloc.fr:8080/Muskca-provo/",
+    "provoFile" : "in/prov-o.owl",
+    "baseUri" : "http://muskca_system.fr/"
+  }
+}
+
+```
