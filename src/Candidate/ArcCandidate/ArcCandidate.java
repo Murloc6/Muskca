@@ -7,6 +7,7 @@ package Candidate.ArcCandidate;
 
 import Candidate.Candidate;
 import Candidate.NodeCandidate.NodeCandidate;
+import Source.OntologicalElement.OntologicalElement;
 import Source.Source;
 import com.mongodb.BasicDBObject;
 import java.util.ArrayList;
@@ -37,42 +38,7 @@ public abstract class ArcCandidate extends Candidate
         return this.dataProperty;
     }
     
-//    public String toString()
-//    {
-//        String ret = super.toString();
-//        
-//        /*ret += "\t --> Type : "+this.dataProperty+"(Simple : "+this.trustSimpleScore+" | Degree : "+this.trustDegreeScore+")\n";
-//        ret += "\t\t ------- \n";
-//        for(Map.Entry<Source, String> el : this.uriImplicate.entrySet())
-//        {
-//            ret += "\t\t "+el.getKey().getName()+" -> "+el.getValue()+"\n";
-//        }
-//        ret +="\t\t ------- \n";*/
-//        
-//        return ret;
-//    }
     
-    @Override
-    public BasicDBObject toDBObject()
-    {
-        BasicDBObject doc = super.toDBObject();
-        /*ArrayList<BasicDBObject> icBDBO = new ArrayList<>();
-        for(Map.Entry<Source, String> icE: this.fromCandidate.getUriImplicate().entrySet())
-        {
-            BasicDBObject icObj = new BasicDBObject();
-            icObj.append("source", icE.getKey().getName());
-            icObj.append("uri", icE.getValue());
-            icBDBO.add(icObj);
-        }
-        doc.append("ic", icBDBO);*/
-         
-        doc.append("type", this.dataProperty);
-
-        //System.out.println("TEST : "+this.getTrustScore());
-        doc.append("trustScore", this.getTrustScore());
-        
-        return doc;
-    }
     
     public abstract String getObjectProvOValue();
     
@@ -85,7 +51,7 @@ public abstract class ArcCandidate extends Candidate
         ret += "<"+uriKbMerge+"> :hadMember <"+uriCand+">.";
         ret += "<"+uriCand+"> <"+baseUri+"hadTrustScore> \""+this.getTrustScore()+"\"^^xsd:double.\n";
         int idStatement = 1;
-        for( Map.Entry<Source, String> e : this.uriImplicate.entrySet())
+        for( Map.Entry<Source, OntologicalElement> e : this.uriImplicate.entrySet())
         {
             String uriStatement = baseUri+this.sElem+"/"+e.getKey().getName()+"/"+this.fromCandidate.getNumInst()+"/"+this.getNumInst()+"/"+idStatement;
             ret += "<"+uriStatement+"> rdf:type :Entity; rdf:type rdf:Statement.\n";

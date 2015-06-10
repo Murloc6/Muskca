@@ -24,7 +24,7 @@ public class LabelCandidate extends ArcCandidate
     
     private HashMap<Source, Float> values;
     
-    public LabelCandidate(NodeCandidate fromCand, String dataProperty, float sumSQ)
+    public LabelCandidate(NodeCandidate fromCand, String dataProperty)
     {
         super(fromCand, dataProperty);
         this.values = new HashMap<>();
@@ -50,24 +50,6 @@ public class LabelCandidate extends ArcCandidate
         this.trustScore = (rootTrust+sumStringDegree)/trustLcMax;
     }*/
     
-    @Override
-    public BasicDBObject toDBObject()
-    {
-        BasicDBObject doc = super.toDBObject();
-        
-        ArrayList<BasicDBObject> labelsObj = new ArrayList();
-        for(Map.Entry<Source, String> l : this.getUriImplicate().entrySet())
-        {
-            BasicDBObject lObj = new BasicDBObject();
-            lObj.append("source", l.getKey().getName());
-            lObj.append("label", l.getValue());
-            labelsObj.add(lObj);
-        }
-        doc.append("labels", labelsObj);
-        
-        return doc;
-    }
-
     @Override
      public String getUriOntObj(String baseUri)
     {
@@ -99,7 +81,7 @@ public class LabelCandidate extends ArcCandidate
     
     public String getObjectProvOValue()
     {
-        return this.uriImplicate.get((Source)this.uriImplicate.keySet().toArray()[0]); //get the label of the first source 
+        return this.uriImplicate.get((Source)this.uriImplicate.keySet().toArray()[0]).getUri(); //get the label of the first source 
     }
     
     /*public String toProvO(String baseUri, int numCand, int instCand, HashMap<Source, String> sourcesUri,HashMap<Source, String> uriInst, String uriOntObj, String uriKbMerge)

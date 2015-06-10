@@ -6,6 +6,7 @@
 
 package Candidate;
 
+import Source.OntologicalElement.OntologicalElement;
 import Source.Source;
 import com.mongodb.BasicDBObject;
 import java.text.DecimalFormat;
@@ -23,8 +24,10 @@ import java.util.Map.Entry;
 public abstract class Candidate 
 {
     protected float trustChoquet = 0;
-    protected HashMap<Source,  String> uriImplicate;
+    protected HashMap<Source,  OntologicalElement> uriImplicate;
     protected String sElem;
+    
+    protected String id;
     
     public Candidate()
     {
@@ -32,58 +35,111 @@ public abstract class Candidate
         this.uriImplicate = new HashMap<>();
     }
     
-    public HashMap<Source, String> getUriImplicate()
+    public HashMap<Source, OntologicalElement> getUriImplicate()
     {
         return this.uriImplicate;
     }
     
-    public String getUriFromSource(Source s)
+    public OntologicalElement getUriFromSource(Source s)
     {
         return this.uriImplicate.get(s);
     }
     
-    public boolean hasElem(Source s, String uri)
+    public boolean hasElem(Source s, OntologicalElement oe)
     {
         boolean ret = false;
-        String uriCand = this.uriImplicate.get(s);
-        if(uriCand != null)
+        OntologicalElement oeCand = this.uriImplicate.get(s);
+        if(oeCand != null)
         {
-            ret = uri.compareTo(uriCand) == 0;
+            ret = oe.getUri().compareTo(oeCand.getUri()) == 0;
         }
         return ret;
     }
     
-    public void addElem(Source s, String uriElem)
-    {
-        if(s != null && uriElem != null)
+    public boolean hasElem(Source s, String uri){
+        boolean ret = false;
+        OntologicalElement oeCand = this.uriImplicate.get(s);
+        if(oeCand != null)
         {
-            String uri = this.uriImplicate.get(s);
-            if(uri == null)
-            {
-                this.uriImplicate.put(s, uriElem);
-            }
-            else
-            {
-                System.err.println("ERROR, candidate doublon");
-                System.exit(0);
-            }
+            ret = uri.compareTo(oeCand.getUri()) == 0;
         }
+        return ret;
     }
     
-    public boolean isSameCand(Candidate c)
+    public boolean hasElemForSource(Source s){
+        return this.uriImplicate.containsKey(s);
+    }
+     
+    public void addElem(Source s, OntologicalElement oe){
+        this.uriImplicate.put(s, oe);
+    }
+    
+    public void addElem(Source s, String uri){
+        OntologicalElement oe = new OntologicalElement(uri, s);
+        this.addElem(s, oe);
+    }
+    
+    public boolean isSameCand(ArrayList<String> uris)
     {
-        boolean ret = true;
+        boolean ret = false;
         
-        for(Entry<Source, String> e : this.uriImplicate.entrySet())
+        if(uris.size() == this.uriImplicate.values().size())
         {
-            String uriTest = c.getUriFromSource(e.getKey());
-            if(uriTest == null || uriTest.compareTo(e.getValue()) != 0)
+            ret = true;
+            for(OntologicalElement oeImpl : this.uriImplicate.values())
             {
-                ret = false;
-                break;
+                if(!uris.contains(oeImpl.getUri()))
+                {
+                    ret = false;
+                    break;
+                }
             }
         }
         
+        return ret;
+    }
+    
+    public boolean isSameCand(Candidate cand){
+        ArrayList<String> uris = new ArrayList<>();
+        for(OntologicalElement oe : cand.getUriImplicate().values()){
+            uris.add(oe.getUri());
+        }
+        return this.isSameCand(uris);
+    }
+    
+    public String getCandId(ArrayList<Source> sources){
+        String ret = "";
+        if(this.id == null){
+            for(Source s : sources){
+                if(this.uriImplicate.containsKey(s)){
+                    ret += this.uriImplicate.get(s).getUri();
+                }
+            }
+            this.id = ret;
+        }
+        else{
+            ret = this.id;
+        }
+        
+        return ret;
+    }
+    
+    public String getRefId()
+    {
+        HashMap<String, String> sourcesLabels = new HashMap<>();
+        ArrayList<String> sourcesList = new ArrayList<>();
+        for(Source s : this.uriImplicate.keySet())
+        {
+            sourcesLabels.put(s.getName(), this.uriImplicate.get(s).getUri());
+            sourcesList.add(s.getName());
+        }
+        Collections.sort(sourcesList);
+        
+        String ret = "";
+        for(String s : sourcesList)
+        {
+            ret += s+"->"+sourcesLabels.get(ret)+"/";
+        }
         return ret;
     }
     
@@ -155,43 +211,26 @@ public abstract class Candidate
         return this.trustChoquet;
     }
     
-    public String getRefId()
-    {
-        HashMap<String, String> sourcesLabels = new HashMap<>();
-        ArrayList<String> sourcesList = new ArrayList<>();
-        for(Source s : this.uriImplicate.keySet())
-        {
-            sourcesLabels.put(s.getName(), this.uriImplicate.get(s));
-            sourcesList.add(s.getName());
-        }
-        Collections.sort(sourcesList);
-        
-        String ret = "";
-        for(String s : sourcesList)
-        {
-            ret += s+"->"+sourcesLabels.get(ret)+"/";
-        }
-        return ret;
-    }
     
     public String toString()
     {
         String ret = this.sElem+" Candidate (Choquet : "+this.trustChoquet+"): \n";
-        for(Map.Entry<Source, String> e : this.uriImplicate.entrySet())
+        for(Map.Entry<Source, OntologicalElement> e : this.uriImplicate.entrySet())
         {
             ret += "\t "+e.getKey().getName()+" : "+e.getValue()+"\n";
         }
         return ret;
     }
     
+    
     public BasicDBObject toDBObject()
     {
          BasicDBObject doc = new BasicDBObject();
         ArrayList<BasicDBObject> elemCandidates = new ArrayList<>();
-        for(Entry<Source,String> e : this.uriImplicate.entrySet())
+        for(Entry<Source,OntologicalElement> e : this.uriImplicate.entrySet())
         {
             Source s = e.getKey();
-            String elem = e.getValue();
+            String elem = e.getValue().getUri();
             if(!elem.isEmpty())
             {
                 BasicDBObject elemC = new BasicDBObject();

@@ -9,6 +9,7 @@ package Candidate.ArcCandidate;
 import Candidate.Candidate;
 import Candidate.NodeCandidate.ClassCandidate;
 import Candidate.NodeCandidate.IndividualCandidate;
+import Source.OntologicalElement.OntologicalElement;
 import Source.Source;
 import com.mongodb.BasicDBObject;
 import java.util.ArrayList;
@@ -48,7 +49,7 @@ public class TypeCandidate extends ArcCandidate
         if(this.cc != null)
         {
             ret += "\n \t \t Class Candidate (";
-            for(Entry<Source, String> e : this.cc.getUriImplicate().entrySet())
+            for(Entry<Source, OntologicalElement> e : this.cc.getUriImplicate().entrySet())
             {
                 ret += e.getKey().getName()+" -> "+e.getValue()+" | ";
             }
@@ -61,38 +62,8 @@ public class TypeCandidate extends ArcCandidate
 
        return ret;
     }
-
-    @Override
-    public BasicDBObject toDBObject()
-    {
-         BasicDBObject doc = super.toDBObject();
-        ArrayList<String> listSourcesInvol = new ArrayList<>();
-        for(Source s :this.uriImplicate.keySet() )
-        {
-            listSourcesInvol.add(s.getName());
-        }
-        doc.append("sources", listSourcesInvol);
-        if(this.cc == null)
-        {
-            doc.append("uriClassType", this.uriTypeCandidate);
-        }
-        else
-        {
-            ArrayList<BasicDBObject> ccObj = new ArrayList();
-            for(Map.Entry<Source, String> ccUriImpl : this.cc.getUriImplicate().entrySet())
-            {
-                BasicDBObject implObj = new BasicDBObject();
-                implObj.append("source", ccUriImpl.getKey().getName());
-                implObj.append("uri", ccUriImpl.getValue());
-                ccObj.add(implObj);
-            }
-            doc.append("ClassCand", ccObj);
-        }
-        
-        return doc;
-    }
-
-    public String toProvO(String baseUri, int numCand, int instCand, HashMap<Source, String> sourcesUri, HashMap<Source, String> uriInst, String uriOntObj, String uriKbMerge)
+    
+    public String toProvO(String baseUri, int numCand, int instCand, HashMap<Source, String> sourcesUri, HashMap<Source, OntologicalElement> uriInst, String uriOntObj, String uriKbMerge)
     {
         this.baseUri = baseUri;
         String ret = super.toProvO(baseUri, numInst, sourcesUri, uriKbMerge);

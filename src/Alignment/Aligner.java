@@ -10,10 +10,8 @@ import MultiSources.Fusionner;
 import Source.Source;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
 
 /**
  *
@@ -36,7 +34,9 @@ public abstract class Aligner implements Serializable
     
     protected String stats;
     
-    public Aligner(Fusionner fusionner, Source s1, Source s2)
+    protected Alignments aligns;
+    
+    public Aligner(Fusionner fusionner, Source s1, Source s2, Alignments aligns)
     {
         this.isAligned = false;
       
@@ -50,6 +50,8 @@ public abstract class Aligner implements Serializable
         
         this.indAligns = new HashMap<>();
         this.classAligns = new HashMap<>();
+        
+        this.aligns = aligns;
     }
     
     public abstract void alignSources(float limitSimScore);
@@ -77,21 +79,26 @@ public abstract class Aligner implements Serializable
         
         this.s1.addIndAlignment(uri, a);
         this.s2.addIndAlignment(uriAlign, a);
+        
+        this.aligns.addAlignments(this.s1.getElem(uri), this.s2.getElem(uriAlign), a);
     }
     
      protected void addClassAlignment(String uri, String uriAlign, float value)
     {
-        Alignment a = new Alignment (uri, uriAlign, value);
-        ArrayList<Alignment> res = this.classAligns.get(uri);
-        if(res == null)
-        {
-            res = new ArrayList<>();
-            this.classAligns.put(uri, res);
+        if(!uri.startsWith(fusionner.getUriTypeBase())){
+            Alignment a = new Alignment (uri, uriAlign, value);
+            ArrayList<Alignment> res = this.classAligns.get(uri);
+            if(res == null)
+            {
+                res = new ArrayList<>();
+                this.classAligns.put(uri, res);
+            }
+            res.add(a);
+
+            this.s1.addClassAlignment(uri, a);
+            this.s2.addClassAlignment(uriAlign, a);
+            this.aligns.addAlignments(this.s1.getElem(uri), this.s2.getElem(uriAlign), a);
         }
-        res.add(a);
-        
-        this.s1.addClassAlignment(uri, a);
-        this.s2.addClassAlignment(uriAlign, a);
     }
     
      public StringBuilder getPrologIndAligns()

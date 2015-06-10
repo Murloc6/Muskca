@@ -6,17 +6,16 @@
 package Candidate.NodeCandidate;
 
 import Alignment.Alignment;
+import Alignment.Alignments;
 import Candidate.ArcCandidate.ArcCandidate;
 import Candidate.ArcCandidate.LabelCandidate;
-import Candidate.ArcCandidate.RelationCandidate;
 import Candidate.Candidate;
+import Source.OntologicalElement.OntologicalElement;
 import Source.Source;
 import com.mongodb.BasicDBObject;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Map.Entry;
 
 /**
@@ -77,7 +76,7 @@ public abstract class NodeCandidate extends Candidate
         this.labelCands.add(labelC);
     }
     
-    private void addLabelCandIfNoteExists(LabelCandidate lc)
+    private void addLabelCandIfNotExists(LabelCandidate lc)
     {
         boolean alreadyExists = false;
          for(LabelCandidate labelCand : this.labelCands)
@@ -97,7 +96,7 @@ public abstract class NodeCandidate extends Candidate
             this.labelCands.add(lc);
     }
     
-    public void addAllLabelsCandidate(ArrayList<LabelCandidate> labelCs, float trustLcMax, float sumSQ)
+    public void addAllLabelsCandidate(ArrayList<LabelCandidate> labelCs, float trustLcMax)
     {
         for(LabelCandidate lc : labelCs)
         {
@@ -132,9 +131,9 @@ public abstract class NodeCandidate extends Candidate
     {
         boolean ret = true;
         
-        for(String s : this.uriImplicate.values())
+        for(OntologicalElement elem : this.uriImplicate.values())
         {
-            if(notFoundUris.contains(s))
+            if(notFoundUris.contains(elem.getUri()))
             {
                 ret = false;
                 break;
@@ -164,6 +163,18 @@ public abstract class NodeCandidate extends Candidate
     {
         float ret = 0;
         return ret;
+    }
+    
+    public void getImpliedAligns(Alignments aligns){
+        ArrayList<OntologicalElement> oes = new ArrayList<>(this.uriImplicate.values());
+        for(int i = 0; i< oes.size(); i++){
+            for(int j = i+1; j < oes.size(); j++){
+                Alignment al = aligns.getAlignment(oes.get(i).getUri()+oes.get(j).getUri());
+                if(al != null){
+                    this.aligns.add(al);
+                }
+            }
+        }
     }
     
 //    @Override
@@ -214,42 +225,7 @@ public abstract class NodeCandidate extends Candidate
         return (utilityMappings+utilitySources)/2;
         
     }
-    
-//    @Override
-//    public void computeTrustDegreeScore(int nbSources)
-//    {
-//        Collections.sort(this.aligns, new Comparator<Alignment>() {
-//            @Override
-//            public int compare(Alignment  a1, Alignment  a2)
-//            {
-//                float a1Value = a1.getValue();
-//                float a2Value = a2.getValue();
-//                return (a1Value < a2Value ? -1 :(a1Value == a2Value ? 0 : 1));
-//            }
-//        });
-//        
-//        float trust = 0;
-//        float curVal = 0;
-//        float preVal = 0;
-//        if(!this.aligns.isEmpty())
-//        {
-//            for(int i = 0; i< this.aligns.size(); i++)
-//            {
-//                Alignment a = this.aligns.get(i);
-//                curVal = a.getValue();
-//                if(curVal != preVal)
-//                {
-//                    trust += (curVal - preVal)*this.mu(this.aligns.size()-i, nbSources);
-//                    preVal = curVal;
-//                }
-//            }
-//        }
-//        else // nodecandidate alone
-//        {
-//            trust = (float) this.mu(0.5f, nbSources);
-//        }
-//        this.trustDegreeScore = trust;
-//    }
+
     
     @Override
     public void computeTrustScore(int nbSources, float maxSourceQual)
@@ -301,7 +277,7 @@ public abstract class NodeCandidate extends Candidate
     public boolean isCompatible(NodeCandidate nc)
     {
         boolean ret = true;
-        for(Entry<Source, String> e : this.uriImplicate.entrySet())
+        for(Entry<Source, OntologicalElement> e : this.uriImplicate.entrySet())
         {
             if(nc.hasElem(e.getKey(), e.getValue()))
             {
@@ -314,32 +290,13 @@ public abstract class NodeCandidate extends Candidate
         return ret;
     }
     
-    public boolean isSameCand(ArrayList<String> uris)
-    {
-        boolean ret = false;
-        
-        if(uris.size() == this.uriImplicate.values().size())
-        {
-            ret = true;
-            for(String uriImpl : this.uriImplicate.values())
-            {
-                if(!uris.contains(uriImpl))
-                {
-                    ret = false;
-                    break;
-                }
-            }
-        }
-        
-        return ret;
-    }
     
     public String toPrologData()
     {
         String ret = "[";
-        for(String uri : this.getUriImplicate().values())
+        for(OntologicalElement oe : this.getUriImplicate().values())
         {
-            ret += "\""+uri+"\",";
+            ret += "\""+oe+"\",";
         }
         ret = ret.substring(0, ret.lastIndexOf(","));
         ret += "]";
@@ -353,7 +310,7 @@ public abstract class NodeCandidate extends Candidate
         String ret = "<"+uriCand+"> rdf:type :Entity; rdf:type rdf:Statement; rdf:subject <"+uriOntObj+">; rdf:predicate rdf:type; rdf:object owl:Thing.\n ";
         ret += "<"+uriCand+"> <"+baseUri+"hadTrustScore> \""+this.getTrustScore()+"\"^^xsd:double.\n";
         //String ret = "Instance Candidate ("+this.trustScore+" -- Source : "+this.trustSource+" | Aligns : "+this.trustAlign+" | ICHR : "+this.trustICHR+"): \n";
-        for(Entry<Source, String> e : this.uriImplicate.entrySet())
+        for(Entry<Source, OntologicalElement> e : this.uriImplicate.entrySet())
         {
             //ret += "\t "+e.getKey().getName()+"("+e.getKey().getSourceQualityScore()+") : "+e.getValue()+"\n";
             ret += "<"+e.getValue()+"> rdf:type :Entity; rdf:type rdf:Statement.\n";

@@ -22,11 +22,11 @@ public class ParamsReader
 {
     JsonNode root;
     
-    public ParamsReader()
+    public ParamsReader(String configFile)
     {
         try 
         {
-            byte[] jsonData = Files.readAllBytes(Paths.get("in/muskca_params.json"));
+            byte[] jsonData = Files.readAllBytes(Paths.get(configFile));
             ObjectMapper objectMapper = new ObjectMapper();
             root = objectMapper.readTree(jsonData);
             

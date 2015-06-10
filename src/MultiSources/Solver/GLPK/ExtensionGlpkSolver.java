@@ -15,7 +15,6 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.logging.Level;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import muskca.FilePerso;
@@ -138,8 +137,8 @@ public class ExtensionGlpkSolver extends GlpkSolver
         for(int i = 1; i<=initCands.size(); i++)
         {
             NodeCandidate nc = initCands.get(i-1);
-            //nc.setId(i);
-            this.allCands.put(""+nc.getId(), initCands.get(i-1));
+            nc.setId(i);
+            this.allCands.put(""+i, nc);
         }
         
         defined = new int[initCands.size()];

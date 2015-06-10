@@ -6,6 +6,7 @@
 
 package Source;
 
+import Source.OntologicalElement.OntologicalElement;
 import Alignment.Aligner;
 import Alignment.Alignment;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -28,6 +29,8 @@ public class Source implements Serializable
     private SparqlProxy sp;
     private HashMap<String, ArrayList<Alignment>> allInd;
     private HashMap<String, ArrayList<Alignment>> allClasses;
+    
+    private HashMap<String, OntologicalElement> elems;
    
     private ArrayList<Aligner> aligners;
     
@@ -50,6 +53,7 @@ public class Source implements Serializable
         this.allInd = new HashMap<>();
         this.allClasses = new HashMap<>();
         this.aligners = new ArrayList<>();
+        this.elems = new HashMap<>();
     }
     
 
@@ -164,6 +168,18 @@ public class Source implements Serializable
         }
         return ret;
     }
+    
+    public void addOntoElem(String uri, OntologicalElement elem){
+        this.elems.put(uri, elem);
+    }
+    
+    public OntologicalElement getElem(String uri){
+        return this.elems.get(uri);
+    }
+    
+    public ArrayList<OntologicalElement> getElems(){
+        return new ArrayList<>(this.elems.values());
+    }
    
     public BasicDBObject toDBObject()
     {
@@ -191,14 +207,16 @@ public class Source implements Serializable
     public ArrayList<String> getAllClassUris(String baseModule)
     {
         ArrayList<String> ret = new ArrayList<>();
-        String query = " SELECT ?uri WHERE { ?uri a owl:Class.} ";
+        String query = " SELECT ?uri WHERE { OPTIONAL{?uri a owl:Class.} OPTIONAL{?uri rdfs:subClassOf ?a}} ";
         ArrayList<JsonNode> uris = this.sp.getResponse(query);
         for(JsonNode jn : uris)
         {
-            String uri =jn.get("uri").get("value").asText();
-            if(!uri.startsWith(baseModule))
-            {
-                ret.add(uri);
+            if(jn.get("uri") != null){ 
+                String uri =jn.get("uri").get("value").asText();
+                if(!uri.startsWith(baseModule))
+                {
+                    ret.add(uri);
+                }
             }
         }
             

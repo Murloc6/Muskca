@@ -26,9 +26,9 @@ public class AlignerLogMap extends Aligner
   
     
     
-    public AlignerLogMap(Fusionner fusionner, Source s1, Source s2) 
+    public AlignerLogMap(Fusionner fusionner, Source s1, Source s2, Alignments aligns) 
     {
-        super(fusionner, s1, s2);
+        super(fusionner, s1, s2, aligns);
     }
 
     private String getAbsolutePathTemp(Source s)

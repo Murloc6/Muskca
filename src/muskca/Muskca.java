@@ -6,13 +6,10 @@
 
 package muskca;
 
-import Alignment.Aligner;
-import Alignment.AlignerLogMap;
-import Candidate.NodeCandidate.ClassCandidate;
-import Candidate.NodeCandidate.IndividualCandidate;
 import Candidate.NodeCandidate.NodeCandidate;
 import MultiSources.Extension;
 import MultiSources.Fusionner;
+import MultiSources.NodeCandidateGenerator;
 import MultiSources.Solver.GLPK.ExtensionGlpkSolver;
 import Source.Source;
 import java.io.File;
@@ -34,13 +31,15 @@ public class Muskca
     public static String dateBegin = "";
     public static String dateEnd = "";
     
+    public static String configFile = "in/muskca_params_OAEI_7.json";
+    
     
     public static Fusionner init()
     {
         cleanTempDirectory();
         Muskca.dateBegin = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").format(new Date());
         
-        ParamsReader params = new ParamsReader();
+        ParamsReader params = new ParamsReader(configFile);
         
         String projectName = params.getParam("projectName");
         String moduleFile = params.getParam("moduleFile");
@@ -48,78 +47,42 @@ public class Muskca
         ArrayList<String> urisRelImp = params.getArrayParams("relImps");
         ArrayList<String> urisLabelsImp = params.getArrayParams("labelRelImps");
          
-        //HashMap<String, String> mongoDbs = params.getSubParams("mongoDbs");
 
         HashMap<String, String> outputParams = params.getSubParams("output");
         String provoFile = outputParams.get("provoFile");
         String spOutProvo = outputParams.get("spOutProvo");
         String baseUriMuskca = outputParams.get("baseUri")+projectName+"/";
-
-        //HashMap<String, String> fusionnerParams = params.getSubParams("fusionner");
         
         String uriTypeBase = params.getParam("uriTypeBase");
         ArrayList<String> urisTypeImp = params.getArrayParams("uriTypeImps");
         
         
-        Fusionner fusionner = new Fusionner(urisLabelsImp, urisRelImp, uriTypeBase, urisTypeImp);
-        String dataProlog = fusionner.initPrologSources(sources);
+        Fusionner fusionner = new Fusionner(sources, urisLabelsImp, urisRelImp, uriTypeBase, urisTypeImp);
+        
+        System.out.println("Start filling sources");
+        fusionner.setElemsOnSources();
+        System.out.println("Sources filled");
         
         return fusionner;
     }
     
     
-    public static ArrayList<Aligner> alignSources(Fusionner fusionner)
-    {
-        String dataProlog = fusionner.getDataPrologSources();
-        ArrayList<Source> sources = fusionner.getSources();
-        StringBuilder dataIndProlog = new StringBuilder(dataProlog);
-        StringBuilder dataClassProlog = new StringBuilder(dataProlog);
-        ArrayList<Aligner> aligners = new ArrayList<>();
-        for(int i = 0; i< sources.size(); i++)
-        {
-            Source s1 = sources.get(i);
-            System.out.println("Start analyze source : "+s1.getName()+" ("+(i+1)+"/"+sources.size()+")");
-            for(int j = i+1; j< sources.size(); j++)
-            {
-                Source s2 = sources.get(j);
-                
-                System.out.println(s1.getName()+"/"+s2.getName()+ ": ");
-                Aligner aligner = new AlignerLogMap(fusionner, s1, s2);
-                System.out.println("Aligner ended !");
-                aligner.alignSources(0); // score min = 0 to keep all alignment (filter will be done by taken the first one)
-                dataIndProlog = dataIndProlog.append(aligner.getPrologIndAligns());
-                dataClassProlog = dataClassProlog.append(aligner.getPrologClassAligns());
-                aligners.add(aligner);
-            }
-        }
-        for(Source s : sources)
-        {
-            dataClassProlog = dataClassProlog.append(s.classesToPrologData());
-            dataIndProlog = dataIndProlog.append(s.indsToPrologData());
-        }
-        fusionner.setDataPrologClass(dataClassProlog);
-        fusionner.setDataPrologInd(dataIndProlog);
-        return aligners;
+    public static void alignSources(Fusionner fusionner){
+        fusionner.alignSources();
     }
     
-    
-    public static ArrayList<NodeCandidate> computeNodeCandidates(Fusionner fusionner)
-    {
+   
+    public static ArrayList<NodeCandidate> computeNodeCandidates(Fusionner fusionner){
+        ArrayList<NodeCandidate> ret = new ArrayList<>();
         
-         System.out.println("BEGIN COMPUTE Classes CANDIDATE");
-        ArrayList<ClassCandidate> candidatesClass = fusionner.computeClassCandidate("classCandidateMongoCol");
+        System.out.println("Start computing Node Candidates...");
+        NodeCandidateGenerator ncg = new NodeCandidateGenerator(fusionner.getSources(), fusionner.getAlignments());
+        ret = ncg.generateNodeCandidates();
+        fusionner.setNodeCands(ret);
         
-        System.out.println("BEGIN COMPUTE Ind. CANDIDATE");
-        ArrayList<IndividualCandidate> candidatesInd = fusionner.computeIndCandidate("indivCandidateMongoCol");
+        System.out.println("Node candidates computed! ("+ret.size()+" candidates generated)");
         
-        int nbCandidates = candidatesClass.size()+candidatesInd.size();
-        StringBuilder dataForExtensions = fusionner.allCandidatesToPrologData();
-        
-        ArrayList<NodeCandidate> allCands = new ArrayList<>();
-        allCands.addAll(candidatesClass);
-        allCands.addAll(candidatesInd);
-        
-        return allCands;
+        return ret;
     }
     
     public static void computeArcCandidates(Fusionner fusionner)
@@ -128,28 +91,30 @@ public class Muskca
          * -> Add some other kind of arcs to be generated
          */
         
-        //fusionner.computeLabelCandidate(mongoDbs.get("labelArcCandidateMongoCol"), urisLabelsImp);
         System.out.println("Compute labels ... ");
-        fusionner.computeLabelCandidate(null);
+        fusionner.computeLabelCandidate();
         System.out.println("Labels computed!");
+        
         
         for(String rel : fusionner.getImpRels())
         {
             System.out.println("Compute Arc candidates from "+rel+" ...");
-            fusionner.computeRelationCandidate(null, rel);
+            fusionner.computeRelationCandidate(rel);
             System.out.println(rel+" arc candidates computed!");
         }
         
         System.out.println("Compute rdf:type candidates");
         //recheck the compute type algorithm
-        fusionner.computeTypeCandidate(null);
+        fusionner.computeTypeCandidate();
         System.out.println("Candidates computed");
         
     }
     
     public static void computeTrustScore(Fusionner fusionner)
     {
+        System.out.println("Start computing trust scores...");
         fusionner.computeTrustScore();
+        System.out.println("Trust scores computed");
     }
     
     public static ExtensionGlpkSolver getExtensionSolver(Fusionner fusionner, ArrayList<NodeCandidate> allCands)
@@ -233,13 +198,7 @@ public class Muskca
      */
     public static void main(String[] args) 
     {   
-        
-        /*
-         * TODO : 
-            -> Change trust score comutation (trust mix)
-            -> Implements the Log4J lib to improve the logs
-            -> Clean up the Fusionner class and the Source class
-         */
+       
         
         Fusionner fusionner = Muskca.init();
         

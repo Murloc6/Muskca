@@ -6,6 +6,9 @@
 
 package MultiSources;
 
+import Alignment.Aligner;
+import Alignment.AlignerLogMap;
+import Alignment.Alignments;
 import Alignment.StringDistance;
 import Candidate.CandidateComparator;
 import Candidate.NodeCandidate.ClassCandidate;
@@ -15,24 +18,17 @@ import Candidate.ArcCandidate.RelationCandidate;
 import Candidate.ArcCandidate.TypeCandidate;
 import Candidate.NodeCandidate.NodeCandidate;
 import MultiSources.Solver.GLPK.ExtensionGlpkSolver;
-import MultiSources.Solver.Prolog.CandidatSolver;
-import MultiSources.Solver.Prolog.ExtensionSolver;
+import Source.OntologicalElement.ClassOntologicalElement;
+import Source.OntologicalElement.IndividualOntologicalElement;
+import Source.OntologicalElement.OntologicalElement;
 import Source.Source;
 import Source.SparqlProxy;
-import com.mongodb.BasicDBObject;
-import com.mongodb.DB;
-import com.mongodb.DBCollection;
-import com.mongodb.MongoClient;
-import com.mongodb.WriteResult;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.Serializable;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
-import java.util.Scanner;
 import muskca.FilePerso;
 import muskca.Muskca;
 import org.apache.commons.io.IOUtils;
@@ -44,9 +40,9 @@ import org.apache.commons.io.IOUtils;
 public class Fusionner implements Serializable
 {
    
+   
     
-    private ArrayList<IndividualCandidate>instCandidates;
-    private ArrayList<ClassCandidate>classCandidates;
+    private ArrayList<NodeCandidate> allNodeCands;
     
    /* private HashMap<String, Alignment> uriAlignment;
     private HashMap<String, Alignment> uriClassAlignment;*/
@@ -69,6 +65,8 @@ public class Fusionner implements Serializable
     private StringBuilder dataPrologClass;
     private StringBuilder dataPrologInd;
     
+    private Alignments aligns;
+    
     private ArrayList<String> urisLabelsImp;
     private ArrayList<String> urisRelImp;
     private String uriTypeBase;
@@ -80,23 +78,20 @@ public class Fusionner implements Serializable
     public int nbMongoSaved = 0;
     
     
-    public Fusionner(ArrayList<String> urisLabelsImp, ArrayList<String> urisRelImp, String uriTypeBase, ArrayList<String> urisTypeImp)
+    public Fusionner(ArrayList<Source> sources, ArrayList<String> urisLabelsImp, ArrayList<String> urisRelImp, String uriTypeBase, ArrayList<String> urisTypeImp)
     {
-        //this.uriAlignment = new HashMap<>();
-        //this.uriClassAlignment = new HashMap<>();
         
-        this.instCandidates = new ArrayList<>();
-        this.classCandidates = new ArrayList<>();
-        
-//        this.mongoDbs = mongoDbs;
-//        this.mongodb = this.mongoDbs.get("mongodb");
-//        this.mongoServer = this.mongoDbs.get("mongoServer");
-//        this.mongoPort = Integer.parseInt(this.mongoDbs.get("mongoPort"));
         
         this.urisLabelsImp = urisLabelsImp;
         this.urisRelImp = urisRelImp;
         this.uriTypeBase = uriTypeBase;
         this.urisTypeImp = urisTypeImp;
+        
+        this.aligns = new Alignments(this.uriTypeBase);
+        
+        this.sources = sources;
+        
+        this.allNodeCands = new ArrayList<>();
     }
     
     
@@ -129,212 +124,80 @@ public class Fusionner implements Serializable
         return this.urisRelImp;
     }
     
-//    public String getMongoDb(String db)
-//    {
-//        return this.mongoDbs.get(db);
-//    }
-    
-//    private DBCollection connectMongo(String mongoCollection)
-//    {
-//        DBCollection collMongo = null;
-//        try
-//        {
-//            MongoClient mongoClient = new MongoClient( this.mongoServer , this.mongoPort);
-//            DB db = mongoClient.getDB(this.mongodb);
-//           collMongo = db.getCollection(mongoCollection);
-//           collMongo.remove(new BasicDBObject());
-//        } 
-//        catch (UnknownHostException ex)
-//        {
-//            System.err.println("ERROR during connection to mongoDB ...");
-//            System.exit(0);
-//        }
-//        return collMongo;
-//    }
-    
-    public void setDataPrologClass(StringBuilder dataPrologClass)
-    {
-        this.dataPrologClass = dataPrologClass;
-    }
-    
-    public void setDataPrologInd(StringBuilder dataPrologInd)
-    {
-        this.dataPrologInd = dataPrologInd;
+    public String getUriTypeBase(){
+        return this.uriTypeBase;
     }
     
     
-    public StringBuilder getPrologCandidatesDef(ArrayList<NodeCandidate> cands)
-    {
-        StringBuilder candidates = new StringBuilder();
-        for(NodeCandidate cand : cands)
-        {
-            //System.out.println("candidat("+s+").");
-            candidates = candidates.append("candidat(");
-            candidates.append(cand.toPrologData());
-            candidates.append(").\n");
+    public void setElemsOnSources(){
+        System.out.println("Get ontological elements (classes)");
+        for(Source s : this.sources){
+            System.out.println("Fill "+s.getName());
+            int i = 0;
+            for(String uri : s.getAllClassUris(this.uriTypeBase)){
+                ClassOntologicalElement coe = new ClassOntologicalElement(uri, s);
+                s.addOntoElem(uri, coe);
+                i++;
+            }
+            System.out.println("\t "+i+" Classes added");
         }
-        return candidates;
-    }
-    
-    public ArrayList<ClassCandidate> computeClassCandidate(String mongoDb)
-    {
-        ArrayList<ClassCandidate> ret;
-        //String mongoCollection = this.getMongoDb(mongoDb);
         
-        int nbSources = this.sources.size();
-        
-//        DBCollection collMongo = null;
-//        if(mongoCollection != null)
-//        {
-//            collMongo = connectMongo(mongoCollection);
-//        }
-        
-        CandidatSolver cs = new CandidatSolver(this.dataPrologClass);
-        ret = cs.getAllClassCandidates(this, nbSources);
-        
-         ArrayList<ClassCandidate> aloneCands = new ArrayList<>();
-        
-        System.out.println("Start considering the alone class candidates (so sad!)");
-        for(Source s : this.sources)
-        {
-            ArrayList<String> uriAlones = s.getAllClassUris(this.uriTypeBase);
-            for(String uriAlone : uriAlones)
-            {
-                boolean isAlreadyImplied = false;
-                for(ClassCandidate cc : ret)
-                {
-                    if(cc.hasElem(s, uriAlone))
-                    {
-                       isAlreadyImplied = true;
-                       break;
-                    }
-                }
-                if(!isAlreadyImplied)
-                {
-                    ClassCandidate aloneCc = new ClassCandidate();
-                    aloneCc.addElem(s, uriAlone);
-                    aloneCands.add(aloneCc);
+        System.out.println("Get ontological elements (ind.)");
+        for(Source s : this.sources){
+            System.out.println("Fill "+s.getName());
+            int i = 0;
+            for(String typeUri : this.urisTypeImp){
+                //System.out.println("Considering : "+typeUri+" inds.");
+                for(String uri : s.getAllIndividualUris(typeUri)){
+                    IndividualOntologicalElement ioe = new IndividualOntologicalElement(uri, s);
+                    s.addOntoElem(uri, ioe);
+                    i++;
                 }
             }
+            System.out.println("\t"+i+" inds. added");
         }
-        ret.addAll(aloneCands);
-        
-        int nbCand = ret.size();
-        System.out.println("ClassCandidates generated : "+nbCand+" ("+aloneCands.size()+" alone cands)");
-        this.classCandidates = ret;
-        return ret;
     }
     
-     public ArrayList<IndividualCandidate> computeIndCandidate(String mongoDb)
-    {
-        ArrayList<IndividualCandidate> ret;
-        //String mongoCollection = this.mongoDbs.get(mongoDb);
-        int nbSources = this.sources.size();
-        
-//        DBCollection collMongo = null;
-//        if(mongoCollection != null)
-//        {
-//            collMongo = connectMongo(mongoCollection);
-//        }
-        
-        CandidatSolver cs = new CandidatSolver(this.dataPrologInd);
-        ret = cs.getAllIndCandidates(this, nbSources);
-        
-        ArrayList<IndividualCandidate> aloneCands = new ArrayList<>();
-        
-        System.out.println("Start considering the alone individuals candidates (so sad!)");
-        for(Source s : this.sources)
+    public void setNodeCands(ArrayList<NodeCandidate> allCands){
+        this.allNodeCands = allCands;
+    }
+    
+    public Alignments getAlignments(){
+        return this.aligns;
+    }
+    
+    public void alignSources(){
+        for(int i = 0; i< this.sources.size(); i++)
         {
-            for(String uriClassInd : this.urisTypeImp)
+            Source s1 = this.sources.get(i);
+            System.out.println("Start analyze source : "+s1.getName()+" ("+(i+1)+"/"+this.sources.size()+")");
+            for(int j = i+1; j< this.sources.size(); j++)
             {
-                ArrayList<String> uriAlones = s.getAllIndividualUris(uriClassInd);
-                for(String uriAlone : uriAlones)
-                {
-                    boolean isAlreadyImplied = false;
-                    for(IndividualCandidate ic : ret)
-                    {
-                        if(ic.hasElem(s, uriAlone))
-                        {
-                           isAlreadyImplied = true;
-                           break;
-                        }
-                    }
-                    if(!isAlreadyImplied)
-                    {
-                        IndividualCandidate aloneIc = new IndividualCandidate();
-                        aloneIc.addElem(s, uriAlone);
-                        aloneCands.add(aloneIc);
-                    }
-                }
+                Source s2 = this.sources.get(j);
+                
+                System.out.println(s1.getName()+"/"+s2.getName()+ ": ");
+                Aligner aligner = new AlignerLogMap(this, s1, s2, this.aligns);
+                System.out.println("Aligner ended !");
+                aligner.alignSources(0); // score min = 0 to keep all alignment (filter will be done by taken the first one)
             }
         }
-        ret.addAll(aloneCands);
-        int nbCand = ret.size();
-        System.out.println("IndividualCandidates generated : "+nbCand+" ("+aloneCands.size()+" alone cands)");
-        this.instCandidates = ret;
-        return ret;
     }
-    
      
     public NodeCandidate getCandidateFromUris(ArrayList<String> uris)
     {
         NodeCandidate ret = null;
-        boolean founded = false;
-        for(IndividualCandidate ic : this.instCandidates)
+        for(NodeCandidate nc : this.allNodeCands)
         {
-            if(ic.isSameCand(uris))
+            if(nc.isSameCand(uris))
             {
-                ret = ic;
-                founded = true;
+                ret = nc;
                 break;
             }
         }
-        if(!founded)
-        {
-            for(ClassCandidate cc : this.classCandidates)
-            {
-                if(cc.isSameCand(uris))
-                {
-                    ret = cc;
-                    founded = true;
-                    break;
-                }
-            }
-        }
         
         return ret;
     }
      
-    public StringBuilder allExtensionsToProlog(ArrayList<Extension> exts)
-    {
-        StringBuilder ret = new StringBuilder();
-        for(Extension ext : exts)
-        {
-            ret = ret.append("extension(");
-            ret = ret.append(ext.toPrologData());
-            ret = ret.append(").\n");
-        }
-        return ret;
-    }
-     
-    public ArrayList<Extension> computeExtensions(StringBuilder data, int nbCand)
-    {
-        ArrayList<Extension> ret;
-        ArrayList<ArrayList<String>> curSols = new ArrayList<>();
-        
-        ExtensionSolver es = new ExtensionSolver(data);
-        
-        int nbMax = es.getMaxExtSize(nbCand);
-        System.out.println("Nb max cand for extensions : "+nbMax);
-        
-        ret = es.getAllExtensions(nbMax, this);
-        
-        
-        
-        return ret;
-    }
-    
-    
     public ExtensionGlpkSolver initSolver(ArrayList<NodeCandidate> allCands)
     {
         ExtensionGlpkSolver solver = new ExtensionGlpkSolver();
@@ -380,97 +243,7 @@ public class Fusionner implements Serializable
         
         return ret;
     }
-    
-    /*public Extension getValidatedExtension(ArrayList<NodeCandidate> allCands)
-    {
-        
-        
-        
-        
-        boolean validatedExtensionFounded = false;
-        while(!validatedExtensionFounded)
-        {
-            
-            
-                
-            }
-            else
-            {
-                System.err.println("Error : no extension founded...");
-                ext = null;
-                validatedExtensionFounded = true;
-            }
-        }
-        
-        
-        if(validatedExtensionFounded && ext != null)
-        {
-            System.out.println("Best extension founded! ");
-            System.out.println(ext);
-        }
-        else
-        {
-            System.out.println("None extension exists with these constraints...");
-        }
-        
-        
-        return ext;
-    }*/
-    
-    
-    public boolean isClassCandidate(String classUri, Source s)
-    {
-        boolean ret = false;
-        for(ClassCandidate cc : this.classCandidates)
-        {
-            if(cc.hasElem(s, classUri))
-            {
-                ret = true;
-            }
-        }
-        
-        return ret;
-    }
-    
-    public StringBuilder allCandidatesToPrologData()
-    {
-        StringBuilder ret = new StringBuilder();
-        
-        for(IndividualCandidate ic : this.instCandidates)
-        {
-            ret = ret.append("candidat(").append(ic.toPrologData()).append("). \n");
-        }
-        for(ClassCandidate cc : this.classCandidates)
-        {
-            ret = ret.append("candidat(").append(cc.toPrologData()).append("). \n");
-        }
-        
-        return ret;
-    }
-    
-    public String allCandidatesToString()
-    {
-        this.instCandidates.sort(new CandidateComparator());
-        String ret = "Instance Candidate (nb : "+this.instCandidates.size()+" : \n";
-        for(IndividualCandidate ic : this.instCandidates)
-        {
-            ret += ic.toString();
-        }
-        
-        return ret;
-    }
-    
-    public String allClassCandidatesToString()
-    {
-        this.classCandidates.sort(new CandidateComparator());
-        String ret = "Class Candidate (nb : "+this.classCandidates.size()+") : \n";
-        for(ClassCandidate cc : this.classCandidates)
-        {
-            ret += cc.toString();
-        }
-        
-        return ret;
-    }
+   
     
     private String getOwlFileToTtl(String owlFile)
     {
@@ -565,9 +338,9 @@ public class Fusionner implements Serializable
         
         spOutProvo.storeData(new StringBuilder(query));
         
-        for(IndividualCandidate ic : this.instCandidates)
+        for(NodeCandidate nc : this.allNodeCands)
         {
-            spOutProvo.storeData(new StringBuilder(this.setPrefix()+" INSERT DATA {"+ic.toProvO(baseUri, numInst, provoSourceUri, uriKbMerge)+"}"));
+            spOutProvo.storeData(new StringBuilder(this.setPrefix()+" INSERT DATA {"+nc.toProvO(baseUri, numInst, provoSourceUri, uriKbMerge)+"}"));
             numInst ++;
         }
         
@@ -576,14 +349,14 @@ public class Fusionner implements Serializable
     
     public String allCandidatesToCSV()
     {
-         this.instCandidates.sort(new CandidateComparator());
+         this.allNodeCands.sort(new CandidateComparator());
         //String ret = "Instance Candidate (nb : "+this.instCandidates.size()+" : \n";
          String ret = "";
          int nb = 0;
-        for(IndividualCandidate ic : this.instCandidates)
+        for(NodeCandidate nc : this.allNodeCands)
         {
             nb++;
-            ret += ic.getTrustScore()+" \n";
+            ret += nc.getTrustScore()+" \n";
         }
         
         return ret;
@@ -591,53 +364,52 @@ public class Fusionner implements Serializable
     
     public ArrayList<NodeCandidate> getAllNodeCandidates()
     {
-        ArrayList<NodeCandidate> ret = new ArrayList<>();
-        ret.addAll(this.instCandidates);
-        ret.addAll(this.classCandidates);
-        return ret;
+        return this.allNodeCands;
     }
     
-    public void computeRelationCandidate(String mongoCollectionICHR, String relImp)
+    public void computeRelationCandidate(String relImp)
     {
-//         DBCollection collMongo = null;
-//        if(mongoCollectionICHR != null)
-//        {
-//           collMongo = connectMongo(mongoCollectionICHR);
-//        }
         int nbicHR = 0;
-        for(IndividualCandidate ic : this.instCandidates) // for each node candidate nc
+        for(NodeCandidate nc : this.allNodeCands) // for each node candidate nc
         {
+            if(nc.getClass() == ClassCandidate.class){
+                continue;
+            }
+            IndividualCandidate ic = (IndividualCandidate) nc;
             ArrayList<String> uriHigherRank = new ArrayList<>();
             boolean relValid = false;
-            for(Entry<Source, String> e : ic.getUriImplicate().entrySet()) // for each elem in nc
+            for(Entry<Source, OntologicalElement> e : ic.getUriImplicate().entrySet()) // for each elem in nc
             {
                 boolean founded = false;
-                ArrayList<String> urisHR = e.getKey().getRelImportant(e.getValue(), relImp); // get all the uris from <nc> <relIm> <uriHR>
+                ArrayList<String> urisHR = e.getKey().getRelImportant(e.getValue().getUri(), relImp); // get all the uris from <nc> <relIm> <uriHR>
                 if(urisHR.size() > 0) // if uriHR exists (at least one)
                 {
-                    String uriHR = urisHR.get(0); //consider all objectproperties functionnal (can't be 1:n)
-                    
-                    for(NodeCandidate ncHR : this.getNodeCandidateFromUriImplicate(uriHR, e.getKey())) // get all node candidate wich uriHR is implicated
+                    //String uriHR = urisHR.get(0); //consider all objectproperties functionnal (can't be 1:n)
+                    founded = false;
+                    for(String uriHR : urisHR)
                     {
-                        founded = false;
-                        ArrayList<Source> sourcesHR = new ArrayList<>();
-                        sourcesHR.add(e.getKey());
-                        for(Source s : ic.getUriImplicate().keySet()) // for all sources in nc
+                        for(NodeCandidate ncHR : this.getNodeCandidateFromUriImplicate(uriHR, e.getKey())) // get all node candidate wich uriHR is implicated
                         {
-                            if(s != e.getKey()) // if source is different from the initial founded ncHR source
+                            ArrayList<Source> sourcesHR = new ArrayList<>();
+                            sourcesHR.add(e.getKey());
+                            for(Source s : ic.getUriImplicate().keySet()) // for all sources in nc
                             {
-                                String uriIC = ic.getUriFromSource(s);
-                                String uriICHR = ncHR.getUriFromSource(s);
-                                if(s.isRelImportant(uriIC, relImp, uriICHR)) // if <nc> <relImp> <uriICHR> exists (rel exsits in other source)
+                                if(s != e.getKey()) // if source is different from the initial founded ncHR source
                                 {
-                                    sourcesHR.add(s); // add the source on the implied sources
-                                    founded = true;
+                                    String uriIC = ic.getUriFromSource(s).getUri();
+                                    OntologicalElement oeHR = ncHR.getUriFromSource(s);
+                                    if(oeHR != null)
+                                    {
+                                        String uriICHR = ncHR.getUriFromSource(s).getUri();
+                                        if(s.isRelImportant(uriIC, relImp, uriICHR)) // if <nc> <relImp> <uriICHR> exists (rel exsits in other source)
+                                        {
+                                            sourcesHR.add(s); // add the source on the implied sources
+                                            founded = true;
+                                        }
+                                    }
                                 }
                             }
-                        }
-                        //Create a new relation candidate for each nodecandidate whith the associated sourcesHR
-                        //if( sourcesHR.size() > 1)
-                        //{
+                            //Create a new relation candidate for each nodecandidate whith the associated sourcesHR
                             RelationCandidate relCandidate = new RelationCandidate(ic,relImp, ncHR, sourcesHR);
                             //relCandidate.computeTrustScore(this.trustRcMax);
                             //ic.addIcHR(icHR, sourcesHR);
@@ -645,23 +417,7 @@ public class Fusionner implements Serializable
                             {
                                 nbicHR++;
                             }
-                            //this.icHRs.put(ic, icHR);
-
-//                             if(mongoCollectionICHR != null)
-//                            {
-//                                try
-//                                {
-//                                      WriteResult wr =collMongo.insert(relCandidate.toDBObject());
-//                                      this.nbMongoSaved ++;
-//                                }
-//                                catch(NullPointerException ex)
-//                                {
-//                                    System.err.println("ERROR Mongo Writer null ...");
-//                                    System.err.println(ex);
-//                                    //System.exit(0);
-//                                }
-//                            }
-                        //}
+                        }
                     }
                 }
                 if(founded) // stop considering other implied elements of the initial candidate if relation has been found
@@ -673,18 +429,6 @@ public class Fusionner implements Serializable
         System.out.println("NB ICHR : "+nbicHR);
     }
     
-    private ArrayList<ClassCandidate> getClassCandidateFromUriImplicate(String uriType, Source s)
-    {
-        ArrayList<ClassCandidate> ret = new ArrayList<>();
-        for(ClassCandidate cc : this.classCandidates)
-        {
-            if(cc.hasElem(s, uriType))
-            {
-                ret.add(cc);
-            }
-        }
-        return ret;
-    }
     
     private ArrayList<NodeCandidate> getNodeCandidateFromUriImplicate(String uriType, Source s)
     {
@@ -699,22 +443,21 @@ public class Fusionner implements Serializable
         return ret;
     }
     
-    public void computeTypeCandidate(String mongoCollectionType)
+    public void computeTypeCandidate()
     {
         String relImp = "http://www.w3.org/1999/02/22-rdf-syntax-ns#type";
-//         DBCollection collMongo = null;
-//        if(mongoCollectionType != null)
-//        {
-//            collMongo = connectMongo(mongoCollectionType);
-//        }
         int nbtc = 0;
-        for(IndividualCandidate ic : this.instCandidates)
+        for(NodeCandidate nc : this.allNodeCands)
         {
+            if(nc.getClass() == ClassCandidate.class){
+                break;
+            }
+            IndividualCandidate ic = (IndividualCandidate) nc;
             boolean relValid = false;
-            for(Entry<Source, String> e : ic.getUriImplicate().entrySet())
+            for(Entry<Source, OntologicalElement> e : ic.getUriImplicate().entrySet())
             {
                 boolean founded = false;
-                ArrayList<String> urisType = e.getKey().getRelImportant(e.getValue(), relImp);
+                ArrayList<String> urisType = e.getKey().getRelImportant(e.getValue().getUri(), relImp);
                 for(String uriTypeCandidate : urisType)
                 {
                     //System.out.println(uriTypeCandidate);
@@ -724,12 +467,12 @@ public class Fusionner implements Serializable
                         uriType.put(e.getKey(), e.getValue()+" "+relImp+" "+uriTypeCandidate);
                         relValid = true;
                         //System.out.println("TEST : "+uriTypeCandidate);
-                        for(Entry<Source, String> elem : ic.getUriImplicate().entrySet())
+                        for(Entry<Source, OntologicalElement> elem : ic.getUriImplicate().entrySet())
                         {
                             Source s = elem.getKey();
                             if(s != e.getKey() && relValid)
                             {
-                                ArrayList<String> testUri = elem.getKey().getRelImportant(elem.getValue(), relImp);
+                                ArrayList<String> testUri = elem.getKey().getRelImportant(elem.getValue().getUri(), relImp);
                                 String otherTypeUri = null;
                                 if(testUri != null && !testUri.isEmpty())
                                 {
@@ -756,24 +499,6 @@ public class Fusionner implements Serializable
                             }
                             if(ic.addTypeCandidate(tc))
                                 nbtc ++;
-
-//                             if(mongoCollectionType != null)
-//                            {
-//                                this.nbMongoSaved ++;
-//
-//
-//                                try
-//                                {
-//                                      WriteResult wr =collMongo.insert(tc.toDBObject());
-//                                }
-//                                catch(NullPointerException ex)
-//                                {
-//                                    System.err.println("ERROR Mongo Writer null ...");
-//                                    System.err.println(ex);
-//                                    //System.exit(0);
-//                                }
-//                            }
-                            //break;
                         }
                     }
                 }
@@ -783,7 +508,7 @@ public class Fusionner implements Serializable
                 }
             }
         }
-        System.out.println("NB tc : "+nbtc+" / "+this.instCandidates.size());
+        System.out.println("NB tc : "+nbtc);
     }
     
      private void mergeLabelCandidate(NodeCandidate nc, ArrayList<LabelCandidate> lcs, String l1, Source s1, String l2, Source s2, float simValue, String dataProp)
@@ -808,7 +533,7 @@ public class Fusionner implements Serializable
         }
         if(!founded)
         {
-            LabelCandidate newLC = new LabelCandidate(nc, dataProp, this.getSumSQ());
+            LabelCandidate newLC = new LabelCandidate(nc, dataProp);
             newLC.addElem(s1, l1);
             newLC.addElem(s2, l2);
             newLC.addValue(s1, simValue);
@@ -820,9 +545,9 @@ public class Fusionner implements Serializable
      {
         HashMap<Source, ArrayList<String>> sourcesLabel = new HashMap<>();
         ArrayList<Source> sourcesInv= new ArrayList<>();
-        for(Entry<Source, String> e : nc.getUriImplicate().entrySet())
+        for(Entry<Source, OntologicalElement> e : nc.getUriImplicate().entrySet())
         {
-            ArrayList<String> labels = e.getKey().getRelImportant(e.getValue(), dataProp);
+            ArrayList<String> labels = e.getKey().getRelImportant(e.getValue().getUri(), dataProp);
             if(labels != null)
             {
                 sourcesLabel.put(e.getKey(), labels);
@@ -857,15 +582,9 @@ public class Fusionner implements Serializable
         return lcs;
      }
     
-    public void computeLabelCandidate(String mongoDb)
+    public void computeLabelCandidate()
     {
-        
-//         DBCollection collMongo = null;
-//        if(mongoDb != null)
-//        {
-//            String mongoCollectionLabels = this.getMongoDb(mongoDb);
-//            collMongo = connectMongo(mongoCollectionLabels);
-//        }
+       
         ArrayList<NodeCandidate> allCands = this.getAllNodeCandidates();
         for(NodeCandidate nc : allCands)
         {
@@ -875,144 +594,13 @@ public class Fusionner implements Serializable
                 if(lcs != null && lcs.size() > 0)
                 {
                     //ic.addLabelCandidates(dataProp, lcs);
-                    nc.addAllLabelsCandidate(lcs, trustLcMax, this.getSumSQ());
+                    nc.addAllLabelsCandidate(lcs, trustLcMax);
                 }
             }
             nc.clearLabelsCandidates();
-//            if(collMongo != null)
-//            {
-//                ArrayList<String> lcTreated = new ArrayList<>();
-//                 for(LabelCandidate lc : nc.getLabelCandidates())
-//                 {
-//                    try
-//                    {
-//                         WriteResult wr =collMongo.insert(lc.toDBObject());
-//                    }
-//                    catch(NullPointerException ex)
-//                    {
-//                        System.err.println("ERROR Mongo Writer null (LC) ...");
-//                        System.exit(0);
-//                    }
-//                }
-//            }
         }
     }
+   
     
-    /*public void addAlignmentCandidateSP(Alignment a, Source s1, Source s2)
-    {
-        StringBuilder query = new StringBuilder("PREFIX : <http://www.amarger.murloc.fr/AlignmentOntology#> INSERT DATA {");
-        query.append("<"+a.getUri()+"> rdf:type :Element; :belongsTo <"+s1.getBaseUri()+">.");
-        query.append("<"+a.getUriAlign()+"> rdf:type :Element; :belongsTo <"+s2.getBaseUri()+">.");
-        query.append(":Alignment_"+this.idAlign+" rdf:type :Alignment; :alignBetween <"+a.getUri()+">; :alignBetween <"+a.getUriAlign()+">; :trustScore \""+a.getValue()+"\"^^xsd:float . }");
-        //System.out.println(query);
-        this.spAlignTemp.storeData(query);
-        this.uriAlignment.put("http://www.amarger.murloc.fr/AlignmentOntology#Alignment_"+this.idAlign, a);
-        this.idAlign ++;
-    }
-    
-    public void addAlignmentClassCandidateSP(Alignment a, Source s1, Source s2)
-    {
-        StringBuilder query = new StringBuilder("PREFIX : <http://www.amarger.murloc.fr/AlignmentOntology#> INSERT DATA {");
-        query.append("<"+a.getUri()+"> rdf:type :Element; :belongsTo <"+s1.getBaseUri()+">.");
-        query.append("<"+a.getUriAlign()+"> rdf:type :Element; :belongsTo <"+s2.getBaseUri()+">.");
-        query.append(":Alignment_"+this.idClassAlign+" rdf:type :Alignment; :alignBetween <"+a.getUri()+">; :alignBetween <"+a.getUriAlign()+">; :trustScore \""+a.getValue()+"\"^^xsd:float . }");
-        //System.out.println(query);
-        this.spClassAlignTemp.storeData(query);
-        this.uriClassAlignment.put("http://www.amarger.murloc.fr/AlignmentOntology#Alignment_"+this.idClassAlign, a);
-        this.idClassAlign ++;
-    }*/
-    
-    /*public void initSources(ArrayList<Source> sources)
-    {
-        this.spAlignTemp.clearSp();
-        this.spClassAlignTemp.clearSp();
-        StringBuilder query = new StringBuilder("PREFIX : <http://www.amarger.murloc.fr/AlignmentOntology#> \n INSERT DATA {");
-        try
-        {
-            query.append(FileUtils.readFileToString(FileUtils.getFile("in/alignment_ontology.owl")));
-            //System.out.println(query);
-            
-            for(Source s : sources)
-            {
-                query.append(" <"+s.getBaseUri()+"> rdf:type :Source; :hasName \""+s.getName()+"\". ");
-            }
-            
-            query.append("}");
-            this.spAlignTemp.storeData(query);
-            this.spClassAlignTemp.storeData(query);
-        } 
-        catch (IOException ex)
-        {
-            System.err.println("Error during reading the alignment_ontology.owl file...");
-            System.exit(0);
-        }
-        this.sources = sources;
-    }*/
-    
-    public String initPrologSources(ArrayList<Source> sources)
-    {
-        String sData = "sources([";
-        for(Source s : sources)
-        {
-            sData += s.getName().toLowerCase()+", ";
-        }
-        sData = sData.substring(0, sData.lastIndexOf(","));
-        sData += "]). \n";
-        this.sources = sources;
-        
-        
-        this.trustIcMax = this.getIcTrustMax();
-        this.trustRcMax = this.getRcTrustMax();
-        this.trustTcMax = this.getTcTrustMax();
-        this.trustLcMax = this.getLcTrustMax();
-        this.trustCcMax = this.getCcTrustMax();
-        
-        this.dataPrologSources = sData;
-        return sData;
-    }
-    
-    public String getDataPrologSources()
-    {
-        return this.dataPrologSources;
-    }
-    
-    public float getIcTrustMax()
-    {
-        int nbSources = sources.size();
-        int maxPaire = (nbSources*(nbSources-1))/2;
-        return maxPaire;
-    }
-    
-    
-    public float getSumSQ()
-    {
-        float ret = 0;
-        for(Source s : this.sources)
-        {
-            //ret += s.getSourceQualityScore();
-            ret ++;
-        }
-        return ret;
-    }
-    
-    public float getRcTrustMax()
-    {
-        return (float) (1+this.getSumSQ());
-    }
-    
-    public float getTcTrustMax()
-    {
-        return (float) (1+this.getSumSQ());
-    }
-    
-    public float getLcTrustMax()
-    {
-        return (float) 2;
-    }
-    
-    public float getCcTrustMax()
-    {
-         int nbSources = sources.size();
-        return  (nbSources*(nbSources-1))/2;
-    }
+   
 }

@@ -6,14 +6,11 @@
 
 package Candidate.ArcCandidate;
 
-import Candidate.NodeCandidate.IndividualCandidate;
 import Candidate.NodeCandidate.NodeCandidate;
+import Source.OntologicalElement.OntologicalElement;
 import Source.Source;
-import com.mongodb.BasicDBObject;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
 
 /**
  *
@@ -35,8 +32,8 @@ public class RelationCandidate extends ArcCandidate
         this.sourcesImpl = sourcesImpl;
         for(Source s : sourcesImpl)
         {
-            String uriSubject = ncFrom.getUriFromSource(s);
-            String uriObject = ncTo.getUriFromSource(s);
+            String uriSubject = ncFrom.getUriFromSource(s).getUri();
+            String uriObject = ncTo.getUriFromSource(s).getUri();
             this.addElem(s, uriSubject+" "+relImp+" "+uriObject);
         }
     }
@@ -58,34 +55,9 @@ public class RelationCandidate extends ArcCandidate
 //        return ret;
 //    }
 
-    @Override
-    public BasicDBObject toDBObject() 
-    {
-        BasicDBObject doc = super.toDBObject();
-
-        ArrayList<BasicDBObject> icHRBD = new ArrayList<>();
-        for(Map.Entry<Source, String> icHRE : this.ncTo.getUriImplicate().entrySet())
-        {
-            BasicDBObject icHRObj = new BasicDBObject();
-            icHRObj.append("source", icHRE.getKey().getName());
-            icHRObj.append("uri", icHRE.getValue());
-            icHRBD.add(icHRObj);
-        }
-        doc.append("icHR", icHRBD);
-
-        ArrayList<String> listSourcesInvol = new ArrayList<>();
-        for(Source s :this.sourcesImpl )
-        {
-            //relCandidateTrustScore += s.getSourceQualityScore();
-            listSourcesInvol.add(s.getName());
-        }
-        doc.append("sources", listSourcesInvol);
-        
-        return doc;
-    }
 
 
-    public String toProvO(String baseUri, int numCand, int instCand,  HashMap<Source, String> sourcesUri, HashMap<Source, String> uriInst, String uriOntObj, String uriKbMerge)
+    public String toProvO(String baseUri, int numCand, int instCand,  HashMap<Source, String> sourcesUri, HashMap<Source, OntologicalElement> uriInst, String uriOntObj, String uriKbMerge)
     {
         String ret = super.toProvO(baseUri, numCand, sourcesUri, uriKbMerge);
         
