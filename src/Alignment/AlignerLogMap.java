@@ -50,15 +50,13 @@ public class AlignerLogMap extends Aligner
         int nbClassAlign = 0;
         try
         {
-            File f = new FilePerso ("out/temp/"+fileNameS1);
-            String onto1_iri = "file:"+f.getAbsolutePath();
-            f = new FilePerso("out/temp/"+fileNameS2);
-            String onto2_iri = "file:"+f.getAbsolutePath();
+            File f1 = new FilePerso ("out/temp/"+fileNameS1);
+            File f2 = new FilePerso("out/temp/"+fileNameS2);
 
             onto_manager = OWLManager.createOWLOntologyManager();
 
-            onto1 = onto_manager.loadOntology(IRI.create(onto1_iri));
-            onto2 = onto_manager.loadOntology(IRI.create(onto2_iri));
+            onto1 = onto_manager.loadOntologyFromOntologyDocument(f1);
+            onto2 = onto_manager.loadOntologyFromOntologyDocument(f2);
 
             LogMap2_Matcher logmap2 = new LogMap2_Matcher(onto1, onto2);
             Set<MappingObjectStr> logmap2_mappings = logmap2.getLogmap2_Mappings();

@@ -31,7 +31,7 @@ public class Muskca
     public static String dateBegin = "";
     public static String dateEnd = "";
     
-    public static String configFile = "in/muskca_params_OAEI_7.json";
+    public static String configFile = "in/muskca_params_Triticum.json";
     
     
     public static Fusionner init()
@@ -146,7 +146,6 @@ public class Muskca
         while(extCur != null && !validatedExtensionFounded)
         {            
             int i = 0;
-            System.out.println(extCur);
             for(NodeCandidate nc : extCur.getCandidates())
             {
                 if(nc.isValidated())

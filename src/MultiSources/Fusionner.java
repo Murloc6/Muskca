@@ -347,20 +347,6 @@ public class Fusionner implements Serializable
         return spOutProvo;
     }
     
-    public String allCandidatesToCSV()
-    {
-         this.allNodeCands.sort(new CandidateComparator());
-        //String ret = "Instance Candidate (nb : "+this.instCandidates.size()+" : \n";
-         String ret = "";
-         int nb = 0;
-        for(NodeCandidate nc : this.allNodeCands)
-        {
-            nb++;
-            ret += nc.getTrustScore()+" \n";
-        }
-        
-        return ret;
-    }
     
     public ArrayList<NodeCandidate> getAllNodeCandidates()
     {
