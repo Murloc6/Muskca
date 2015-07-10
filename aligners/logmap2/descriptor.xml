@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+old schema: http://www.seals-project.eu/schemas/2010-08-15/ToolPackageDescriptor.xsd
+new schema: http://www.seals-project.eu/resources/res/tools/bundle/v1
+-->
+
+<ns:package 	  
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:ns="http://www.seals-project.eu/resources/res/tools/bundle/v1"
+	id="LogMap" 
+	version="2.0">
+	<ns:description>LogMap 2: Logic-based and Scalable Ontology Matching.</ns:description>
+	<ns:endorsement>
+		<ns:copyright>Copyright information</ns:copyright>
+		<ns:license>GNU LGPL</ns:license>
+	</ns:endorsement>
+	<ns:wrapper>
+		<ns:management>
+			<ns:deploy>
+				<ns:executable xsi:type="ns:ShellScript">
+					<ns:script>deploy.sh</ns:script>
+					<ns:error-log>deploy-error.log</ns:error-log>
+				</ns:executable>
+			</ns:deploy>
+			<ns:start>
+				<ns:executable xsi:type="ns:ShellScript">
+					<ns:script>start.sh</ns:script>
+					<ns:error-log>start-error.log</ns:error-log>
+				</ns:executable>
+			</ns:start>
+			<ns:stop>
+				<ns:executable xsi:type="ns:ShellScript">
+					<ns:script>stop.sh</ns:script>
+					<ns:error-log>stop-error.log</ns:error-log>
+				</ns:executable>
+			</ns:stop>
+			<ns:undeploy>
+				<ns:executable xsi:type="ns:ShellScript">
+					<ns:script>undeploy.sh</ns:script>
+					<ns:error-log>undeploy-error.log</ns:error-log>
+				</ns:executable>
+			</ns:undeploy>
+		</ns:management>
+		<ns:bridge>
+			<!-- references relative to bin folder -->
+			<ns:class>uk.ac.ox.krr.logmap2.oaei.MatcherBridge</ns:class>
+			<ns:jar>logmap2-bridge.jar</ns:jar>
+			<ns:dependencies>
+				<ns:lib>lib/logmap2_oaei2013.jar</ns:lib>
+				<ns:lib>lib/HermiT_1.3.6.jar</ns:lib>
+				<ns:lib>lib/org.semanticweb.elk.0.4.1.jar</ns:lib>
+			</ns:dependencies>
+		</ns:bridge>
+	</ns:wrapper>
+</ns:package>
+

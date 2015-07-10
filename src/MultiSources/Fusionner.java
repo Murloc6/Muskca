@@ -8,6 +8,7 @@ package MultiSources;
 
 import Alignment.Aligner;
 import Alignment.AlignerLogMap;
+import Alignment.AlignerSeals;
 import Alignment.Alignments;
 import Alignment.StringDistance;
 import Candidate.CandidateComparator;
@@ -77,8 +78,9 @@ public class Fusionner implements Serializable
     
     public int nbMongoSaved = 0;
     
+    private String aligner = "";
     
-    public Fusionner(ArrayList<Source> sources, ArrayList<String> urisLabelsImp, ArrayList<String> urisRelImp, String uriTypeBase, ArrayList<String> urisTypeImp)
+    public Fusionner(ArrayList<Source> sources, ArrayList<String> urisLabelsImp, ArrayList<String> urisRelImp, String uriTypeBase, ArrayList<String> urisTypeImp, String aligner)
     {
         
         
@@ -92,6 +94,7 @@ public class Fusionner implements Serializable
         this.sources = sources;
         
         this.allNodeCands = new ArrayList<>();
+        this.aligner = aligner;
     }
     
     
@@ -176,7 +179,7 @@ public class Fusionner implements Serializable
                 Source s2 = this.sources.get(j);
                 
                 System.out.println(s1.getName()+"/"+s2.getName()+ ": ");
-                Aligner aligner = new AlignerLogMap(this, s1, s2, this.aligns);
+                Aligner aligner = new AlignerSeals(this, s1, s2, this.aligns);
                 System.out.println("Aligner ended !");
                 aligner.alignSources(0); // score min = 0 to keep all alignment (filter will be done by taken the first one)
             }
@@ -585,6 +588,20 @@ public class Fusionner implements Serializable
             }
             nc.clearLabelsCandidates();
         }
+    }
+
+    /**
+     * @return the aligner
+     */
+    public String getAligner() {
+        return aligner;
+    }
+
+    /**
+     * @param aligner the aligner to set
+     */
+    public void setAligner(String aligner) {
+        this.aligner = aligner;
     }
    
     

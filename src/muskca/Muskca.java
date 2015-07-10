@@ -56,8 +56,10 @@ public class Muskca
         String uriTypeBase = params.getParam("uriTypeBase");
         ArrayList<String> urisTypeImp = params.getArrayParams("uriTypeImps");
         
+        String aligner = params.getParam("aligner");
+        System.out.println("ALIGNER : " + aligner);
         
-        Fusionner fusionner = new Fusionner(sources, urisLabelsImp, urisRelImp, uriTypeBase, urisTypeImp);
+        Fusionner fusionner = new Fusionner(sources, urisLabelsImp, urisRelImp, uriTypeBase, urisTypeImp, aligner);
         
         System.out.println("Start filling sources");
         fusionner.setElemsOnSources();
