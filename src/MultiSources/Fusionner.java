@@ -10,7 +10,6 @@ import Alignment.Aligner;
 import Alignment.AlignerLogMap;
 import Alignment.Alignments;
 import Alignment.StringDistance;
-import Candidate.CandidateComparator;
 import Candidate.NodeCandidate.ClassCandidate;
 import Candidate.NodeCandidate.IndividualCandidate;
 import Candidate.ArcCandidate.LabelCandidate;
@@ -307,7 +306,7 @@ public class Fusionner implements Serializable
         return ret;
     }
     
-    public SparqlProxy allCandidatesToProvo(String provoFile, String provoSpOut, String adomFile, String baseUri)
+    public SparqlProxy extCandidatesToProvo(Extension ext, String provoFile, String provoSpOut, String adomFile, String baseUri)
     {
         SparqlProxy spOutProvo = SparqlProxy.getSparqlProxy(provoSpOut);
         spOutProvo.clearSp();
@@ -338,7 +337,7 @@ public class Fusionner implements Serializable
         
         spOutProvo.storeData(new StringBuilder(query));
         
-        for(NodeCandidate nc : this.allNodeCands)
+        for(NodeCandidate nc : ext.getCandidates())
         {
             spOutProvo.storeData(new StringBuilder(this.setPrefix()+" INSERT DATA {"+nc.toProvO(baseUri, numInst, provoSourceUri, uriKbMerge)+"}"));
             numInst ++;

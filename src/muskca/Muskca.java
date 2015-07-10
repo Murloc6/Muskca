@@ -12,6 +12,7 @@ import MultiSources.Fusionner;
 import MultiSources.NodeCandidateGenerator;
 import MultiSources.Solver.GLPK.ExtensionGlpkSolver;
 import Source.Source;
+import Source.SparqlProxy;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -31,7 +32,14 @@ public class Muskca
     public static String dateBegin = "";
     public static String dateEnd = "";
     
-    public static String configFile = "in/muskca_params_Triticum.json";
+    public static String configFile = "in/muskca_params_OAEI_7.json";
+    
+    private static String projectName;
+    
+    private static String provoFile;
+    private static String moduleFile;
+    private static String spOutProvo;
+    private static String baseUriMuskca;
     
     
     public static Fusionner init()
@@ -41,17 +49,17 @@ public class Muskca
         
         ParamsReader params = new ParamsReader(configFile);
         
-        String projectName = params.getParam("projectName");
-        String moduleFile = params.getParam("moduleFile");
+        Muskca.projectName = params.getParam("projectName");
+        Muskca.moduleFile = params.getParam("moduleFile");
         ArrayList<Source> sources = params.getSources();
         ArrayList<String> urisRelImp = params.getArrayParams("relImps");
         ArrayList<String> urisLabelsImp = params.getArrayParams("labelRelImps");
          
 
         HashMap<String, String> outputParams = params.getSubParams("output");
-        String provoFile = outputParams.get("provoFile");
-        String spOutProvo = outputParams.get("spOutProvo");
-        String baseUriMuskca = outputParams.get("baseUri")+projectName+"/";
+        Muskca.provoFile = outputParams.get("provoFile");
+        Muskca.spOutProvo = outputParams.get("spOutProvo");
+        Muskca.baseUriMuskca = outputParams.get("baseUri")+projectName+"/";
         
         String uriTypeBase = params.getParam("uriTypeBase");
         ArrayList<String> urisTypeImp = params.getArrayParams("uriTypeImps");
@@ -137,6 +145,14 @@ public class Muskca
         solver.unvalidateCandidate(nc);
     }
     
+     private static Extension getBestExtension(Fusionner fusionner, ArrayList<NodeCandidate> allCands)
+     {
+        ExtensionGlpkSolver solver = Muskca.getExtensionSolver(fusionner, allCands);
+        Extension extOpti = null;
+        Extension extCur = fusionner.getNextExtension(solver);
+        return extCur;
+     }
+     
     private static Extension getValidatedExtension(Fusionner fusionner, ArrayList<NodeCandidate> allCands)
     {
         ExtensionGlpkSolver solver = Muskca.getExtensionSolver(fusionner, allCands);
@@ -209,11 +225,15 @@ public class Muskca
         
         Muskca.computeTrustScore(fusionner);
         
-        Extension ext = Muskca.getValidatedExtension(fusionner, allCands);
+        //Extension ext = Muskca.getValidatedExtension(fusionner, allCands);
+        Extension ext = Muskca.getBestExtension(fusionner, allCands);
         if(ext != null)
         {
-            System.out.println("Solution founded! ");
-            System.out.println(ext);
+            System.out.println("Solution founded! ("+ext.getCandidates().size()+" NodeCandidates)");
+            //System.out.println(ext);
+            SparqlProxy spOut = fusionner.extCandidatesToProvo(ext, Muskca.provoFile, Muskca.spOutProvo, Muskca.moduleFile, Muskca.baseUriMuskca);
+            String dateFileName = new SimpleDateFormat("dd-MM_HH-mm_").format(new Date());
+            spOut.writeKBFile("Muskca_"+Muskca.muskcaVersion+"_Provo_"+Muskca.projectName);
         }
         else
         {
