@@ -8,6 +8,7 @@ import MultiSources.Fusionner;
 import Source.Source;
 import java.io.File;
 import java.io.IOException;
+import java.lang.ProcessBuilder.Redirect;
 import java.net.MalformedURLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -136,11 +137,14 @@ public class AlignerSeals extends Aligner
 
                 ProcessBuilder pb =   new ProcessBuilder("java", "-jar", "SealsAligner.jar", aligner, url1_str, url2_str, mappings_file_name);
                 Map<String, String> env = pb.environment();
-                System.out.println(aligner + " "+ url1_str+ " "+url2_str+ " "+ mappings_file_name);
+                //System.out.println(aligner + " "+ url1_str+ " "+url2_str+ " "+ mappings_file_name);
                 pb.directory(new File("aligners"));
                 env.put("SEALS_HOME", pb.directory().getAbsolutePath());
-                pb.inheritIO();
+                File log = new File("out/temp/log_aligner");
+                pb.redirectErrorStream(true);
+                pb.redirectOutput(Redirect.appendTo(log));
                 System.out.println("------------------------------------------------------");
+                System.out.println("alignement de 2 sources : " + this.s1.getName() + " et " + this.s2.getName());
                 Process p = pb.start();
                 try {
                     p.waitFor();
@@ -171,15 +175,15 @@ public class AlignerSeals extends Aligner
             */
             for(MappingObjectStr mapping : mappings){
                 boolean probleme = false;
-                System.out.println("**********NEXT MAPPING************");
+                //System.out.println("**********NEXT MAPPING************");
                 
                 //SI c'est une classe
                 if(onto1.containsClassInSignature(IRI.create(mapping.getIRIStrEnt1()))){
-                    System.out.println( "obj 1 : Classe");
+                    //System.out.println( "obj 1 : Classe");
                     
                     if(onto2.containsClassInSignature(IRI.create(mapping.getIRIStrEnt2()))){
                         mapping.setTypeOfMapping(MappingObjectStr.CLASSES);
-                        System.out.println( "obj 2 : Classe");
+                        //System.out.println( "obj 2 : Classe");
                     }
                     else{
                         probleme=true;
@@ -189,18 +193,18 @@ public class AlignerSeals extends Aligner
                 
                 //Si c'est une instance
                 else if (onto1.containsIndividualInSignature(IRI.create(mapping.getIRIStrEnt1()))){
-                    System.out.println( "obj 1 : Individu");
+                    //System.out.println( "obj 1 : Individu");
                     
                     if(onto2.containsIndividualInSignature(IRI.create(mapping.getIRIStrEnt2()))){
                         mapping.setTypeOfMapping(MappingObjectStr.INSTANCES);
-                        System.out.println( "obj 2 : Individu");
+                        //System.out.println( "obj 2 : Individu");
                     }
                     else{
                         probleme=true;
                     }
                 }
                 else {
-                    System.out.println("Mapping de type ni classe ni instance");
+                    //System.out.println("Mapping de type ni classe ni instance");
                 }
                 
                 
