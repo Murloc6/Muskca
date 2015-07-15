@@ -85,7 +85,8 @@ Example :
     "spOutProvo" : "http://amarger.murloc.fr:8080/Muskca-provo/",
     "provoFile" : "in/prov-o.owl",
     "baseUri" : "http://muskca_system.fr/"
-  }
+  },
+  "aligner" : "logmap2"
 }
 
 ```
