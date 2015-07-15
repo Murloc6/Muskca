@@ -37,7 +37,7 @@ The file "in/muskca_params.json" contains all the configuration needed.
 -- "spOutProvo": the dataset url where to export the result in the fuseki server
 -- "provoFile": the path to the provo ontology file (prefered "in/*")
 -- "baseUri": the base uri used to generate the new ontological elements in the export format
--- "aligner": the chosen aligner (whose seals version is already in the aligners file) just give the name of the file
+- "aligner": the chosen aligner (whose seals version is already in the aligners file) just give the name of the file
 
 Example : 
 ```
