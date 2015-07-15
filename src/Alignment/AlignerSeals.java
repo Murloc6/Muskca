@@ -8,6 +8,7 @@ import MultiSources.Fusionner;
 import Source.Source;
 import java.io.File;
 import java.io.IOException;
+import java.lang.ProcessBuilder.Redirect;
 import java.net.MalformedURLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -136,11 +137,14 @@ public class AlignerSeals extends Aligner
 
                 ProcessBuilder pb =   new ProcessBuilder("java", "-jar", "SealsAligner.jar", aligner, url1_str, url2_str, mappings_file_name);
                 Map<String, String> env = pb.environment();
-                System.out.println(aligner + " "+ url1_str+ " "+url2_str+ " "+ mappings_file_name);
+                //System.out.println(aligner + " "+ url1_str+ " "+url2_str+ " "+ mappings_file_name);
                 pb.directory(new File("aligners"));
                 env.put("SEALS_HOME", pb.directory().getAbsolutePath());
-                pb.inheritIO();
+                File log = new File("out/temp/log_aligner");
+                pb.redirectErrorStream(true);
+                pb.redirectOutput(Redirect.appendTo(log));
                 System.out.println("------------------------------------------------------");
+                System.out.println("alignement de 2 sources : " + this.s1.getName() + " et " + this.s2.getName());
                 Process p = pb.start();
                 try {
                     p.waitFor();
