@@ -171,15 +171,15 @@ public class AlignerSeals extends Aligner
             */
             for(MappingObjectStr mapping : mappings){
                 boolean probleme = false;
-                System.out.println("**********NEXT MAPPING************");
+                //System.out.println("**********NEXT MAPPING************");
                 
                 //SI c'est une classe
                 if(onto1.containsClassInSignature(IRI.create(mapping.getIRIStrEnt1()))){
-                    System.out.println( "obj 1 : Classe");
+                    //System.out.println( "obj 1 : Classe");
                     
                     if(onto2.containsClassInSignature(IRI.create(mapping.getIRIStrEnt2()))){
                         mapping.setTypeOfMapping(MappingObjectStr.CLASSES);
-                        System.out.println( "obj 2 : Classe");
+                        //System.out.println( "obj 2 : Classe");
                     }
                     else{
                         probleme=true;
@@ -189,18 +189,18 @@ public class AlignerSeals extends Aligner
                 
                 //Si c'est une instance
                 else if (onto1.containsIndividualInSignature(IRI.create(mapping.getIRIStrEnt1()))){
-                    System.out.println( "obj 1 : Individu");
+                    //System.out.println( "obj 1 : Individu");
                     
                     if(onto2.containsIndividualInSignature(IRI.create(mapping.getIRIStrEnt2()))){
                         mapping.setTypeOfMapping(MappingObjectStr.INSTANCES);
-                        System.out.println( "obj 2 : Individu");
+                        //System.out.println( "obj 2 : Individu");
                     }
                     else{
                         probleme=true;
                     }
                 }
                 else {
-                    System.out.println("Mapping de type ni classe ni instance");
+                    //System.out.println("Mapping de type ni classe ni instance");
                 }
                 
                 
