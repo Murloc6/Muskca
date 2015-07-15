@@ -309,7 +309,7 @@ public class Fusionner implements Serializable
         return ret;
     }
     
-    public SparqlProxy extCandidatesToProvo(Extension ext, String provoFile, String provoSpOut, String adomFile, String baseUri)
+    public SparqlProxy nodeCandidatesToProvo(ArrayList<NodeCandidate> cands, String provoFile, String provoSpOut, String adomFile, String baseUri)
     {
         SparqlProxy spOutProvo = SparqlProxy.getSparqlProxy(provoSpOut);
         spOutProvo.clearSp();
@@ -340,9 +340,25 @@ public class Fusionner implements Serializable
         
         spOutProvo.storeData(new StringBuilder(query));
         
-        for(NodeCandidate nc : ext.getCandidates())
+        for(NodeCandidate nc : cands)
         {
             spOutProvo.storeData(new StringBuilder(this.setPrefix()+" INSERT DATA {"+nc.toProvO(baseUri, numInst, provoSourceUri, uriKbMerge)+"}"));
+            numInst ++;
+        }
+        
+        return spOutProvo;
+    }
+    
+    public SparqlProxy nodeCandidatesToOWL(ArrayList<NodeCandidate> cands, String provoSpOut, String adomFile, String baseUri)
+    {
+        SparqlProxy spOutProvo = SparqlProxy.getSparqlProxy(provoSpOut);
+        spOutProvo.clearSp();
+        
+        spOutProvo.storeData(new StringBuilder(this.setPrefix()+" INSERT DATA {"+this.getOwlFileToTtl(adomFile)+"}"));
+        int numInst = 1;
+        for(NodeCandidate nc : cands)
+        {
+            spOutProvo.storeData(new StringBuilder(this.setPrefix()+" INSERT DATA {"+nc.toOWL(baseUri)+"}"));
             numInst ++;
         }
         

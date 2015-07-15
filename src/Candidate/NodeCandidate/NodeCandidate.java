@@ -340,4 +340,24 @@ public abstract class NodeCandidate extends Candidate
         return ret;
     }
     
+    public String toOWL(String baseUri)
+    {
+        this.uriOntObj = this.getUriOntObj(baseUri);
+        String ret = "";
+        for(Entry<Source, OntologicalElement> e : this.uriImplicate.entrySet())
+        {
+            ret += "<"+uriOntObj+"> owl:sameAs <"+e.getValue()+">.\n";
+        }
+        
+         if(this.labelCands.size() > 0)
+        {
+             for(LabelCandidate lc : this.labelCands)
+             {
+                 ret += lc.toOWL(baseUri);
+             }
+        }
+        
+        return ret;
+    }
+    
 }

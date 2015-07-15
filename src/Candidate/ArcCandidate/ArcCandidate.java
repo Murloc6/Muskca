@@ -64,4 +64,6 @@ public abstract class ArcCandidate extends Candidate
         return ret;
     }
     
+    public abstract String toOWL(String baseUri);
+    
 }

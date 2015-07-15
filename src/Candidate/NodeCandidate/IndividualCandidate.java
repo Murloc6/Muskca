@@ -209,4 +209,30 @@ public class IndividualCandidate extends NodeCandidate
         
         return ret;
     }
+    
+     @Override
+    public String toOWL(String baseUri)
+    {
+       String ret = super.toOWL(baseUri);
+        
+        if(this.typeCands.size() > 0)
+        {
+            int numType = 1;
+            for(TypeCandidate tc : this.typeCands)
+            {
+                ret += tc.toOWL(baseUri);
+                numType ++;
+            }
+        }
+        
+        if(this.relCands.size() > 0)
+        {
+            for(RelationCandidate rc : this.relCands)
+            {
+                ret += rc.toOWL(baseUri);
+            }
+        }
+        
+        return ret;
+    }
 }

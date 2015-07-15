@@ -72,6 +72,12 @@ public class RelationCandidate extends ArcCandidate
         
         return ret;
     }
+    
+    @Override
+    public String toOWL(String baseUri)
+    {
+        return "<"+this.fromCandidate.getUriOntObj(baseUri)+"> <"+this.dataProperty+"> <"+this.ncTo.getUriOntObj(baseUri)+">. ";
+    }
 
     @Override
     public String getObjectProvOValue() 

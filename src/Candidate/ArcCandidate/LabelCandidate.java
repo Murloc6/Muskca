@@ -105,6 +105,12 @@ public class LabelCandidate extends ArcCandidate
         return ret;
     }*/
 
+    public String toOWL(String baseUri)
+    {
+        Source firstSource = (Source)this.uriImplicate.keySet().toArray()[0];
+        return "<"+this.fromCandidate.getUriOntObj(baseUri)+"> rdfs:label \""+this.getUriImplicate().get(firstSource)+"\"."; // label from first source
+    }
+    
     @Override
     public int getNumInst() 
     {

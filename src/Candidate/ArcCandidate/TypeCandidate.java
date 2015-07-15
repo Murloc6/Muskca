@@ -69,6 +69,12 @@ public class TypeCandidate extends ArcCandidate
         String ret = super.toProvO(baseUri, numInst, sourcesUri, uriKbMerge);
         return ret;
     }
+    
+    public String toOWL(String baseUri)
+    {
+        String ret = "<"+this.fromCandidate.getUriOntObj(baseUri)+"> a <"+this.uriTypeCandidate+">.";
+        return ret;
+    }
 
     @Override
     public String getObjectProvOValue() 

@@ -5,6 +5,11 @@
  */
 package Candidate.NodeCandidate;
 
+import Candidate.ArcCandidate.RelationCandidate;
+import Candidate.ArcCandidate.TypeCandidate;
+import Source.Source;
+import java.util.HashMap;
+
 
 /**
  *
@@ -31,6 +36,13 @@ public class ClassCandidate extends NodeCandidate
         return "";
     }
     
+    public String toOWL(String baseUri)
+    {
+        String ret = "<"+this.getUriOntObj(baseUri)+"> a owl:Class.";
+        ret += super.toOWL(baseUri);
+        return ret;
+    }
+     
      @Override
      public String getUriOntObj(String baseUri)
     {
