@@ -449,16 +449,18 @@ public class Fusionner implements Serializable
     
     public void computeTypeCandidate()
     {
-        String relImp = "http://www.w3.org/1999/02/22-rdf-syntax-ns#type";
+        String relImpInd = "http://www.w3.org/1999/02/22-rdf-syntax-ns#type";
+        String relImpClass = "http://www.w3.org/2000/01/rdf-schema#subClassOf";
         int nbtc = 0;
         for(NodeCandidate nc : this.allNodeCands)
         {
+            String relImp = relImpInd;
             if(nc.getClass() == ClassCandidate.class){
-                break;
+                relImp = relImpClass;
             }
-            IndividualCandidate ic = (IndividualCandidate) nc;
+            //IndividualCandidate ic = (IndividualCandidate) nc;
             boolean relValid = false;
-            for(Entry<Source, OntologicalElement> e : ic.getUriImplicate().entrySet())
+            for(Entry<Source, OntologicalElement> e : nc.getUriImplicate().entrySet())
             {
                 boolean founded = false;
                 ArrayList<String> urisType = e.getKey().getRelImportant(e.getValue().getUri(), relImp);
@@ -471,7 +473,7 @@ public class Fusionner implements Serializable
                         uriType.put(e.getKey(), e.getValue()+" "+relImp+" "+uriTypeCandidate);
                         relValid = true;
                         //System.out.println("TEST : "+uriTypeCandidate);
-                        for(Entry<Source, OntologicalElement> elem : ic.getUriImplicate().entrySet())
+                        for(Entry<Source, OntologicalElement> elem : nc.getUriImplicate().entrySet())
                         {
                             Source s = elem.getKey();
                             if(s != e.getKey() && relValid)
@@ -496,12 +498,12 @@ public class Fusionner implements Serializable
 //                            System.out.println(uriTypeCandidate+" --> ");
 //                            System.out.println(uriType);
 //                            System.out.println("------------");
-                            TypeCandidate tc = new TypeCandidate(ic, uriTypeCandidate);
+                            TypeCandidate tc = new TypeCandidate(nc, relImp, uriTypeCandidate);
                             for(Entry<Source, String> eUriType : uriType.entrySet())
                             {
                                 tc.addElem(eUriType.getKey(), eUriType.getValue());
                             }
-                            if(ic.addTypeCandidate(tc))
+                            if(nc.addTypeCandidate(tc))
                                 nbtc ++;
                         }
                     }

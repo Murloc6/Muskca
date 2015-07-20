@@ -23,13 +23,11 @@ public class IndividualCandidate extends NodeCandidate
     private static int numInstGlob = 1;
     private int numInst = -1;
 
-    private ArrayList<TypeCandidate> typeCands;
     private ArrayList<RelationCandidate> relCands;
     
     public IndividualCandidate()
     {
         super();
-        this.typeCands = new ArrayList<>();
         this.relCands = new ArrayList<>();
     }
     
@@ -39,28 +37,6 @@ public class IndividualCandidate extends NodeCandidate
 //    }
     
     
-    public boolean addTypeCandidate(TypeCandidate typeC)
-    {
-        //this.typeCands.add(typeC);
-        
-         boolean isPresent = false;
-        for(TypeCandidate typeCand : this.typeCands)
-        {
-            if(typeC.isSameCand(typeCand))
-            {
-                isPresent = true;
-                break;
-            }
-            else if(typeCand.isSameCand(typeC))
-            {
-                this.typeCands.remove(typeCand);
-                break;
-            }
-        }
-        if(!isPresent)
-            this.typeCands.add(typeC);
-        return !isPresent;
-    }
     
     public boolean addRelationCandidate(RelationCandidate rc)
     {
@@ -87,21 +63,11 @@ public class IndividualCandidate extends NodeCandidate
     public ArrayList<ArcCandidate> getAllArcCandidates()
     {
         ArrayList<ArcCandidate> ret = super.getAllArcCandidates();
-        ret.addAll(this.typeCands);
         ret.addAll(this.relCands);
         return ret;
     }
     
-    @Override
-    public float getSumArcCandIntr()
-    {
-        float ret = super.getSumArcCandIntr();
-        for(TypeCandidate tc : this.typeCands)
-        {
-            ret += tc.getTrustScore();
-        }
-        return ret;
-    }
+
     
     @Override
         public float getSumArcCandImplied(NodeCandidate nc)
@@ -127,14 +93,6 @@ public class IndividualCandidate extends NodeCandidate
     {
         String ret = super.toString();
         
-        if(this.typeCands.size() > 0)
-        {
-            ret += "\t Type Candidate : \n";
-            for(TypeCandidate tc : this.typeCands)
-            {
-                ret += tc.toString();
-            }
-        }
         if(this.relCands.size()>0)
         {
             for(RelationCandidate rc : this.relCands)
@@ -187,15 +145,7 @@ public class IndividualCandidate extends NodeCandidate
     {
        String ret = super.toProvO(baseUri, numInst, sourcesUri, uriKbMerge);
         
-        if(this.typeCands.size() > 0)
-        {
-            int numType = 1;
-            for(TypeCandidate tc : this.typeCands)
-            {
-                ret += tc.toProvO(baseUri, numType, this.numInst, sourcesUri, this.uriImplicate,  this.uriOntObj, uriKbMerge);
-                numType ++;
-            }
-        }
+        
         
 //        if(this.relCands.size() > 0)
 //        {
@@ -215,15 +165,6 @@ public class IndividualCandidate extends NodeCandidate
     {
        String ret = super.toOWL(baseUri);
         
-        if(this.typeCands.size() > 0)
-        {
-            int numType = 1;
-            for(TypeCandidate tc : this.typeCands)
-            {
-                ret += tc.toOWL(baseUri);
-                numType ++;
-            }
-        }
         
         if(this.relCands.size() > 0)
         {

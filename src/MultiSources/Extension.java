@@ -67,21 +67,6 @@ public class Extension
         return ret;
     }
     
-    public StringBuilder toPrologData()
-    {
-        StringBuilder ret = new StringBuilder();
-        
-        ret = ret.append("[");
-        for(NodeCandidate nc : this.candidates)
-        {
-            ret  = ret.append(nc.toPrologData());
-            ret = ret.append(",");
-        }
-        ret = ret.delete(ret.lastIndexOf(","), ret.length());
-        ret = ret.append("]");
-        
-        return ret;
-    }
     
     public BasicDBObject toDBObject()
     {

@@ -98,9 +98,6 @@ public class Muskca
     
     public static void computeArcCandidates(Fusionner fusionner)
     {
-        /**
-         * -> Add some other kind of arcs to be generated
-         */
         
         System.out.println("Compute labels ... ");
         fusionner.computeLabelCandidate();
@@ -114,7 +111,7 @@ public class Muskca
             System.out.println(rel+" arc candidates computed!");
         }
         
-        System.out.println("Compute rdf:type candidates");
+        System.out.println("Compute rdf:type and subclassof candidates");
         //recheck the compute type algorithm
         fusionner.computeTypeCandidate();
         System.out.println("Candidates computed");
