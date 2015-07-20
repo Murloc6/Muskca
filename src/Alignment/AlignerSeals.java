@@ -141,10 +141,11 @@ public class AlignerSeals extends Aligner
                 pb.directory(new File("aligners"));
                 env.put("SEALS_HOME", pb.directory().getAbsolutePath());
                 File log = new File("out/temp/log_aligner");
-                pb.redirectErrorStream(true);
+                //pb.redirectErrorStream(true);
+                pb.inheritIO();
                 pb.redirectOutput(Redirect.appendTo(log));
                 System.out.println("------------------------------------------------------");
-                System.out.println("alignement de 2 sources : " + this.s1.getName() + " et " + this.s2.getName());
+                System.out.println("Alignment of 2 sources : " + this.s1.getName() + " et " + this.s2.getName());
                 Process p = pb.start();
                 try {
                     p.waitFor();
@@ -168,22 +169,18 @@ public class AlignerSeals extends Aligner
             RDF_mappings_reader = new RDFAlignReader(mappings_file_name);
             mappings = RDF_mappings_reader.getMappingObjects();
             
-            /*transforme le type de mapping en classe ou instance suivant
-            ce que c'est dans l'ontologie
-            probleme = true quand un élément du mapping est une classe
-            et l'autre un individu (instance)
+            /*
+            Sets the type of Mappings to INSTANCE or CLASS according to the type 
+            of the elements in the ontology from which they come from
             */
             for(MappingObjectStr mapping : mappings){
                 boolean probleme = false;
-                //System.out.println("**********NEXT MAPPING************");
                 
-                //SI c'est une classe
+                //if it's a class
                 if(onto1.containsClassInSignature(IRI.create(mapping.getIRIStrEnt1()))){
-                    //System.out.println( "obj 1 : Classe");
                     
                     if(onto2.containsClassInSignature(IRI.create(mapping.getIRIStrEnt2()))){
                         mapping.setTypeOfMapping(MappingObjectStr.CLASSES);
-                        //System.out.println( "obj 2 : Classe");
                     }
                     else{
                         probleme=true;
@@ -191,25 +188,23 @@ public class AlignerSeals extends Aligner
                     
                 }
                 
-                //Si c'est une instance
+                //If it's an instance
                 else if (onto1.containsIndividualInSignature(IRI.create(mapping.getIRIStrEnt1()))){
-                    //System.out.println( "obj 1 : Individu");
-                    
+                   
                     if(onto2.containsIndividualInSignature(IRI.create(mapping.getIRIStrEnt2()))){
                         mapping.setTypeOfMapping(MappingObjectStr.INSTANCES);
-                        //System.out.println( "obj 2 : Individu");
                     }
                     else{
                         probleme=true;
                     }
                 }
                 else {
-                    //System.out.println("Mapping de type ni classe ni instance");
+                    //System.out.println("Other type of mapping : not a class nor an instance");
                 }
                 
                 
                 if(probleme){
-                    System.out.println("PB : elements de différente nature alignés");
+                    System.out.println("PB : elements of different types aligned");
                 }
                 
             }

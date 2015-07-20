@@ -179,7 +179,7 @@ public class Fusionner implements Serializable
                 
                 System.out.println(s1.getName()+"/"+s2.getName()+ ": ");
                 Aligner aligner = new AlignerSeals(this, s1, s2, this.aligns);
-                System.out.println("Aligner ended !");
+                //System.out.println("Aligner ended !");
                 aligner.alignSources(0); // score min = 0 to keep all alignment (filter will be done by taken the first one)
             }
         }
