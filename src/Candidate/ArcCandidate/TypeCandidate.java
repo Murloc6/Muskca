@@ -9,6 +9,7 @@ package Candidate.ArcCandidate;
 import Candidate.Candidate;
 import Candidate.NodeCandidate.ClassCandidate;
 import Candidate.NodeCandidate.IndividualCandidate;
+import Candidate.NodeCandidate.NodeCandidate;
 import Source.OntologicalElement.OntologicalElement;
 import Source.Source;
 import com.mongodb.BasicDBObject;
@@ -30,15 +31,15 @@ public class TypeCandidate extends ArcCandidate
     private String uriTypeCandidate;
     private String baseUri;
     
-    public TypeCandidate(IndividualCandidate ic, String uriTypeCandidate)
+    public TypeCandidate(NodeCandidate nc, String type,  String uriTypeCandidate)
     {
-        super(ic, "rdf:type");
+        super(nc, type);
         this.uriTypeCandidate = uriTypeCandidate;
     }
     
     public TypeCandidate (IndividualCandidate ic, ClassCandidate cc)
     {
-        super(ic, "rdf;type");
+        super(ic, "rdf:type");
         this.cc = cc;
     }
     
@@ -72,7 +73,7 @@ public class TypeCandidate extends ArcCandidate
     
     public String toOWL(String baseUri)
     {
-        String ret = "<"+this.fromCandidate.getUriOntObj(baseUri)+"> a <"+this.uriTypeCandidate+">.";
+        String ret = "<"+this.fromCandidate.getUriOntObj(baseUri)+"> <"+this.dataProperty+"> <"+this.uriTypeCandidate+">.";
         return ret;
     }
 

@@ -47,7 +47,7 @@ public abstract class ArcCandidate extends Candidate
     {
         this.uriCand = this.getUriCand(baseUri);
         this.uriOntObj = this.getUriOntObj(baseUri);
-        String ret = "<"+uriCand+"> rdf:type :Entity; rdf:type rdf:Statement; rdf:subject <"+uriOntObj+">; rdf:predicate "+this.dataProperty+"; rdf:object  \""+this.getObjectProvOValue()+"\".\n ";
+        String ret = "<"+uriCand+"> rdf:type :Entity; rdf:type rdf:Statement; rdf:subject <"+uriOntObj+">; rdf:predicate <"+this.dataProperty+">; rdf:object  \""+this.getObjectProvOValue()+"\".\n ";
         ret += "<"+uriKbMerge+"> :hadMember <"+uriCand+">.";
         ret += "<"+uriCand+"> <"+baseUri+"hadTrustScore> \""+this.getTrustScore()+"\"^^xsd:double.\n";
         int idStatement = 1;
@@ -55,7 +55,7 @@ public abstract class ArcCandidate extends Candidate
         {
             String uriStatement = baseUri+this.sElem+"/"+e.getKey().getName()+"/"+this.fromCandidate.getNumInst()+"/"+this.getNumInst()+"/"+idStatement;
             ret += "<"+uriStatement+"> rdf:type :Entity; rdf:type rdf:Statement.\n";
-            ret += "<"+uriStatement+"> rdf:subject <"+this.fromCandidate.getUriImplicate().get(e.getKey())+">; rdf:predicate "+this.dataProperty+"; rdf:object \""+e.getValue()+"\". \n";
+            ret += "<"+uriStatement+"> rdf:subject <"+this.fromCandidate.getUriImplicate().get(e.getKey())+">; rdf:predicate <"+this.dataProperty+">; rdf:object \""+e.getValue()+"\". \n";
             ret += "<"+sourcesUri.get(e.getKey())+"> :hadMember <"+uriStatement+">.\n";
             ret += "<"+uriCand+"> :wasDerivedFrom <"+uriStatement+">. \n";
             idStatement++;

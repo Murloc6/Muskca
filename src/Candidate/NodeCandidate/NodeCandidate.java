@@ -9,6 +9,7 @@ import Alignment.Alignment;
 import Alignment.Alignments;
 import Candidate.ArcCandidate.ArcCandidate;
 import Candidate.ArcCandidate.LabelCandidate;
+import Candidate.ArcCandidate.TypeCandidate;
 import Candidate.Candidate;
 import Source.OntologicalElement.OntologicalElement;
 import Source.Source;
@@ -27,6 +28,7 @@ public abstract class NodeCandidate extends Candidate
     private ArrayList<Alignment> aligns;
     
     private ArrayList<LabelCandidate> labelCands;
+    private ArrayList<TypeCandidate> typeCands;
     
     private static int curId = 1;
     
@@ -43,6 +45,7 @@ public abstract class NodeCandidate extends Candidate
         NodeCandidate.curId++;
         this.aligns = new ArrayList<>();
         this.labelCands = new ArrayList<>();
+        this.typeCands = new ArrayList<>();
     }
     
     public void setId(int id)
@@ -75,6 +78,7 @@ public abstract class NodeCandidate extends Candidate
     {
         this.labelCands.add(labelC);
     }
+    
     
     private void addLabelCandIfNotExists(LabelCandidate lc)
     {
@@ -127,6 +131,29 @@ public abstract class NodeCandidate extends Candidate
         this.labelCands = newLabels;
     }
     
+    public boolean addTypeCandidate(TypeCandidate typeC)
+    {
+        //this.typeCands.add(typeC);
+        
+         boolean isPresent = false;
+        for(TypeCandidate typeCand : this.typeCands)
+        {
+            if(typeC.isSameCand(typeCand))
+            {
+                isPresent = true;
+                break;
+            }
+            else if(typeCand.isSameCand(typeC))
+            {
+                this.typeCands.remove(typeCand);
+                break;
+            }
+        }
+        if(!isPresent)
+            this.typeCands.add(typeC);
+        return !isPresent;
+    }
+    
     public boolean containsOneOfUri(ArrayList<String> notFoundUris)
     {
         boolean ret = true;
@@ -146,6 +173,7 @@ public abstract class NodeCandidate extends Candidate
     {
         ArrayList<ArcCandidate> ret = new ArrayList<>();
         ret.addAll(this.labelCands);
+        ret.addAll(this.typeCands);
         return ret;
     }
     
@@ -155,6 +183,10 @@ public abstract class NodeCandidate extends Candidate
         for(LabelCandidate lc : this.labelCands)
         {
             ret += lc.getTrustScore();
+        }
+        for(TypeCandidate tc : this.typeCands)
+        {
+            ret += tc.getTrustScore();
         }
         return ret;
     }
@@ -176,18 +208,6 @@ public abstract class NodeCandidate extends Candidate
             }
         }
     }
-    
-//    @Override
-//    public void computeTrustDegreeScore(float nbSources)
-//    {
-//        float trustDegree = 0;
-//        for(Alignment al : this.aligns)
-//        {
-//            trustDegree += al.getValue();
-//        }
-//        float nbMaxCouple = (nbSources*(nbSources-1))/2;
-//        this.trustDegreeScore = trustDegree/nbMaxCouple;
-//    }
     
     
     @Override
@@ -271,6 +291,14 @@ public abstract class NodeCandidate extends Candidate
                  ret += "\t"+lc.toString();
              }
         }
+        if(this.typeCands.size() > 0)
+        {
+            ret += "\t Type Candidate : \n";
+            for(TypeCandidate tc : this.typeCands)
+            {
+                ret += tc.toString();
+            }
+        }
         return ret;
     }
     
@@ -290,19 +318,6 @@ public abstract class NodeCandidate extends Candidate
         return ret;
     }
     
-    
-    public String toPrologData()
-    {
-        String ret = "[";
-        for(OntologicalElement oe : this.getUriImplicate().values())
-        {
-            ret += "\""+oe+"\",";
-        }
-        ret = ret.substring(0, ret.lastIndexOf(","));
-        ret += "]";
-        return ret;
-    }
-    
     public String toProvO(String baseUri, int numInst, HashMap<Source, String> sourcesUri, String uriKbMerge)
     {
         this.uriCand = this.getUriCand(baseUri);
@@ -319,10 +334,15 @@ public abstract class NodeCandidate extends Candidate
             ret += "<"+uriCand+"> :wasDerivedFrom <"+e.getValue()+">. \n";
         }
         
-        /*for(Alignment a : this.aligns)
+       if(this.typeCands.size() > 0)
         {
-            ret += "\t \t *** "+a.getUri()+" -->"+a.getUriAlign()+" ("+a.getValue()+") \n";
-        }*/
+            int numType = 1;
+            for(TypeCandidate tc : this.typeCands)
+            {
+                ret += tc.toProvO(baseUri, numType, numInst, sourcesUri, this.uriImplicate,  this.uriOntObj, uriKbMerge);
+                numType ++;
+            }
+        }
         
          if(this.labelCands.size() > 0)
         {
@@ -355,6 +375,15 @@ public abstract class NodeCandidate extends Candidate
              {
                  ret += lc.toOWL(baseUri);
              }
+        }
+          if(this.typeCands.size() > 0)
+        {
+            int numType = 1;
+            for(TypeCandidate tc : this.typeCands)
+            {
+                ret += tc.toOWL(baseUri);
+                numType ++;
+            }
         }
         
         return ret;

@@ -97,9 +97,6 @@ public class Muskca
     
     public static void computeArcCandidates(Fusionner fusionner)
     {
-        /**
-         * -> Add some other kind of arcs to be generated
-         */
         
         System.out.println("Compute labels ... ");
         fusionner.computeLabelCandidate();
@@ -113,7 +110,7 @@ public class Muskca
             System.out.println(rel+" arc candidates computed!");
         }
         
-        System.out.println("Compute rdf:type candidates");
+        System.out.println("Compute type and subClassOf candidates");
         //recheck the compute type algorithm
         fusionner.computeTypeCandidate();
         System.out.println("Candidates computed");
@@ -257,48 +254,6 @@ public class Muskca
         {
             System.out.println("Error, no extension available with these constraints...");
         }
-        System.exit(0);
-        
-       
-        
-        /*Muskca.dateEnd = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").format(new Date());
-        Muskca.exportFile(extExport, projectName+"_Extensions_data.txt");
-        Muskca.exportFile(extPl, projectName+"_Extensions_data.ecl");
-        System.out.println("End treatment ("+extensions.size()+" extensions generated)");
-        System.out.println(Muskca.dateBegin+" ----> "+Muskca.dateEnd);
-        System.exit(0);
-        
-        String retRelCandidate = "";
-        for(String uriRel : urisRelImp)
-        {
-            fusionner.computeRelationCandidate(mongoDbs.get("objPropArcCandidateMongoCol"), uriRel);
-        }
-        fusionner.computeTypeCandidate(mongoDbs.get("typeArcCandidateMongoCol"));
-        fusionner.computeLabelCandidate(mongoDbs.get("labelArcCandidateMongoCol"), urisLabelsImp);
-        
-        
-        System.out.println("NB SAVED ON MONGO : "+fusionner.nbMongoSaved);
-        
-        Muskca.dateEnd = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").format(new Date());*/
-        
-        
-        /*String retClassFile = fusionner.allClassCandidatesToString();
-        System.out.println("EXPORTING class stats file ...");
-         Muskca.exportFile(retClassFile, projectName+"_HypClassCandidate_stats.txt");
-        //AlignRKBAgroTaxon.exportFile(fusionner.allCandidatesToCSV(), projectName+".csv");
-        System.out.println("FILE CLASS PERSO EXPORTED");
-        
-        String retFile = retClassFile+"\n\n"+fusionner.allCandidatesToString();
-        System.out.println("EXPORTING stats file ...");
-         Muskca.exportFile(retFile, projectName+"_HypCandidate_stats.txt");
-        //AlignRKBAgroTaxon.exportFile(fusionner.allCandidatesToCSV(), projectName+".csv");
-        System.out.println("FILE PERSO EXPORTED");*/
-        
-       /* System.out.println("EXPORTING provo owl file ...");
-        SparqlProxy spProvo = fusionner.allCandidatesToProvo(provoFile, spOutProvo, adomFile, baseUriMuskca);
-        //Muskca.exportFile(spProvo., projectName+"_CandProvo.owl");
-        spProvo.writeKBFile(projectName+"_CandProvo");
-        System.out.println("FILE PROVO EXPORTED");*/
         
      }
     

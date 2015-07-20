@@ -76,10 +76,10 @@ public abstract class GlpkSolver implements GlpkCallbackListener, GlpkTerminalLi
         iocp = new glp_iocp();
         GLPK.glp_init_iocp(iocp);
         iocp.setPresolve(GLPKConstants.GLP_ON);
-        iocp.setClq_cuts(GLPKConstants.GLP_ON);
+        /*iocp.setClq_cuts(GLPKConstants.GLP_ON);
         iocp.setGmi_cuts(GLPKConstants.GLP_ON);
         iocp.setMir_cuts(GLPKConstants.GLP_ON);
-        iocp.setCov_cuts(GLPKConstants.GLP_ON);
+        iocp.setCov_cuts(GLPKConstants.GLP_ON);*/
         
         // solve model
         ret = GLPK.glp_intopt(lp, iocp);                                                                
