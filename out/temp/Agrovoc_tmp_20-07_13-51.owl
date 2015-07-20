@@ -1,0 +1,293 @@
+<http://aims.fao.org/aos/agrovoc/c_7950>
+        a       <http://ontology.irstea.fr/AgronomicTaxon#GenusRank> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "TRITICUM"@de , "Triticum"@fr , "Triticum"@en , "Triticum"@es ;
+        <http://ontology.irstea.fr/AgronomicTaxon#hasHigherRank>
+                <http://aims.fao.org/aos/agrovoc/c_3354> ;
+        <http://ontology.irstea.fr/AgronomicTaxon#hasScientificName>
+                "TRITICUM"@de , "Triticum"@fr , "Triticum"@en , "Triticum"@es ;
+        <http://ontology.irstea.fr/AgronomicTaxon#inScheme>
+                <http://ontology.irstea.fr/AGROVOCTaxon#classification_AGROVOC> .
+
+<http://aims.fao.org/aos/agrovoc/c_3354>
+        a       <http://ontology.irstea.fr/AgronomicTaxon#Taxon> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "Zizanieae"@fr , "Zizanieae"@es , "Zizanieae"@en , "ANDROPOGONACEAE"@de , "Hordeaceae"@fr , "Hordeaceae"@es , "STIPACEAE"@de , "Hordeaceae"@en , "Gramineae"@es , "Gramineae"@fr , "Gramineae"@en , "PHALARIDACEAE"@de , "ORYZACEAE"@de , "Lepturaceae"@en , "Lepturaceae"@fr , "Lepturaceae"@es , "Panicaceae"@en , "Panicaceae"@es , "Panicaceae"@fr , "Andropogonaceae"@en , "Andropogonaceae"@es , "Andropogonaceae"@fr , "MAYDACEAE"@de , "ERAGROSTEAE"@de , "Poaceae"@en , "Poaceae"@fr , "Poaceae"@es , "Eragrostidaceae"@en , "Eragrostidaceae"@es , "Eragrostidaceae"@fr , "BAMBUSACEAE"@de , "Maydaceae"@fr , "Maydaceae"@es , "Maydaceae"@en , "Graminae"@en , "Stipaceae"@en , "Stipaceae"@es , "Stipaceae"@fr , "POACEAE"@de , "Arundinaceae"@en , "Arundinaceae"@es , "Arundinaceae"@fr , "AVENACEAE"@de , "ARUNDINACEAE"@de , "CHLORIDACEAE"@de , "FESTUCACEAE"@de , "Festucaceae"@en , "Festucaceae"@es , "Festucaceae"@fr , "Sporobolaceae"@fr , "Sporobolaceae"@en , "Sporobolaceae"@es , "LEPTURACEAE"@de , "PANICACEAE"@de , "Chloridaceae"@fr , "Chloridaceae"@en , "Chloridaceae"@es , "ZIZANIEAE"@de , "Tripsaceae"@es , "Tripsaceae"@fr , "Arundinellaceae"@fr , "Arundinellaceae"@es , "Arundinellaceae"@en , "Tripsaceae"@en , "AGROSTIDACEAE"@de , "Poaceas"@es , "Bambusaceae"@es , "Bambusaceae"@fr , "Bambusaceae"@en , "Phalaridaceae"@fr , "Phalaridaceae"@es , "Phalaridaceae"@en , "Agrostidaceae"@fr , "Agrostidaceae"@en , "Agrostidaceae"@es , "Oryzaceae"@es , "Oryzaceae"@en , "Oryzaceae"@fr , "GRAMINEAE"@de , "ARUNDINELLACEAE"@de , "Avenaceae"@es , "Avenaceae"@en , "Avenaceae"@fr , "Eragrosteae"@fr , "Eragrosteae"@es , "Eragrosteae"@en , "SPOROBOLACEAE"@de , "MELINIDEAE"@de , "POEAE"@de , "Poeae"@en , "Poeae"@fr , "Poeae"@es , "Melinideae"@fr , "Melinideae"@es , "Melinideae"@en , "ERAGROSTIDACEAE"@de , "Poeas"@es , "TRIPSACEAE"@de , "HORDEACEAE"@de ;
+        <http://ontology.irstea.fr/AgronomicTaxon#hasHigherRank>
+                <http://aims.fao.org/aos/agrovoc/c_330269> ;
+        <http://ontology.irstea.fr/AgronomicTaxon#hasScientificName>
+                "Poaceae"@en , "Poaceae"@fr , "Poaceae"@es , "POACEAE"@de ;
+        <http://ontology.irstea.fr/AgronomicTaxon#hasVernacularName>
+                "Zizanieae"@fr , "Zizanieae"@es , "Zizanieae"@en , "ANDROPOGONACEAE"@de , "Hordeaceae"@fr , "Hordeaceae"@es , "STIPACEAE"@de , "Hordeaceae"@en , "Gramineae"@es , "Gramineae"@fr , "Gramineae"@en , "PHALARIDACEAE"@de , "ORYZACEAE"@de , "Lepturaceae"@en , "Lepturaceae"@fr , "Lepturaceae"@es , "Panicaceae"@en , "Panicaceae"@es , "Panicaceae"@fr , "Andropogonaceae"@en , "Andropogonaceae"@es , "Andropogonaceae"@fr , "MAYDACEAE"@de , "ERAGROSTEAE"@de , "Eragrostidaceae"@en , "Eragrostidaceae"@es , "Eragrostidaceae"@fr , "BAMBUSACEAE"@de , "Maydaceae"@fr , "Maydaceae"@es , "Maydaceae"@en , "Graminae"@en , "Stipaceae"@en , "Stipaceae"@es , "Stipaceae"@fr , "Arundinaceae"@en , "Arundinaceae"@es , "Arundinaceae"@fr , "AVENACEAE"@de , "ARUNDINACEAE"@de , "CHLORIDACEAE"@de , "FESTUCACEAE"@de , "Festucaceae"@en , "Festucaceae"@es , "Festucaceae"@fr , "Sporobolaceae"@fr , "Sporobolaceae"@en , "Sporobolaceae"@es , "LEPTURACEAE"@de , "PANICACEAE"@de , "Chloridaceae"@fr , "Chloridaceae"@en , "Chloridaceae"@es , "ZIZANIEAE"@de , "Tripsaceae"@es , "Tripsaceae"@fr , "Arundinellaceae"@fr , "Arundinellaceae"@es , "Arundinellaceae"@en , "Tripsaceae"@en , "AGROSTIDACEAE"@de , "Poaceas"@es , "Bambusaceae"@es , "Bambusaceae"@fr , "Bambusaceae"@en , "Phalaridaceae"@fr , "Phalaridaceae"@es , "Phalaridaceae"@en , "Agrostidaceae"@fr , "Agrostidaceae"@en , "Agrostidaceae"@es , "Oryzaceae"@es , "Oryzaceae"@en , "Oryzaceae"@fr , "GRAMINEAE"@de , "ARUNDINELLACEAE"@de , "Avenaceae"@es , "Avenaceae"@en , "Avenaceae"@fr , "Eragrosteae"@fr , "Eragrosteae"@es , "Eragrosteae"@en , "SPOROBOLACEAE"@de , "MELINIDEAE"@de , "POEAE"@de , "Poeae"@en , "Poeae"@fr , "Poeae"@es , "Melinideae"@fr , "Melinideae"@es , "Melinideae"@en , "ERAGROSTIDACEAE"@de , "Poeas"@es , "TRIPSACEAE"@de , "HORDEACEAE"@de ;
+        <http://ontology.irstea.fr/AgronomicTaxon#inScheme>
+                <http://ontology.irstea.fr/AGROVOCTaxon#classification_AGROVOC> .
+
+<http://aims.fao.org/aos/agrovoc/c_7951>
+        a       <http://ontology.irstea.fr/AgronomicTaxon#SpecyRank> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "Triticum aestivum"@es , "Triticum aestivum"@fr , "Triticum aestivum"@en , "TRITICUM AESTIVUM"@de , "Triticum sativum"@es , "TRITICUM SATIVUM"@de , "Triticum sativum"@en , "Triticum sativum"@fr , "common wheat"@en , "Blé tendre (triticum aestivum)"@fr , "Corn (triticum)"@en , "Trigo blando"@es , "Blé ordinaire"@fr , "Triticum vulgare"@fr , "Triticum vulgare"@es , "Triticum vulgare"@en , "TRITICUM VULGARE"@de , "Trigo candeal (triticum aestivum)"@es ;
+        <http://ontology.irstea.fr/AgronomicTaxon#hasHigherRank>
+                <http://aims.fao.org/aos/agrovoc/c_7950> ;
+        <http://ontology.irstea.fr/AgronomicTaxon#hasScientificName>
+                "Triticum aestivum"@es , "Triticum aestivum"@fr , "Triticum aestivum"@en , "TRITICUM AESTIVUM"@de ;
+        <http://ontology.irstea.fr/AgronomicTaxon#hasVernacularName>
+                "Triticum sativum"@es , "TRITICUM SATIVUM"@de , "Triticum sativum"@en , "Triticum sativum"@fr , "common wheat"@en , "Blé tendre (triticum aestivum)"@fr , "Corn (triticum)"@en , "Trigo blando"@es , "Blé ordinaire"@fr , "Triticum vulgare"@fr , "Triticum vulgare"@es , "Triticum vulgare"@en , "TRITICUM VULGARE"@de , "Trigo candeal (triticum aestivum)"@es ;
+        <http://ontology.irstea.fr/AgronomicTaxon#inScheme>
+                <http://ontology.irstea.fr/AGROVOCTaxon#classification_AGROVOC> .
+
+<http://aims.fao.org/aos/agrovoc/c_7956>
+        a       <http://ontology.irstea.fr/AgronomicTaxon#SpecyRank> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "TRITICUM MONOCOCCUM"@de , "Triticum monococcum"@es , "Triticum monococcum"@en , "Triticum monococcum"@fr , "EINKORN"@de , "Trigo de un grano"@es , "Einkorn"@en , "Engrain"@fr , "Escanda menor"@es , "Esprilla"@es ;
+        <http://ontology.irstea.fr/AgronomicTaxon#hasHigherRank>
+                <http://aims.fao.org/aos/agrovoc/c_7950> ;
+        <http://ontology.irstea.fr/AgronomicTaxon#hasScientificName>
+                "TRITICUM MONOCOCCUM"@de , "Triticum monococcum"@es , "Triticum monococcum"@en , "Triticum monococcum"@fr ;
+        <http://ontology.irstea.fr/AgronomicTaxon#hasVernacularName>
+                "EINKORN"@de , "Trigo de un grano"@es , "Einkorn"@en , "Engrain"@fr , "Escanda menor"@es , "Esprilla"@es ;
+        <http://ontology.irstea.fr/AgronomicTaxon#inScheme>
+                <http://ontology.irstea.fr/AGROVOCTaxon#classification_AGROVOC> .
+
+<http://aims.fao.org/aos/agrovoc/c_7952>
+        a       <http://ontology.irstea.fr/AgronomicTaxon#SpecyRank> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "Triticum boeoticum"@es , "Triticum boeoticum"@fr , "Triticum boeoticum"@en , "TRITICUM BOEOTICUM"@de ;
+        <http://ontology.irstea.fr/AgronomicTaxon#hasHigherRank>
+                <http://aims.fao.org/aos/agrovoc/c_7950> ;
+        <http://ontology.irstea.fr/AgronomicTaxon#hasScientificName>
+                "Triticum boeoticum"@es , "Triticum boeoticum"@fr , "Triticum boeoticum"@en , "TRITICUM BOEOTICUM"@de ;
+        <http://ontology.irstea.fr/AgronomicTaxon#inScheme>
+                <http://ontology.irstea.fr/AGROVOCTaxon#classification_AGROVOC> .
+
+<http://aims.fao.org/aos/agrovoc/c_7955>
+        a       <http://ontology.irstea.fr/AgronomicTaxon#SpecyRank> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "Triticum durum"@en , "Triticum durum"@fr , "Triticum durum"@es , "TRITICUM DURUM"@de , "Trigo moruno"@es , "Trigo de fideos"@es , "Trigo semolero"@es , "Trigo moro"@es , "Trigo fanfarrón"@es ;
+        <http://ontology.irstea.fr/AgronomicTaxon#hasHigherRank>
+                <http://aims.fao.org/aos/agrovoc/c_7950> ;
+        <http://ontology.irstea.fr/AgronomicTaxon#hasScientificName>
+                "Triticum durum"@en , "Triticum durum"@fr , "Triticum durum"@es , "TRITICUM DURUM"@de ;
+        <http://ontology.irstea.fr/AgronomicTaxon#hasVernacularName>
+                "Trigo moruno"@es , "Trigo de fideos"@es , "Trigo semolero"@es , "Trigo moro"@es , "Trigo fanfarrón"@es ;
+        <http://ontology.irstea.fr/AgronomicTaxon#inScheme>
+                <http://ontology.irstea.fr/AGROVOCTaxon#classification_AGROVOC> .
+
+<http://aims.fao.org/aos/agrovoc/c_7958>
+        a       <http://ontology.irstea.fr/AgronomicTaxon#SpecyRank> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "TRITICUM TURGIDUM"@de , "Triticum turgidum"@fr , "Triticum turgidum"@en , "Triticum turgidum"@es , "Trigo candeal (triticum turgidum)"@es , "rivet wheat"@en , "ENGLISCHER WEIZEN"@de , "Trigo remache"@es , "Trigo redondillo"@es , "Blé poulard"@fr , "Trigo poulard"@es , "English wheat"@en ;
+        <http://ontology.irstea.fr/AgronomicTaxon#hasHigherRank>
+                <http://aims.fao.org/aos/agrovoc/c_7950> ;
+        <http://ontology.irstea.fr/AgronomicTaxon#hasScientificName>
+                "TRITICUM TURGIDUM"@de , "Triticum turgidum"@fr , "Triticum turgidum"@en , "Triticum turgidum"@es ;
+        <http://ontology.irstea.fr/AgronomicTaxon#hasVernacularName>
+                "Trigo candeal (triticum turgidum)"@es , "rivet wheat"@en , "ENGLISCHER WEIZEN"@de , "Trigo remache"@es , "Trigo redondillo"@es , "Blé poulard"@fr , "Trigo poulard"@es , "English wheat"@en ;
+        <http://ontology.irstea.fr/AgronomicTaxon#inScheme>
+                <http://ontology.irstea.fr/AGROVOCTaxon#classification_AGROVOC> .
+
+<http://aims.fao.org/aos/agrovoc/c_7954>
+        a       <http://ontology.irstea.fr/AgronomicTaxon#SpecyRank> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "Triticum dicoccum"@es , "Triticum dicoccum"@en , "TRITICUM DICOCCUM"@de , "Triticum dicoccum"@fr , "EMMER (KULTIVIERT)"@de , "Trigo almidonero"@es , "Trigo emmer"@es , "Escanda mayor"@es , "Emmer (cultivated)"@en , "Escanda de dos carreras"@es , "Escanda almidonera"@es ;
+        <http://ontology.irstea.fr/AgronomicTaxon#hasHigherRank>
+                <http://aims.fao.org/aos/agrovoc/c_7950> ;
+        <http://ontology.irstea.fr/AgronomicTaxon#hasScientificName>
+                "Triticum dicoccum"@es , "Triticum dicoccum"@en , "TRITICUM DICOCCUM"@de , "Triticum dicoccum"@fr ;
+        <http://ontology.irstea.fr/AgronomicTaxon#hasVernacularName>
+                "EMMER (KULTIVIERT)"@de , "Trigo almidonero"@es , "Trigo emmer"@es , "Escanda mayor"@es , "Emmer (cultivated)"@en , "Escanda de dos carreras"@es , "Escanda almidonera"@es ;
+        <http://ontology.irstea.fr/AgronomicTaxon#inScheme>
+                <http://ontology.irstea.fr/AGROVOCTaxon#classification_AGROVOC> .
+
+<http://aims.fao.org/aos/agrovoc/c_7957>
+        a       <http://ontology.irstea.fr/AgronomicTaxon#SpecyRank> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "Triticum spelta"@es , "Triticum spelta"@fr , "Triticum spelta"@en , "TRITICUM SPELTA"@de , "SPELZ"@de , "Espelta"@es , "Spelt"@en , "Escana doble silvestre"@es , "Épeautre"@fr ;
+        <http://ontology.irstea.fr/AgronomicTaxon#hasHigherRank>
+                <http://aims.fao.org/aos/agrovoc/c_7950> ;
+        <http://ontology.irstea.fr/AgronomicTaxon#hasScientificName>
+                "Triticum spelta"@es , "Triticum spelta"@fr , "Triticum spelta"@en , "TRITICUM SPELTA"@de ;
+        <http://ontology.irstea.fr/AgronomicTaxon#hasVernacularName>
+                "SPELZ"@de , "Espelta"@es , "Spelt"@en , "Escana doble silvestre"@es , "Épeautre"@fr ;
+        <http://ontology.irstea.fr/AgronomicTaxon#inScheme>
+                <http://ontology.irstea.fr/AGROVOCTaxon#classification_AGROVOC> .
+
+<http://aims.fao.org/aos/agrovoc/c_7953>
+        a       <http://ontology.irstea.fr/AgronomicTaxon#SpecyRank> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "TRITICUM DICOCCOIDES"@de , "Triticum dicoccoides"@fr , "Triticum dicoccoides"@en , "Triticum dicoccoides"@es , "Amidonnier sauvage"@fr , "EMMER (WILD)"@de , "Emmer (wild)"@en , "Trigo almidonero salvaje"@es ;
+        <http://ontology.irstea.fr/AgronomicTaxon#hasHigherRank>
+                <http://aims.fao.org/aos/agrovoc/c_7950> ;
+        <http://ontology.irstea.fr/AgronomicTaxon#hasScientificName>
+                "TRITICUM DICOCCOIDES"@de , "Triticum dicoccoides"@fr , "Triticum dicoccoides"@en , "Triticum dicoccoides"@es ;
+        <http://ontology.irstea.fr/AgronomicTaxon#hasVernacularName>
+                "Amidonnier sauvage"@fr , "EMMER (WILD)"@de , "Emmer (wild)"@en , "Trigo almidonero salvaje"@es ;
+        <http://ontology.irstea.fr/AgronomicTaxon#inScheme>
+                <http://ontology.irstea.fr/AGROVOCTaxon#classification_AGROVOC> .
+
+<http://aims.fao.org/aos/agrovoc/c_7337>
+        a       <http://ontology.irstea.fr/AgronomicTaxon#Taxon> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "Blé de printemps"@fr , "Trigo de primavera"@es , "SOMMERWEIZEN"@de , "Spring wheat"@en ;
+        <http://ontology.irstea.fr/AgronomicTaxon#hasHigherRank>
+                <http://aims.fao.org/aos/agrovoc/c_7950> ;
+        <http://ontology.irstea.fr/AgronomicTaxon#hasScientificName>
+                "Blé de printemps"@fr , "Trigo de primavera"@es , "SOMMERWEIZEN"@de , "Spring wheat"@en ;
+        <http://ontology.irstea.fr/AgronomicTaxon#inScheme>
+                <http://ontology.irstea.fr/AGROVOCTaxon#classification_AGROVOC> .
+
+<http://aims.fao.org/aos/agrovoc/c_8412>
+        a       <http://ontology.irstea.fr/AgronomicTaxon#Taxon> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "WINTERWEIZEN"@de , "Blé d'hiver"@fr , "Trigo de invierno"@es , "Winter wheat"@en ;
+        <http://ontology.irstea.fr/AgronomicTaxon#hasHigherRank>
+                <http://aims.fao.org/aos/agrovoc/c_7950> ;
+        <http://ontology.irstea.fr/AgronomicTaxon#hasScientificName>
+                "WINTERWEIZEN"@de , "Blé d'hiver"@fr , "Trigo de invierno"@es , "Winter wheat"@en ;
+        <http://ontology.irstea.fr/AgronomicTaxon#inScheme>
+                <http://ontology.irstea.fr/AGROVOCTaxon#classification_AGROVOC> .
+
+<http://aims.fao.org/aos/agrovoc/c_330940>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "superkingdom"@en , "superregnum"@en , "empire (taxa)"@en , "domain (taxa)"@en , "Domäne (Taxa)"@de ;
+        <http://www.w3.org/2000/01/rdf-schema#subClassOf>
+                <http://ontology.irstea.fr/AgronomicTaxon#Taxon> .
+
+<http://aims.fao.org/aos/agrovoc/c_330960>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "superphylum"@en , "Superphylum"@de , "Ueberstamm"@de , "Stammgruppe"@de , "Überstamm"@de , "superdivision"@en ;
+        <http://www.w3.org/2000/01/rdf-schema#subClassOf>
+                <http://ontology.irstea.fr/AgronomicTaxon#Taxon> .
+
+<http://aims.fao.org/aos/agrovoc/c_330955>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "subkingdom"@en , "Unterreich"@de ;
+        <http://www.w3.org/2000/01/rdf-schema#subClassOf>
+                <http://ontology.irstea.fr/AgronomicTaxon#Taxon> .
+
+<http://aims.fao.org/aos/agrovoc/c_331071>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "subfamily"@en , "Unterfamilie"@de ;
+        <http://www.w3.org/2000/01/rdf-schema#subClassOf>
+                <http://ontology.irstea.fr/AgronomicTaxon#Taxon> .
+
+<http://aims.fao.org/aos/agrovoc/c_16047>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "subspecies"@en , "Sous-espèce"@fr , "Subespecies"@es , "SUBSPEZIES"@de ;
+        <http://www.w3.org/2000/01/rdf-schema#subClassOf>
+                <http://ontology.irstea.fr/AgronomicTaxon#Taxon> .
+
+<http://aims.fao.org/aos/agrovoc/c_330269>
+        a       <http://ontology.irstea.fr/AgronomicTaxon#OrderRank> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "Poales"@en , "Poales"@de , "Poales"@es , "Poales"@fr ;
+        <http://ontology.irstea.fr/AgronomicTaxon#hasHigherRank>
+                <http://aims.fao.org/aos/agrovoc/c_330109> ;
+        <http://ontology.irstea.fr/AgronomicTaxon#hasScientificName>
+                "Poales"@en , "Poales"@de , "Poales"@es , "Poales"@fr ;
+        <http://ontology.irstea.fr/AgronomicTaxon#inScheme>
+                <http://ontology.irstea.fr/AGROVOCTaxon#classification_AGROVOC> .
+
+<http://aims.fao.org/aos/agrovoc/c_330109>
+        a       <http://ontology.irstea.fr/AgronomicTaxon#ClassRank> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "Liliopsida"@en , "Liliopsida"@fr , "Liliopsida"@de , "Liliopsida"@es ;
+        <http://ontology.irstea.fr/AgronomicTaxon#hasHigherRank>
+                <http://aims.fao.org/aos/agrovoc/c_330268> ;
+        <http://ontology.irstea.fr/AgronomicTaxon#hasScientificName>
+                "Liliopsida"@en , "Liliopsida"@fr , "Liliopsida"@de , "Liliopsida"@es ;
+        <http://ontology.irstea.fr/AgronomicTaxon#inScheme>
+                <http://ontology.irstea.fr/AGROVOCTaxon#classification_AGROVOC> .
+
+<http://aims.fao.org/aos/agrovoc/c_330268>
+        a       <http://ontology.irstea.fr/AgronomicTaxon#PhylumRank> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "angiospermae"@en , "Angiospermae"@fr , "Angiospermae"@es , "Magnoliophyta"@en , "Magnoliophyta"@fr , "Magnoliophyta"@de , "Magnoliophyta"@es ;
+        <http://ontology.irstea.fr/AgronomicTaxon#hasHigherRank>
+                <http://aims.fao.org/aos/agrovoc/c_7286> ;
+        <http://ontology.irstea.fr/AgronomicTaxon#hasScientificName>
+                "Magnoliophyta"@en , "Magnoliophyta"@fr , "Magnoliophyta"@de , "Magnoliophyta"@es ;
+        <http://ontology.irstea.fr/AgronomicTaxon#hasVernacularName>
+                "angiospermae"@en , "Angiospermae"@fr , "Angiospermae"@es ;
+        <http://ontology.irstea.fr/AgronomicTaxon#inScheme>
+                <http://ontology.irstea.fr/AGROVOCTaxon#classification_AGROVOC> .
+
+<http://aims.fao.org/aos/agrovoc/c_7286>
+        a       <http://aims.fao.org/aos/agrovoc/c_330960> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "PHANEROGAMAE"@de , "Plantas superiores"@es , "Phanérogame"@fr , "seed plants"@en , "Spermatophyta"@fr , "Spermatophyta"@en , "Spermatophyta"@de , "Spermatophyta"@es , "Phanerogams"@en , "Fanerógamas"@es , "flowering plants"@en , "BLUETENPFLANZE"@de , "spermatophytes"@en , "Espermatofitos"@es , "Spermatophyte"@fr , "Phanerogamia"@en ;
+        <http://ontology.irstea.fr/AgronomicTaxon#hasHigherRank>
+                <http://aims.fao.org/aos/agrovoc/c_7838> ;
+        <http://ontology.irstea.fr/AgronomicTaxon#hasScientificName>
+                "Spermatophyta"@fr , "Spermatophyta"@en , "Spermatophyta"@de , "Spermatophyta"@es ;
+        <http://ontology.irstea.fr/AgronomicTaxon#hasVernacularName>
+                "PHANEROGAMAE"@de , "Plantas superiores"@es , "Phanérogame"@fr , "seed plants"@en , "Phanerogams"@en , "Fanerógamas"@es , "flowering plants"@en , "BLUETENPFLANZE"@de , "spermatophytes"@en , "Espermatofitos"@es , "Spermatophyte"@fr , "Phanerogamia"@en ;
+        <http://ontology.irstea.fr/AgronomicTaxon#inScheme>
+                <http://ontology.irstea.fr/AGROVOCTaxon#classification_AGROVOC> .
+
+<http://aims.fao.org/aos/agrovoc/c_7838>
+        a       <http://ontology.irstea.fr/AgronomicTaxon#Taxon> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "Tracheophyta"@es , "Tracheophyta"@fr , "Tracheophyta"@en , "TRACHEOPHYTA"@de , "vascular plants"@en ;
+        <http://ontology.irstea.fr/AgronomicTaxon#hasHigherRank>
+                <http://aims.fao.org/aos/agrovoc/c_330288> ;
+        <http://ontology.irstea.fr/AgronomicTaxon#hasScientificName>
+                "Tracheophyta"@es , "Tracheophyta"@fr , "Tracheophyta"@en , "TRACHEOPHYTA"@de ;
+        <http://ontology.irstea.fr/AgronomicTaxon#hasVernacularName>
+                "vascular plants"@en ;
+        <http://ontology.irstea.fr/AgronomicTaxon#inScheme>
+                <http://ontology.irstea.fr/AGROVOCTaxon#classification_AGROVOC> .
+
+<http://aims.fao.org/aos/agrovoc/c_330288>
+        a       <http://aims.fao.org/aos/agrovoc/c_330955> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "embryobionta"@en , "Embryophyta"@en ;
+        <http://ontology.irstea.fr/AgronomicTaxon#hasHigherRank>
+                <http://aims.fao.org/aos/agrovoc/c_330074> ;
+        <http://ontology.irstea.fr/AgronomicTaxon#hasScientificName>
+                "Embryophyta"@en ;
+        <http://ontology.irstea.fr/AgronomicTaxon#hasVernacularName>
+                "embryobionta"@en ;
+        <http://ontology.irstea.fr/AgronomicTaxon#inScheme>
+                <http://ontology.irstea.fr/AGROVOCTaxon#classification_AGROVOC> .
+
+<http://aims.fao.org/aos/agrovoc/c_330074>
+        a       <http://ontology.irstea.fr/AgronomicTaxon#KingdomRank> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "Plantae"@en , "Plantae"@de , "Plantae"@fr , "Plantae"@es , "vegetabilia"@en , "metaphyta"@en ;
+        <http://ontology.irstea.fr/AgronomicTaxon#hasHigherRank>
+                <http://aims.fao.org/aos/agrovoc/c_330944> ;
+        <http://ontology.irstea.fr/AgronomicTaxon#hasScientificName>
+                "Plantae"@en , "Plantae"@de , "Plantae"@fr , "Plantae"@es ;
+        <http://ontology.irstea.fr/AgronomicTaxon#hasVernacularName>
+                "vegetabilia"@en , "metaphyta"@en ;
+        <http://ontology.irstea.fr/AgronomicTaxon#inScheme>
+                <http://ontology.irstea.fr/AGROVOCTaxon#classification_AGROVOC> .
+
+<http://aims.fao.org/aos/agrovoc/c_330944>
+        a       <http://aims.fao.org/aos/agrovoc/c_330940> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "eukaryotes"@en , "eukarya"@en , "Eukaryota"@fr , "Eukaryota"@de , "Eukaryota"@es , "Eukaryota"@en ;
+        <http://ontology.irstea.fr/AgronomicTaxon#hasHigherRank>
+                <http://aims.fao.org/aos/agrovoc/c_49904> ;
+        <http://ontology.irstea.fr/AgronomicTaxon#hasScientificName>
+                "Eukaryota"@fr , "Eukaryota"@de , "Eukaryota"@es , "Eukaryota"@en ;
+        <http://ontology.irstea.fr/AgronomicTaxon#hasVernacularName>
+                "eukaryotes"@en , "eukarya"@en ;
+        <http://ontology.irstea.fr/AgronomicTaxon#inScheme>
+                <http://ontology.irstea.fr/AGROVOCTaxon#classification_AGROVOC> .
+
+<http://aims.fao.org/aos/agrovoc/c_49904>
+        a       <http://ontology.irstea.fr/AgronomicTaxon#Taxon> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "Lebewesen"@de , "Organismus"@de , "Gaeabionta"@en , "life on earth"@en , "Organismos"@es , "organisms"@en , "Organisme"@fr ;
+        <http://ontology.irstea.fr/AgronomicTaxon#hasScientificName>
+                "Organismus"@de , "Organismos"@es , "organisms"@en , "Organisme"@fr ;
+        <http://ontology.irstea.fr/AgronomicTaxon#hasVernacularName>
+                "Lebewesen"@de , "Gaeabionta"@en , "life on earth"@en ;
+        <http://ontology.irstea.fr/AgronomicTaxon#inScheme>
+                <http://ontology.irstea.fr/AGROVOCTaxon#classification_AGROVOC> .

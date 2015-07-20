@@ -10,7 +10,7 @@ var x{i in I},  binary; #zero si selectionne 1 sinon
 
 /* Objective function */
 /* maximize z: sum{i in I}trust[i]*x[i];*/
-maximize z: sum{i in I}(trust[i]*x[i]+sum{j in I: j>i}trustArc[i, j]*x[j]);
+maximize z: sum{i in I}(x[i]+(trust[i]+sum{j in I: j>i}trustArc[i, j]*x[j]));
 
 /* Constraints */
 s.t.Cconfict{i in I, j in I}:conflict[i,j]*(x[i]+x[j])<=1;

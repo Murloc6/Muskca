@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rdf:RDF xmlns="http://knowledgeweb.semanticweb.org/heterogeneity/alignment"
+	xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema#">
+
+<Alignment>
+<xml>yes</xml>
+<level>0</level>
+<type>??</type>
+<onto1>http://krono.act.uji.es/ontology.owl</onto1>
+<onto2>http://krono.act.uji.es/ontology.owl</onto2>
+<uri1>http://krono.act.uji.es/ontology.owl</uri1>
+<uri2>http://krono.act.uji.es/ontology.owl</uri2>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://ontology.irstea.fr/AgronomicTaxon#Taxon"/>
+		<entity2 rdf:resource="http://ontology.irstea.fr/AgronomicTaxon#Taxon"/>
+		<measure rdf:datatype="xsd:float">0.85</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://ontology.irstea.fr/AgronomicTaxon#ClassRank"/>
+		<entity2 rdf:resource="http://ontology.irstea.fr/AgronomicTaxon#ClassRank"/>
+		<measure rdf:datatype="xsd:float">0.7</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://ontology.irstea.fr/AgronomicTaxon#OrderRank"/>
+		<entity2 rdf:resource="http://ontology.irstea.fr/AgronomicTaxon#OrderRank"/>
+		<measure rdf:datatype="xsd:float">0.7</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://ontology.irstea.fr/AgronomicTaxon#SpecyRank"/>
+		<entity2 rdf:resource="http://ontology.irstea.fr/AgronomicTaxon#SpecyRank"/>
+		<measure rdf:datatype="xsd:float">0.7</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://aims.fao.org/aos/agrovoc/c_16047"/>
+		<entity2 rdf:resource="http://inpn.mnhn.fr/espece/cd_nom/SSES"/>
+		<measure rdf:datatype="xsd:float">0.97</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://ontology.irstea.fr/AgronomicTaxon#KingdomRank"/>
+		<entity2 rdf:resource="http://ontology.irstea.fr/AgronomicTaxon#KingdomRank"/>
+		<measure rdf:datatype="xsd:float">0.7</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://ontology.irstea.fr/AgronomicTaxon#GenusRank"/>
+		<entity2 rdf:resource="http://ontology.irstea.fr/AgronomicTaxon#GenusRank"/>
+		<measure rdf:datatype="xsd:float">0.7</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://aims.fao.org/aos/agrovoc/c_7955"/>
+		<entity2 rdf:resource="http://inpn.mnhn.fr/espece/cd_nom/141978"/>
+		<measure rdf:datatype="xsd:float">1.0</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://aims.fao.org/aos/agrovoc/c_7956"/>
+		<entity2 rdf:resource="http://inpn.mnhn.fr/espece/cd_nom/127771"/>
+		<measure rdf:datatype="xsd:float">1.0</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://aims.fao.org/aos/agrovoc/c_7950"/>
+		<entity2 rdf:resource="http://inpn.mnhn.fr/espece/cd_nom/198676"/>
+		<measure rdf:datatype="xsd:float">1.0</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://aims.fao.org/aos/agrovoc/c_7951"/>
+		<entity2 rdf:resource="http://inpn.mnhn.fr/espece/cd_nom/127692"/>
+		<measure rdf:datatype="xsd:float">1.0</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://aims.fao.org/aos/agrovoc/c_7957"/>
+		<entity2 rdf:resource="http://inpn.mnhn.fr/espece/cd_nom/141957"/>
+		<measure rdf:datatype="xsd:float">1.0</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://aims.fao.org/aos/agrovoc/c_7958"/>
+		<entity2 rdf:resource="http://inpn.mnhn.fr/espece/cd_nom/127827"/>
+		<measure rdf:datatype="xsd:float">1.0</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://aims.fao.org/aos/agrovoc/c_330074"/>
+		<entity2 rdf:resource="http://inpn.mnhn.fr/espece/cd_nom/187079"/>
+		<measure rdf:datatype="xsd:float">1.0</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://aims.fao.org/aos/agrovoc/c_7953"/>
+		<entity2 rdf:resource="http://inpn.mnhn.fr/espece/cd_nom/621236"/>
+		<measure rdf:datatype="xsd:float">0.9</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://aims.fao.org/aos/agrovoc/c_330269"/>
+		<entity2 rdf:resource="http://inpn.mnhn.fr/espece/cd_nom/522798"/>
+		<measure rdf:datatype="xsd:float">1.0</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://aims.fao.org/aos/agrovoc/c_3354"/>
+		<entity2 rdf:resource="http://inpn.mnhn.fr/espece/cd_nom/187444"/>
+		<measure rdf:datatype="xsd:float">1.0</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+</Alignment>
+</rdf:RDF>

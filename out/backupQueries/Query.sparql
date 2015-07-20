@@ -13,59 +13,24 @@ PREFIX swrl: <http://www.w3.org/2003/11/swrl#>
 PREFIX swrlb: <http://www.w3.org/2003/11/swrlb#>  
 PREFIX terms: <http://purl.org/dc/terms/>  
 PREFIX AgronomicTaxon: <http://ontology.irstea.fr/AgronomicTaxon#>  
- INSERT DATA {<http://muskca_system.fr/mini_Triticum/InstanceCandidate/Cand/57> rdf:type :Entity; rdf:type rdf:Statement; rdf:subject <http://muskca_system.fr/mini_Triticum/InstanceCandidate/57>; rdf:predicate rdf:type; rdf:object owl:Thing.
- <http://muskca_system.fr/mini_Triticum/InstanceCandidate/Cand/57> <http://muskca_system.fr/mini_Triticum/hadTrustScore> "0.6666667"^^xsd:double.
-<http://aims.fao.org/aos/agrovoc/c_7958> rdf:type :Entity; rdf:type rdf:Statement.
-<http://muskca_system.fr/mini_Triticum/InstanceCandidate/57> owl:sameAs <http://aims.fao.org/aos/agrovoc/c_7958>.
-<http://muskca_system.fr/mini_Triticum/Source/Agrovoc> :hadMember <http://aims.fao.org/aos/agrovoc/c_7958>.
-<http://muskca_system.fr/mini_Triticum/InstanceCandidate/Cand/57> :wasDerivedFrom <http://aims.fao.org/aos/agrovoc/c_7958>. 
-<http://inpn.mnhn.fr/espece/cd_nom/127827> rdf:type :Entity; rdf:type rdf:Statement.
-<http://muskca_system.fr/mini_Triticum/InstanceCandidate/57> owl:sameAs <http://inpn.mnhn.fr/espece/cd_nom/127827>.
-<http://muskca_system.fr/mini_Triticum/Source/TaxRef> :hadMember <http://inpn.mnhn.fr/espece/cd_nom/127827>.
-<http://muskca_system.fr/mini_Triticum/InstanceCandidate/Cand/57> :wasDerivedFrom <http://inpn.mnhn.fr/espece/cd_nom/127827>. 
-<http://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=58933> rdf:type :Entity; rdf:type rdf:Statement.
-<http://muskca_system.fr/mini_Triticum/InstanceCandidate/57> owl:sameAs <http://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=58933>.
-<http://muskca_system.fr/mini_Triticum/Source/NCBI> :hadMember <http://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=58933>.
-<http://muskca_system.fr/mini_Triticum/InstanceCandidate/Cand/57> :wasDerivedFrom <http://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=58933>. 
-<http://muskca_system.fr/mini_Triticum/TypeCandidate/Cand/1> rdf:type :Entity; rdf:type rdf:Statement; rdf:subject <http://muskca_system.fr/mini_Triticum/InstanceCandidate/57>; rdf:predicate rdf:type; rdf:object . <http://muskca_system.fr/mini_Triticum/TypeCandidate/1>.
- <http://muskca_system.fr/mini_Triticum/TypeCandidate/Cand/1> <http://muskca_system.fr/mini_Triticum/hadTrustScore> "0.9166667"^^xsd:double.
-<http://muskca_system.fr/mini_Triticum/TypeCandidate/Agrovoc/1> rdf:type :Entity; rdf:type rdf:Statement.
-<http://muskca_system.fr/mini_Triticum/TypeCandidate/Agrovoc/1> rdf:subject <http://aims.fao.org/aos/agrovoc/c_7958>; rdf:predicate rdf:type; rdf:object <>. 
-<http://muskca_system.fr/mini_Triticum/TypeCandidate/1> owl:sameAs <http://muskca_system.fr/mini_Triticum/TypeCandidate/Agrovoc/1>.
-<http://muskca_system.fr/mini_Triticum/Source/Agrovoc> :hadMember <http://muskca_system.fr/mini_Triticum/TypeCandidate/Agrovoc/1>.
-<http://muskca_system.fr/mini_Triticum/TypeCandidate/Cand/1> :wasDerivedFrom <http://muskca_system.fr/mini_Triticum/TypeCandidate/Agrovoc/1>. 
-<http://muskca_system.fr/mini_Triticum/TypeCandidate/TaxRef/1> rdf:type :Entity; rdf:type rdf:Statement.
-<http://muskca_system.fr/mini_Triticum/TypeCandidate/TaxRef/1> rdf:subject <http://inpn.mnhn.fr/espece/cd_nom/127827>; rdf:predicate rdf:type; rdf:object <>. 
-<http://muskca_system.fr/mini_Triticum/TypeCandidate/1> owl:sameAs <http://muskca_system.fr/mini_Triticum/TypeCandidate/TaxRef/1>.
-<http://muskca_system.fr/mini_Triticum/Source/TaxRef> :hadMember <http://muskca_system.fr/mini_Triticum/TypeCandidate/TaxRef/1>.
-<http://muskca_system.fr/mini_Triticum/TypeCandidate/Cand/1> :wasDerivedFrom <http://muskca_system.fr/mini_Triticum/TypeCandidate/TaxRef/1>. 
-<http://muskca_system.fr/mini_Triticum/TypeCandidate/NCBI/1> rdf:type :Entity; rdf:type rdf:Statement.
-<http://muskca_system.fr/mini_Triticum/TypeCandidate/NCBI/1> rdf:subject <http://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=58933>; rdf:predicate rdf:type; rdf:object <>. 
-<http://muskca_system.fr/mini_Triticum/TypeCandidate/1> owl:sameAs <http://muskca_system.fr/mini_Triticum/TypeCandidate/NCBI/1>.
-<http://muskca_system.fr/mini_Triticum/Source/NCBI> :hadMember <http://muskca_system.fr/mini_Triticum/TypeCandidate/NCBI/1>.
-<http://muskca_system.fr/mini_Triticum/TypeCandidate/Cand/1> :wasDerivedFrom <http://muskca_system.fr/mini_Triticum/TypeCandidate/NCBI/1>. 
-<http://muskca_system.fr/mini_Triticum/LabelCandidate/Cand/1> rdf:type :Entity; rdf:type rdf:Statement; rdf:subject <http://muskca_system.fr/mini_Triticum/InstanceCandidate/57>; rdf:predicate rdfs:label; rdf:object  "Triticum turgidum".
- <http://muskca_system.fr/mini_Triticum/ActivityKBMerge> :hadMember <http://muskca_system.fr/mini_Triticum/LabelCandidate/Cand/1>.<http://muskca_system.fr/mini_Triticum/LabelCandidate/Cand/1> <http://muskca_system.fr/mini_Triticum/hadTrustScore> "0.9333334"^^xsd:double.
-<http://muskca_system.fr/mini_Triticum/LabelCandidate/Agrovoc/1> rdf:type :Entity; rdf:type rdf:Statement.
-<http://muskca_system.fr/mini_Triticum/LabelCandidate/Agrovoc/1> rdf:subject <http://aims.fao.org/aos/agrovoc/c_7958>; rdf:predicate rdfs:label; rdf:object "Triticum turgidum". 
-<http://muskca_system.fr/mini_Triticum/Source/Agrovoc> :hadMember <http://muskca_system.fr/mini_Triticum/LabelCandidate/Agrovoc/1>.
-<http://muskca_system.fr/mini_Triticum/LabelCandidate/Cand/1> :wasDerivedFrom <http://muskca_system.fr/mini_Triticum/LabelCandidate/Agrovoc/1>. 
-<http://muskca_system.fr/mini_Triticum/LabelCandidate/TaxRef/1> rdf:type :Entity; rdf:type rdf:Statement.
-<http://muskca_system.fr/mini_Triticum/LabelCandidate/TaxRef/1> rdf:subject <http://inpn.mnhn.fr/espece/cd_nom/127827>; rdf:predicate rdfs:label; rdf:object "Triticum turgidum". 
-<http://muskca_system.fr/mini_Triticum/Source/TaxRef> :hadMember <http://muskca_system.fr/mini_Triticum/LabelCandidate/TaxRef/1>.
-<http://muskca_system.fr/mini_Triticum/LabelCandidate/Cand/1> :wasDerivedFrom <http://muskca_system.fr/mini_Triticum/LabelCandidate/TaxRef/1>. 
-<http://muskca_system.fr/mini_Triticum/RelationCandidate/Cand/1> rdf:type :Entity; rdf:type rdf:Statement; rdf:subject <http://muskca_system.fr/mini_Triticum/InstanceCandidate/57>; rdf:predicate <http://ontology.irstea.fr/AgronomicTaxon#hasHigherRank>; rdf:object <http://muskca_system.fr/mini_Triticum/InstanceCandidate/3>.
- <http://muskca_system.fr/mini_Triticum/ActivityKBMerge> :hadMember <http://muskca_system.fr/mini_Triticum/RelationCandidate/Cand/1>.<http://muskca_system.fr/mini_Triticum/RelationCandidate/Cand/1> <http://muskca_system.fr/mini_Triticum/hadTrustScore> "0.9583334"^^xsd:double.
-<http://muskca_system.fr/mini_Triticum/RelationCandidate/Agrovoc/1> rdf:type :Entity; rdf:type rdf:Statement.
-<http://muskca_system.fr/mini_Triticum/RelationCandidate/Agrovoc/1> rdf:subject <http://aims.fao.org/aos/agrovoc/c_7958>; rdf:predicate <http://ontology.irstea.fr/AgronomicTaxon#hasHigherRank>; rdf:object <http://aims.fao.org/aos/agrovoc/c_7950>. 
-<http://muskca_system.fr/mini_Triticum/Source/Agrovoc> :hadMember <http://muskca_system.fr/mini_Triticum/RelationCandidate/Agrovoc/1>.
-<http://muskca_system.fr/mini_Triticum/RelationCandidate/Cand/1> :wasDerivedFrom <http://muskca_system.fr/mini_Triticum/RelationCandidate/Agrovoc/1>. 
-<http://muskca_system.fr/mini_Triticum/RelationCandidate/TaxRef/1> rdf:type :Entity; rdf:type rdf:Statement.
-<http://muskca_system.fr/mini_Triticum/RelationCandidate/TaxRef/1> rdf:subject <http://inpn.mnhn.fr/espece/cd_nom/127827>; rdf:predicate <http://ontology.irstea.fr/AgronomicTaxon#hasHigherRank>; rdf:object <http://inpn.mnhn.fr/espece/cd_nom/198676>. 
-<http://muskca_system.fr/mini_Triticum/Source/TaxRef> :hadMember <http://muskca_system.fr/mini_Triticum/RelationCandidate/TaxRef/1>.
-<http://muskca_system.fr/mini_Triticum/RelationCandidate/Cand/1> :wasDerivedFrom <http://muskca_system.fr/mini_Triticum/RelationCandidate/TaxRef/1>. 
-<http://muskca_system.fr/mini_Triticum/RelationCandidate/NCBI/1> rdf:type :Entity; rdf:type rdf:Statement.
-<http://muskca_system.fr/mini_Triticum/RelationCandidate/NCBI/1> rdf:subject <http://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=58933>; rdf:predicate <http://ontology.irstea.fr/AgronomicTaxon#hasHigherRank>; rdf:object <http://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=4564>. 
-<http://muskca_system.fr/mini_Triticum/Source/NCBI> :hadMember <http://muskca_system.fr/mini_Triticum/RelationCandidate/NCBI/1>.
-<http://muskca_system.fr/mini_Triticum/RelationCandidate/Cand/1> :wasDerivedFrom <http://muskca_system.fr/mini_Triticum/RelationCandidate/NCBI/1>. 
+ INSERT DATA {<http://muskca_system.fr/mini_Triticum/IndividualCandidate/Cand/13> rdf:type :Entity; rdf:type rdf:Statement; rdf:subject <http://muskca_system.fr/mini_Triticum/IndividualCandidate/13>; rdf:predicate rdf:type; rdf:object owl:Thing.
+ <http://muskca_system.fr/mini_Triticum/IndividualCandidate/Cand/13> <http://muskca_system.fr/mini_Triticum/hadTrustScore> "0.51"^^xsd:double.
+<http://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=357456> rdf:type :Entity; rdf:type rdf:Statement.
+<http://muskca_system.fr/mini_Triticum/IndividualCandidate/13> owl:sameAs <http://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=357456>.
+<http://muskca_system.fr/mini_Triticum/Source/NCBI> :hadMember <http://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=357456>.
+<http://muskca_system.fr/mini_Triticum/IndividualCandidate/Cand/13> :wasDerivedFrom <http://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=357456>. 
+<http://inpn.mnhn.fr/espece/cd_nom/621236> rdf:type :Entity; rdf:type rdf:Statement.
+<http://muskca_system.fr/mini_Triticum/IndividualCandidate/13> owl:sameAs <http://inpn.mnhn.fr/espece/cd_nom/621236>.
+<http://muskca_system.fr/mini_Triticum/Source/TaxRef> :hadMember <http://inpn.mnhn.fr/espece/cd_nom/621236>.
+<http://muskca_system.fr/mini_Triticum/IndividualCandidate/Cand/13> :wasDerivedFrom <http://inpn.mnhn.fr/espece/cd_nom/621236>. 
+<http://muskca_system.fr/mini_Triticum/LabelCandidate/Cand/8> rdf:type :Entity; rdf:type rdf:Statement; rdf:subject <http://muskca_system.fr/mini_Triticum/LabelCandidate/8>; rdf:predicate http://ontology.irstea.fr/AgronomicTaxon#hasScientificName; rdf:object  "Triticum turgidum subsp. turgidum".
+ <http://muskca_system.fr/mini_Triticum/ActivityKBMerge> :hadMember <http://muskca_system.fr/mini_Triticum/LabelCandidate/Cand/8>.<http://muskca_system.fr/mini_Triticum/LabelCandidate/Cand/8> <http://muskca_system.fr/mini_Triticum/hadTrustScore> "0.69"^^xsd:double.
+<http://muskca_system.fr/mini_Triticum/LabelCandidate/NCBI/13/8/1> rdf:type :Entity; rdf:type rdf:Statement.
+<http://muskca_system.fr/mini_Triticum/LabelCandidate/NCBI/13/8/1> rdf:subject <http://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=357456>; rdf:predicate http://ontology.irstea.fr/AgronomicTaxon#hasScientificName; rdf:object "Triticum turgidum subsp. turgidum". 
+<http://muskca_system.fr/mini_Triticum/Source/NCBI> :hadMember <http://muskca_system.fr/mini_Triticum/LabelCandidate/NCBI/13/8/1>.
+<http://muskca_system.fr/mini_Triticum/LabelCandidate/Cand/8> :wasDerivedFrom <http://muskca_system.fr/mini_Triticum/LabelCandidate/NCBI/13/8/1>. 
+<http://muskca_system.fr/mini_Triticum/LabelCandidate/TaxRef/13/8/2> rdf:type :Entity; rdf:type rdf:Statement.
+<http://muskca_system.fr/mini_Triticum/LabelCandidate/TaxRef/13/8/2> rdf:subject <http://inpn.mnhn.fr/espece/cd_nom/621236>; rdf:predicate http://ontology.irstea.fr/AgronomicTaxon#hasScientificName; rdf:object "Triticum turgidum subsp. dicoccon". 
+<http://muskca_system.fr/mini_Triticum/Source/TaxRef> :hadMember <http://muskca_system.fr/mini_Triticum/LabelCandidate/TaxRef/13/8/2>.
+<http://muskca_system.fr/mini_Triticum/LabelCandidate/Cand/8> :wasDerivedFrom <http://muskca_system.fr/mini_Triticum/LabelCandidate/TaxRef/13/8/2>. 
 }

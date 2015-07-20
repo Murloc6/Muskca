@@ -1,0 +1,664 @@
+<http://ontology.irstea.fr/AgronomicTaxon>
+        a       <http://www.w3.org/ns/prov#Ontology> ;
+        <http://www.w3.org/2000/01/rdf-schema#comment>
+                "created by irstea. This ontology is a module that is based on skos vocabulary, ODP from neon project : linnean taxonomy ODP and classification ODP. \nIt reuse also some rdf label of biol dataset."@en , "last update september 2014 "@en ;
+        <http://purl.org/dc/terms/creator>
+                "Catherine ROUSSEY from Irstea"@en ;
+        <http://purl.org/dc/terms/title>
+                "Agronomic Taxon module"@en ;
+        <http://www.w3.org/ns/prov#imports>
+                <http://www.w3.org/2004/02/skos/core> .
+
+<http://ontology.irstea.fr/AgronomicTaxon#classify>
+        a       <http://www.w3.org/ns/prov#ObjectProperty> ;
+        <http://www.w3.org/2000/01/rdf-schema#comment>
+                "A relation between a Concept and an Entity, e.g. the Role student classifies a Person John" ;
+        <http://www.w3.org/2000/01/rdf-schema#domain>
+                <http://www.w3.org/2004/02/skos/core#Concept> ;
+        <http://www.w3.org/2000/01/rdf-schema#isDefinedBy>
+                "\"http://www.ontologydesignpatterns.org/cp/owl/classification.owl#classifies\"" ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "classifies"@en , "classe"@fr , "classifie"@fr , "classifica"@it ;
+        <http://www.w3.org/2000/01/rdf-schema#range>
+                <http://www.w3.org/ns/prov#Thing> ;
+        <http://www.w3.org/2000/01/rdf-schema#seeAlso>
+                "Ontology Design Pattern classification:classify" .
+
+<http://ontology.irstea.fr/AgronomicTaxon#hasHigherRank>
+        a       <http://www.w3.org/ns/prov#ObjectProperty> , <http://www.w3.org/ns/prov#TransitiveProperty> ;
+        <http://www.w3.org/2000/01/rdf-schema#comment>
+                "This property relates two taxa, where the first is more specific than the second."@en ;
+        <http://www.w3.org/2000/01/rdf-schema#domain>
+                <http://ontology.irstea.fr/AgronomicTaxon#Taxon> ;
+        <http://www.w3.org/2000/01/rdf-schema#isDefinedBy>
+                "\"http://www.ontologydesignpatterns.org/cp/owl/linnaeantaxonomy.owl#hasHigherRank\"" ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "has higher rank"@en , "a pour rang supérieur"@fr ;
+        <http://www.w3.org/2000/01/rdf-schema#range>
+                <http://ontology.irstea.fr/AgronomicTaxon#Taxon> ;
+        <http://www.w3.org/2000/01/rdf-schema#seeAlso>
+                "Ontology Design Pattern LinneanTaxonomy:hashigherRank"@en .
+
+<http://ontology.irstea.fr/AgronomicTaxon#Taxon>
+        a       <http://www.w3.org/ns/prov#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#comment>
+                "A taxon is a concept denoting a type of organism or of a group of organisms."@en ;
+        <http://www.w3.org/2000/01/rdf-schema#isDefinedBy>
+                "\"http://www.ontologydesignpatterns.org/cp/owl/linnaeantaxonomy.owl#Taxon\"" ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "Taxon"@en , "Rang"@fr , "Rang taxinomique"@fr , "Taxon"@fr ;
+        <http://www.w3.org/2000/01/rdf-schema#seeAlso>
+                "Ontology Design Pattern linneanTaxonomy:Taxon"@en ;
+        <http://www.w3.org/2000/01/rdf-schema#subClassOf>
+                <http://www.w3.org/2004/02/skos/core#Concept> .
+
+<http://ontology.irstea.fr/AgronomicTaxon#hasLowerRank>
+        a       <http://www.w3.org/ns/prov#ObjectProperty> , <http://www.w3.org/ns/prov#TransitiveProperty> ;
+        <http://www.w3.org/2000/01/rdf-schema#comment>
+                "This property relates two taxa, where the first is less specific than the second."@en ;
+        <http://www.w3.org/2000/01/rdf-schema#domain>
+                <http://ontology.irstea.fr/AgronomicTaxon#Taxon> ;
+        <http://www.w3.org/2000/01/rdf-schema#isDefinedBy>
+                "\"http://www.ontologydesignpatterns.org/cp/owl/linnaeantaxonomy.owl#hasLowerRank\"" ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "has lower rank"@en , "a pour rang inférieur"@fr ;
+        <http://www.w3.org/2000/01/rdf-schema#range>
+                <http://ontology.irstea.fr/AgronomicTaxon#Taxon> ;
+        <http://www.w3.org/2000/01/rdf-schema#seeAlso>
+                "Ontology Design Pattern LinneanTaxonomy:hasLowerRank"@en ;
+        <http://www.w3.org/ns/prov#inverseOf>
+                <http://ontology.irstea.fr/AgronomicTaxon#hasHigherRank> .
+
+<http://ontology.irstea.fr/AgronomicTaxon#isClassifiedBy>
+        a       <http://www.w3.org/ns/prov#ObjectProperty> ;
+        <http://www.w3.org/2000/01/rdf-schema#comment>
+                "A relation between a Concept and an Entity, e.g. John is considered a typical rude man; your last concert constitutes the achievement of a lifetime; 20-year-old means she is mature enough." ;
+        <http://www.w3.org/2000/01/rdf-schema#domain>
+                <http://www.w3.org/ns/prov#Thing> ;
+        <http://www.w3.org/2000/01/rdf-schema#isDefinedBy>
+                "\"http://www.ontologydesignpatterns.org/cp/owl/classification.owl#isClassifiedBy\"" ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "is classified by"@en , "est classé par"@fr , "è classificato da"@it ;
+        <http://www.w3.org/2000/01/rdf-schema#range>
+                <http://www.w3.org/2004/02/skos/core#Concept> ;
+        <http://www.w3.org/2000/01/rdf-schema#seeAlso>
+                "Ontology Design Pattern classification: isClassifiedBy\n"@en ;
+        <http://www.w3.org/ns/prov#inverseOf>
+                <http://ontology.irstea.fr/AgronomicTaxon#classify> ;
+        <http://www.w3.org/ns/prov#propertyChainAxiom>
+                ( <http://ontology.irstea.fr/AgronomicTaxon#isClassifiedBy> <http://ontology.irstea.fr/AgronomicTaxon#hasHigherRank> ) .
+
+<http://ontology.irstea.fr/AgronomicTaxon#isClassifiedByGenus>
+        a       <http://www.w3.org/ns/prov#ObjectProperty> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "is classified by genus"@en , "est classé par genre"@fr ;
+        <http://www.w3.org/2000/01/rdf-schema#range>
+                <http://ontology.irstea.fr/AgronomicTaxon#GenusRank> ;
+        <http://www.w3.org/2000/01/rdf-schema#subPropertyOf>
+                <http://ontology.irstea.fr/AgronomicTaxon#isClassifiedBy> .
+
+<http://ontology.irstea.fr/AgronomicTaxon#GenusRank>
+        a       <http://www.w3.org/ns/prov#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#comment>
+                "Genus is the sixth highest traditional taxon. E.g., in the case of humans the genus is \"Homo\"."@en ;
+        <http://www.w3.org/2000/01/rdf-schema#isDefinedBy>
+                "\"http://www.ontologydesignpatterns.org/cp/owl/linnaeantaxonomy.owl#Genus\"" ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "Genus"@en , "Genre"@fr ;
+        <http://www.w3.org/2000/01/rdf-schema#seeAlso>
+                "Ontology Design Pattern linneanTaxonomy:Genus" ;
+        <http://www.w3.org/2000/01/rdf-schema#subClassOf>
+                <http://ontology.irstea.fr/AgronomicTaxon#Taxon> .
+
+<http://ontology.irstea.fr/AgronomicTaxon#isClassifiedByKingdom>
+        a       <http://www.w3.org/ns/prov#ObjectProperty> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "is classified by kingdom"@en , "est classé par règne"@fr ;
+        <http://www.w3.org/2000/01/rdf-schema#range>
+                <http://ontology.irstea.fr/AgronomicTaxon#KingdomRank> ;
+        <http://www.w3.org/2000/01/rdf-schema#subPropertyOf>
+                <http://ontology.irstea.fr/AgronomicTaxon#isClassifiedBy> .
+
+<http://ontology.irstea.fr/AgronomicTaxon#KingdomRank>
+        a       <http://www.w3.org/ns/prov#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#comment>
+                "Kingdom is the highest traditional taxon. E.g., in the case of humans the kingdom is \"Animalia\"."@en ;
+        <http://www.w3.org/2000/01/rdf-schema#isDefinedBy>
+                "http://www.ontologydesignpatterns.org/cp/owl/linnaeantaxonomy.owl#Kingdom" ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "Kingdom"@en , "Règne"@fr ;
+        <http://www.w3.org/2000/01/rdf-schema#seeAlso>
+                "Ontology Design Pattern linneanTaxonomy:Kingdom"@en ;
+        <http://www.w3.org/2000/01/rdf-schema#subClassOf>
+                <http://ontology.irstea.fr/AgronomicTaxon#Taxon> .
+
+<http://ontology.irstea.fr/AgronomicTaxon#isClassifiedBySpecy>
+        a       <http://www.w3.org/ns/prov#ObjectProperty> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "is classified by species"@en , "est classé par espèce"@fr ;
+        <http://www.w3.org/2000/01/rdf-schema#range>
+                <http://ontology.irstea.fr/AgronomicTaxon#SpecyRank> ;
+        <http://www.w3.org/2000/01/rdf-schema#subPropertyOf>
+                <http://ontology.irstea.fr/AgronomicTaxon#isClassifiedBy> .
+
+<http://ontology.irstea.fr/AgronomicTaxon#SpecyRank>
+        a       <http://www.w3.org/ns/prov#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#comment>
+                "Species is the lowest traditional taxon. E.g., in the case of humans the species is \"Homo sapiens\"."@en ;
+        <http://www.w3.org/2000/01/rdf-schema#isDefinedBy>
+                "\"http://www.ontologydesignpatterns.org/cp/owl/linnaeantaxonomy.owl#Species\"" ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "Species"@en , "Espèce"@fr ;
+        <http://www.w3.org/2000/01/rdf-schema#seeAlso>
+                "Ontology Design Pattern linneanTaxonomy:Species"@en ;
+        <http://www.w3.org/2000/01/rdf-schema#subClassOf>
+                <http://ontology.irstea.fr/AgronomicTaxon#Taxon> .
+
+<http://ontology.irstea.fr/AgronomicTaxon#isClassifiedByVariety>
+        a       <http://www.w3.org/ns/prov#ObjectProperty> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "is classified by variety"@en , "est classé par variété"@fr ;
+        <http://www.w3.org/2000/01/rdf-schema#range>
+                <http://ontology.irstea.fr/AgronomicTaxon#VarietyRank> ;
+        <http://www.w3.org/2000/01/rdf-schema#subPropertyOf>
+                <http://ontology.irstea.fr/AgronomicTaxon#isClassifiedBy> .
+
+<http://ontology.irstea.fr/AgronomicTaxon#VarietyRank>
+        a       <http://www.w3.org/ns/prov#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#comment>
+                "Une variété est un rang taxinomique de niveau inférieur au rang d'espèce. Ce rang est utilisé en botanique et en mycologie.\nsource wikipedia"@fr ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "Variety"@en , "Variété"@fr ;
+        <http://www.w3.org/2000/01/rdf-schema#subClassOf>
+                <http://ontology.irstea.fr/AgronomicTaxon#Taxon> .
+
+<http://ontology.irstea.fr/AgronomicTaxon#memberScheme>
+        a       <http://www.w3.org/ns/prov#ObjectProperty> ;
+        <http://www.w3.org/2000/01/rdf-schema#comment>
+                "Relates a skos:ConceptScheme to its members, some skos:concepts. \nA concept scheme has several members.\n"@en ;
+        <http://www.w3.org/2000/01/rdf-schema#domain>
+                <http://www.w3.org/2004/02/skos/core#ConceptScheme> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "is member of scheme"@en , "a pour membre"@fr , "a pour élément"@fr ;
+        <http://www.w3.org/ns/prov#inverseOf>
+                <http://www.w3.org/2004/02/skos/core#inScheme> .
+
+<http://ontology.irstea.fr/AgronomicTaxon#hasScientificName>
+        a       <http://www.w3.org/ns/prov#DatatypeProperty> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "has scientific name"@en , "a pour nom scientifique"@fr .
+
+<http://ontology.irstea.fr/AgronomicTaxon#hasVernacularName>
+        a       <http://www.w3.org/ns/prov#DatatypeProperty> ;
+        <http://www.w3.org/2000/01/rdf-schema#comment>
+                "Un nom vernaculaire est un nom usuel, en langue locale, donné à une ou plusieurs espèces animales ou végétales dans son pays ou sa région d'origine. Il peut donc désigner des taxons très différents selon le contexte. Les noms vernaculaires sont souvent repris pour former la base des noms normalisés ou des noms vulgaires créés pour permettre la vulgarisation des noms scientifiques. Malgré leurs imprécisions, ils ont souvent la faveur dans le langage courant et font partie de la culture populaire.\nsource wikipedia"@fr ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "has common name"@en , "has vernacular name"@en , "a pour nom commun"@fr , "a pour nom vernaculaire"@fr .
+
+<http://ontology.irstea.fr/AgronomicTaxon#ClassRank>
+        a       <http://www.w3.org/ns/prov#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#comment>
+                "Class is the third highest traditional taxon. E.g., in the case of humans the class is \"Mammalia\";."@en ;
+        <http://www.w3.org/2000/01/rdf-schema#isDefinedBy>
+                "\"http://www.ontologydesignpatterns.org/cp/owl/linnaeantaxonomy.owl#Class\"" ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "Class"@en , "Classe"@fr ;
+        <http://www.w3.org/2000/01/rdf-schema#seeAlso>
+                "Ontology Design Pattern linneanTaxonomy:Class" ;
+        <http://www.w3.org/2000/01/rdf-schema#subClassOf>
+                <http://ontology.irstea.fr/AgronomicTaxon#Taxon> .
+
+<http://ontology.irstea.fr/AgronomicTaxon#FamilyRank>
+        a       <http://www.w3.org/ns/prov#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#comment>
+                "Family is the fifth highest traditional taxon. E.g., in the case of humans the family is \"Hominidae\"."@en ;
+        <http://www.w3.org/2000/01/rdf-schema#isDefinedBy>
+                "\"http://www.ontologydesignpatterns.org/cp/owl/linnaeantaxonomy.owl#Family\"" ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "Family"@en , "Famille"@fr ;
+        <http://www.w3.org/2000/01/rdf-schema#seeAlso>
+                "Ontology Design Pattern linneanTaxonomy:Family"@en ;
+        <http://www.w3.org/2000/01/rdf-schema#subClassOf>
+                <http://ontology.irstea.fr/AgronomicTaxon#Taxon> .
+
+<http://ontology.irstea.fr/AgronomicTaxon#LivingOrganism>
+        a       <http://www.w3.org/ns/prov#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#comment>
+                "In biology, an organism is any contiguous living system (such as animal, fungus, micro-organism, or plant). In at least some form, all types of organisms are capable of responding to stimuli, reproduction, growth and development, and maintenance of homeostasis as a stable whole.\nsource wikipedia"@en , "Un organisme  désigne, en biologie et en écologie, un système complexe évolutif formé d'organes qui interagissent de façon à fonctionner comme un ensemble stable.\nsource wikipedia"@fr ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "Living Organism"@en , "Organisme vivant"@fr .
+
+<http://ontology.irstea.fr/AgronomicTaxon#OrderRank>
+        a       <http://www.w3.org/ns/prov#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#comment>
+                "Order is the fourth highest traditional taxon. E.g., in the case of humans the phylum is \"Primates\"."@en ;
+        <http://www.w3.org/2000/01/rdf-schema#isDefinedBy>
+                "\"http://www.ontologydesignpatterns.org/cp/owl/linnaeantaxonomy.owl#Order\"" ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "Order"@en , "Ordre"@fr ;
+        <http://www.w3.org/2000/01/rdf-schema#seeAlso>
+                " Ontology Design Pattern linneanTaxonomy:Order"@en ;
+        <http://www.w3.org/2000/01/rdf-schema#subClassOf>
+                <http://ontology.irstea.fr/AgronomicTaxon#Taxon> .
+
+<http://ontology.irstea.fr/AgronomicTaxon#PhylumRank>
+        a       <http://www.w3.org/ns/prov#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#comment>
+                "Phylum is the second highest traditional taxon. E.g., in the case of humans the phylum is \"Chordata\"."@en ;
+        <http://www.w3.org/2000/01/rdf-schema#isDefinedBy>
+                "\"http://www.ontologydesignpatterns.org/cp/owl/linnaeantaxonomy.owl#Phylum\"" ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "Phylum"@en , "Division"@fr , "Embranchement"@fr ;
+        <http://www.w3.org/2000/01/rdf-schema#seeAlso>
+                "Ontology Design Pattern linneanTaxonomy:Phylum"@en ;
+        <http://www.w3.org/2000/01/rdf-schema#subClassOf>
+                <http://ontology.irstea.fr/AgronomicTaxon#Taxon> .
+
+<http://ontology.irstea.fr/AgronomicTaxon#Taxonomy>
+        a       <http://www.w3.org/ns/prov#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#comment>
+                "Taxonomy is the academic discipline of defining groups of biological organisms on the basis of shared characteristics and giving names to those groups. Each group is given a rank and groups of a given rank can be aggregated to form a super group of higher rank and thus create a hierarchical classification. The groups created through this process are referred to as taxa (singular taxon). An example of a modern classification is the one published in 2009 by the Angiosperm Phylogeny Group for all living flowering plant families (the APG III system).\nfrom wikipedia"@en ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "Taxonomy"@en , "Taxinomie"@fr , "Taxonomie"@fr ;
+        <http://www.w3.org/2000/01/rdf-schema#subClassOf>
+                <http://www.w3.org/2004/02/skos/core#ConceptScheme> .
+
+<urn:swrl#o>  a  <http://www.w3.org/2003/11/swrl#Variable> .
+
+<urn:swrl#s>  a  <http://www.w3.org/2003/11/swrl#Variable> .
+
+<urn:swrl#label>  a  <http://www.w3.org/2003/11/swrl#Variable> .
+
+<http://muskca_system.fr/mini_Triticum/ClassCandidate/1>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2002/07/owl#sameAs>
+                <http://aims.fao.org/aos/agrovoc/c_330960> .
+
+<http://muskca_system.fr/mini_Triticum/IndividualCandidate/8>
+        a       <http://muskca_system.fr/mini_Triticum/ClassCandidate/4> , <http://muskca_system.fr/mini_Triticum/ClassCandidate/14> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "Embryophyta" ;
+        <http://ontology.irstea.fr/AgronomicTaxon#hasHigherRank>
+                <http://muskca_system.fr/mini_Triticum/IndividualCandidate/21> ;
+        <http://www.w3.org/2002/07/owl#sameAs>
+                <http://aims.fao.org/aos/agrovoc/c_330288> , <http://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=3193> .
+
+<http://muskca_system.fr/mini_Triticum/ClassCandidate/2>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2002/07/owl#sameAs>
+                <http://aims.fao.org/aos/agrovoc/c_330940> .
+
+<http://muskca_system.fr/mini_Triticum/ClassCandidate/3>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2002/07/owl#sameAs>
+                <http://aims.fao.org/aos/agrovoc/c_16047> , <http://inpn.mnhn.fr/espece/cd_nom/SSES> , <http://www.ncbi.nlm.nih.gov/Taxonomy/subspecies> .
+
+<http://muskca_system.fr/mini_Triticum/ClassCandidate/4>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2002/07/owl#sameAs>
+                <http://aims.fao.org/aos/agrovoc/c_330955> , <http://www.ncbi.nlm.nih.gov/Taxonomy/subkingdom> .
+
+<http://muskca_system.fr/mini_Triticum/IndividualCandidate/10>
+        a       <http://muskca_system.fr/mini_Triticum/ClassCandidate/3> ;
+        <http://www.w3.org/2002/07/owl#sameAs>
+                <http://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=69994> , <http://inpn.mnhn.fr/espece/cd_nom/718429> .
+
+<http://muskca_system.fr/mini_Triticum/ClassCandidate/5>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2002/07/owl#sameAs>
+                <http://aims.fao.org/aos/agrovoc/c_331071> , <http://www.ncbi.nlm.nih.gov/Taxonomy/subfamily> .
+
+<http://muskca_system.fr/mini_Triticum/ClassCandidate/6>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2002/07/owl#sameAs>
+                <http://inpn.mnhn.fr/espece/cd_nom/FO> , <http://www.ncbi.nlm.nih.gov/Taxonomy/forma> .
+
+<http://muskca_system.fr/mini_Triticum/ClassCandidate/7>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2002/07/owl#sameAs>
+                <http://inpn.mnhn.fr/espece/cd_nom/CAR> .
+
+<http://muskca_system.fr/mini_Triticum/ClassCandidate/8>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2002/07/owl#sameAs>
+                <http://inpn.mnhn.fr/espece/cd_nom/SVAR> .
+
+<http://muskca_system.fr/mini_Triticum/ClassCandidate/9>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2002/07/owl#sameAs>
+                <http://inpn.mnhn.fr/espece/cd_nom/RACE> .
+
+<http://muskca_system.fr/mini_Triticum/ClassCandidate/10>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2002/07/owl#sameAs>
+                <http://inpn.mnhn.fr/espece/cd_nom/AGES> .
+
+<http://muskca_system.fr/mini_Triticum/ClassCandidate/11>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2002/07/owl#sameAs>
+                <http://www.ncbi.nlm.nih.gov/Taxonomy/subgenus> .
+
+<http://muskca_system.fr/mini_Triticum/IndividualCandidate/11>
+        a       <http://muskca_system.fr/mini_Triticum/ClassCandidate/3> ;
+        <http://www.w3.org/2002/07/owl#sameAs>
+                <http://inpn.mnhn.fr/espece/cd_nom/621236> , <http://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=744040> .
+
+<http://muskca_system.fr/mini_Triticum/ClassCandidate/12>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2002/07/owl#sameAs>
+                <http://www.ncbi.nlm.nih.gov/Taxonomy/superorder> .
+
+<http://muskca_system.fr/mini_Triticum/IndividualCandidate/12>
+        a       <http://muskca_system.fr/mini_Triticum/ClassCandidate/3> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "Triticum turgidum subsp. durum" ;
+        <http://www.w3.org/2002/07/owl#sameAs>
+                <http://inpn.mnhn.fr/espece/cd_nom/141978> , <http://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=49225> .
+
+<http://muskca_system.fr/mini_Triticum/ClassCandidate/13>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2002/07/owl#sameAs>
+                <http://www.ncbi.nlm.nih.gov/Taxonomy/species_subgroup> .
+
+<http://muskca_system.fr/mini_Triticum/ClassCandidate/14>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2002/07/owl#sameAs>
+                <http://www.ncbi.nlm.nih.gov/Taxonomy/no_rank> .
+
+<http://muskca_system.fr/mini_Triticum/ClassCandidate/15>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2002/07/owl#sameAs>
+                <http://www.ncbi.nlm.nih.gov/Taxonomy/subphylum> .
+
+<http://muskca_system.fr/mini_Triticum/IndividualCandidate/15>
+        a       <http://muskca_system.fr/mini_Triticum/ClassCandidate/3> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "Triticum monococcum subsp. monococcum" ;
+        <http://www.w3.org/2002/07/owl#sameAs>
+                <http://inpn.mnhn.fr/espece/cd_nom/718430> , <http://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=408188> .
+
+<http://muskca_system.fr/mini_Triticum/ClassCandidate/16>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2002/07/owl#sameAs>
+                <http://www.ncbi.nlm.nih.gov/Taxonomy/suborder> .
+
+<http://muskca_system.fr/mini_Triticum/IndividualCandidate/17>
+        a       <http://muskca_system.fr/mini_Triticum/ClassCandidate/3> ;
+        <http://www.w3.org/2002/07/owl#sameAs>
+                <http://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=58932> .
+
+<http://muskca_system.fr/mini_Triticum/ClassCandidate/17>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2002/07/owl#sameAs>
+                <http://www.ncbi.nlm.nih.gov/Taxonomy/superclass> .
+
+<http://muskca_system.fr/mini_Triticum/ClassCandidate/18>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2002/07/owl#sameAs>
+                <http://www.ncbi.nlm.nih.gov/Taxonomy/subtribe> .
+
+<http://muskca_system.fr/mini_Triticum/ClassCandidate/19>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2002/07/owl#sameAs>
+                <http://www.ncbi.nlm.nih.gov/Taxonomy/tribe> .
+
+<http://muskca_system.fr/mini_Triticum/IndividualCandidate/18>
+        a       <http://muskca_system.fr/mini_Triticum/ClassCandidate/21> ;
+        <http://ontology.irstea.fr/AgronomicTaxon#hasHigherRank>
+                <http://muskca_system.fr/mini_Triticum/IndividualCandidate/19> ;
+        <http://www.w3.org/2002/07/owl#sameAs>
+                <http://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=4734> .
+
+<http://muskca_system.fr/mini_Triticum/IndividualCandidate/19>
+        a       <http://muskca_system.fr/mini_Triticum/ClassCandidate/14> ;
+        <http://www.w3.org/2002/07/owl#sameAs>
+                <http://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=1437197> .
+
+<http://muskca_system.fr/mini_Triticum/IndividualCandidate/20>
+        a       <http://muskca_system.fr/mini_Triticum/ClassCandidate/14> ;
+        <http://ontology.irstea.fr/AgronomicTaxon#hasHigherRank>
+                <http://muskca_system.fr/mini_Triticum/IndividualCandidate/1> ;
+        <http://www.w3.org/2002/07/owl#sameAs>
+                <http://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=3398> .
+
+<http://muskca_system.fr/mini_Triticum/IndividualCandidate/21>
+        a       <http://muskca_system.fr/mini_Triticum/ClassCandidate/14> ;
+        <http://www.w3.org/2002/07/owl#sameAs>
+                <http://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=131221> .
+
+<http://muskca_system.fr/mini_Triticum/IndividualCandidate/22>
+        a       <http://muskca_system.fr/mini_Triticum/ClassCandidate/5> ;
+        <http://ontology.irstea.fr/AgronomicTaxon#hasHigherRank>
+                <http://muskca_system.fr/mini_Triticum/IndividualCandidate/26> ;
+        <http://www.w3.org/2002/07/owl#sameAs>
+                <http://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=147368> .
+
+<http://muskca_system.fr/mini_Triticum/IndividualCandidate/23>
+        a       <http://muskca_system.fr/mini_Triticum/ClassCandidate/3> ;
+        <http://www.w3.org/2002/07/owl#sameAs>
+                <http://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=860351> .
+
+<http://muskca_system.fr/mini_Triticum/ClassCandidate/20>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2002/07/owl#sameAs>
+                <http://www.ncbi.nlm.nih.gov/Taxonomy/species_group> .
+
+<http://muskca_system.fr/mini_Triticum/ClassCandidate/21>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2002/07/owl#sameAs>
+                <http://www.ncbi.nlm.nih.gov/Taxonomy/subclass> .
+
+<http://muskca_system.fr/mini_Triticum/IndividualCandidate/24>
+        a       <http://muskca_system.fr/mini_Triticum/ClassCandidate/3> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "Triticum turgidum subsp. turgidum" ;
+        <http://www.w3.org/2002/07/owl#sameAs>
+                <http://inpn.mnhn.fr/espece/cd_nom/718431> , <http://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=357456> .
+
+<http://muskca_system.fr/mini_Triticum/IndividualCandidate/25>
+        a       <http://muskca_system.fr/mini_Triticum/ClassCandidate/19> ;
+        <http://ontology.irstea.fr/AgronomicTaxon#hasHigherRank>
+                <http://muskca_system.fr/mini_Triticum/IndividualCandidate/22> ;
+        <http://www.w3.org/2002/07/owl#sameAs>
+                <http://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=147389> .
+
+<http://muskca_system.fr/mini_Triticum/IndividualCandidate/26>
+        a       <http://muskca_system.fr/mini_Triticum/ClassCandidate/14> ;
+        <http://www.w3.org/2002/07/owl#sameAs>
+                <http://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=359160> .
+
+<http://muskca_system.fr/mini_Triticum/IndividualCandidate/7>
+        a       <http://muskca_system.fr/mini_Triticum/ClassCandidate/14> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "Tracheophyta" ;
+        <http://ontology.irstea.fr/AgronomicTaxon#hasHigherRank>
+                <http://muskca_system.fr/mini_Triticum/IndividualCandidate/8> ;
+        <http://www.w3.org/2002/07/owl#sameAs>
+                <http://aims.fao.org/aos/agrovoc/c_7838> , <http://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=58023> .
+
+<http://muskca_system.fr/mini_Triticum/IndividualCandidate/1>
+        a       <http://muskca_system.fr/mini_Triticum/ClassCandidate/1> , <http://muskca_system.fr/mini_Triticum/ClassCandidate/14> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "Spermatophyta" ;
+        <http://ontology.irstea.fr/AgronomicTaxon#hasHigherRank>
+                <http://muskca_system.fr/mini_Triticum/IndividualCandidate/7> , <http://muskca_system.fr/mini_Triticum/IndividualCandidate/32> ;
+        <http://www.w3.org/2002/07/owl#sameAs>
+                <http://aims.fao.org/aos/agrovoc/c_7286> , <http://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=58024> .
+
+<http://muskca_system.fr/mini_Triticum/IndividualCandidate/2>
+        a       <http://ontology.irstea.fr/AgronomicTaxon#Taxon> ;
+        <http://www.w3.org/2002/07/owl#sameAs>
+                <http://aims.fao.org/aos/agrovoc/c_49904> .
+
+<http://muskca_system.fr/mini_Triticum/IndividualCandidate/5>
+        a       <http://muskca_system.fr/mini_Triticum/ClassCandidate/2> ;
+        <http://ontology.irstea.fr/AgronomicTaxon#hasHigherRank>
+                <http://muskca_system.fr/mini_Triticum/IndividualCandidate/2> ;
+        <http://www.w3.org/2002/07/owl#sameAs>
+                <http://aims.fao.org/aos/agrovoc/c_330944> .
+
+<http://muskca_system.fr/mini_Triticum/IndividualCandidate/29>
+        a       <http://muskca_system.fr/mini_Triticum/ClassCandidate/14> ;
+        <http://ontology.irstea.fr/AgronomicTaxon#hasHigherRank>
+                <http://muskca_system.fr/mini_Triticum/IndividualCandidate/20> ;
+        <http://www.w3.org/2002/07/owl#sameAs>
+                <http://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=1437183> .
+
+<http://muskca_system.fr/mini_Triticum/IndividualCandidate/30>
+        a       <http://muskca_system.fr/mini_Triticum/ClassCandidate/3> ;
+        <http://www.w3.org/2002/07/owl#sameAs>
+                <http://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=425487> , <http://inpn.mnhn.fr/espece/cd_nom/620964> .
+
+<http://muskca_system.fr/mini_Triticum/IndividualCandidate/31>
+        a       <http://muskca_system.fr/mini_Triticum/ClassCandidate/3> ;
+        <http://www.w3.org/2002/07/owl#sameAs>
+                <http://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=103802> .
+
+<http://muskca_system.fr/mini_Triticum/IndividualCandidate/32>
+        a       <http://muskca_system.fr/mini_Triticum/ClassCandidate/14> ;
+        <http://ontology.irstea.fr/AgronomicTaxon#hasHigherRank>
+                <http://muskca_system.fr/mini_Triticum/IndividualCandidate/7> ;
+        <http://www.w3.org/2002/07/owl#sameAs>
+                <http://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=78536> .
+
+<http://muskca_system.fr/mini_Triticum/IndividualCandidate/3>
+        <http://www.w3.org/2002/07/owl#sameAs>
+                <http://aims.fao.org/aos/agrovoc/c_8412> .
+
+<http://muskca_system.fr/mini_Triticum/IndividualCandidate/4>
+        <http://www.w3.org/2002/07/owl#sameAs>
+                <http://aims.fao.org/aos/agrovoc/c_7337> .
+
+<http://muskca_system.fr/mini_Triticum/IndividualCandidate/6>
+        <http://www.w3.org/2002/07/owl#sameAs>
+                <http://aims.fao.org/aos/agrovoc/c_3354> .
+
+[ a       <http://www.w3.org/2003/11/swrl#Imp> ;
+  <http://www.w3.org/2003/11/swrl#body>
+          [ a       <http://www.w3.org/2003/11/swrl#AtomList> ;
+            <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>
+                    [ a       <http://www.w3.org/2003/11/swrl#ClassAtom> ;
+                      <http://www.w3.org/2003/11/swrl#argument1>
+                              <urn:swrl#o> ;
+                      <http://www.w3.org/2003/11/swrl#classPredicate>
+                              <http://ontology.irstea.fr/AgronomicTaxon#LivingOrganism>
+                    ] ;
+            <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>
+                    [ a       <http://www.w3.org/2003/11/swrl#AtomList> ;
+                      <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>
+                              [ a       <http://www.w3.org/2003/11/swrl#ClassAtom> ;
+                                <http://www.w3.org/2003/11/swrl#argument1>
+                                        <urn:swrl#s> ;
+                                <http://www.w3.org/2003/11/swrl#classPredicate>
+                                        <http://ontology.irstea.fr/AgronomicTaxon#SpecyRank>
+                              ] ;
+                      <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>
+                              [ a       <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>
+                                        [ a       <http://www.w3.org/2003/11/swrl#IndividualPropertyAtom> ;
+                                          <http://www.w3.org/2003/11/swrl#argument1>
+                                                  <urn:swrl#o> ;
+                                          <http://www.w3.org/2003/11/swrl#argument2>
+                                                  <urn:swrl#s> ;
+                                          <http://www.w3.org/2003/11/swrl#propertyPredicate>
+                                                  <http://ontology.irstea.fr/AgronomicTaxon#isClassifiedBy>
+                                        ] ;
+                                <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>
+                                        [ a       <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                          <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>
+                                                  [ a       <http://www.w3.org/2003/11/swrl#DatavaluedPropertyAtom> ;
+                                                    <http://www.w3.org/2003/11/swrl#argument1>
+                                                            <urn:swrl#s> ;
+                                                    <http://www.w3.org/2003/11/swrl#argument2>
+                                                            <urn:swrl#label> ;
+                                                    <http://www.w3.org/2003/11/swrl#propertyPredicate>
+                                                            <http://ontology.irstea.fr/AgronomicTaxon#hasScientificName>
+                                                  ] ;
+                                          <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>
+                                                  ()
+                                        
+                                        ]
+                              ]
+                    ]
+          ] ;
+  <http://www.w3.org/2003/11/swrl#head>
+          [ a       <http://www.w3.org/2003/11/swrl#AtomList> ;
+            <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>
+                    [ a       <http://www.w3.org/2003/11/swrl#DatavaluedPropertyAtom> ;
+                      <http://www.w3.org/2003/11/swrl#argument1>
+                              <urn:swrl#o> ;
+                      <http://www.w3.org/2003/11/swrl#argument2>
+                              <urn:swrl#label> ;
+                      <http://www.w3.org/2003/11/swrl#propertyPredicate>
+                              <http://ontology.irstea.fr/AgronomicTaxon#hasScientificName>
+                    ] ;
+            <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>
+                    ()
+          
+          ]
+] .
+
+[ a       <http://www.w3.org/2003/11/swrl#Imp> ;
+  <http://www.w3.org/2003/11/swrl#body>
+          [ a       <http://www.w3.org/2003/11/swrl#AtomList> ;
+            <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>
+                    [ a       <http://www.w3.org/2003/11/swrl#ClassAtom> ;
+                      <http://www.w3.org/2003/11/swrl#argument1>
+                              <urn:swrl#o> ;
+                      <http://www.w3.org/2003/11/swrl#classPredicate>
+                              <http://ontology.irstea.fr/AgronomicTaxon#LivingOrganism>
+                    ] ;
+            <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>
+                    [ a       <http://www.w3.org/2003/11/swrl#AtomList> ;
+                      <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>
+                              [ a       <http://www.w3.org/2003/11/swrl#ClassAtom> ;
+                                <http://www.w3.org/2003/11/swrl#argument1>
+                                        <urn:swrl#s> ;
+                                <http://www.w3.org/2003/11/swrl#classPredicate>
+                                        <http://ontology.irstea.fr/AgronomicTaxon#SpecyRank>
+                              ] ;
+                      <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>
+                              [ a       <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>
+                                        [ a       <http://www.w3.org/2003/11/swrl#IndividualPropertyAtom> ;
+                                          <http://www.w3.org/2003/11/swrl#argument1>
+                                                  <urn:swrl#o> ;
+                                          <http://www.w3.org/2003/11/swrl#argument2>
+                                                  <urn:swrl#s> ;
+                                          <http://www.w3.org/2003/11/swrl#propertyPredicate>
+                                                  <http://ontology.irstea.fr/AgronomicTaxon#isClassifiedBy>
+                                        ] ;
+                                <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>
+                                        [ a       <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                          <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>
+                                                  [ a       <http://www.w3.org/2003/11/swrl#DatavaluedPropertyAtom> ;
+                                                    <http://www.w3.org/2003/11/swrl#argument1>
+                                                            <urn:swrl#s> ;
+                                                    <http://www.w3.org/2003/11/swrl#argument2>
+                                                            <urn:swrl#label> ;
+                                                    <http://www.w3.org/2003/11/swrl#propertyPredicate>
+                                                            <http://ontology.irstea.fr/AgronomicTaxon#hasVernacularName>
+                                                  ] ;
+                                          <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>
+                                                  ()
+                                        
+                                        ]
+                              ]
+                    ]
+          ] ;
+  <http://www.w3.org/2003/11/swrl#head>
+          [ a       <http://www.w3.org/2003/11/swrl#AtomList> ;
+            <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>
+                    [ a       <http://www.w3.org/2003/11/swrl#DatavaluedPropertyAtom> ;
+                      <http://www.w3.org/2003/11/swrl#argument1>
+                              <urn:swrl#o> ;
+                      <http://www.w3.org/2003/11/swrl#argument2>
+                              <urn:swrl#label> ;
+                      <http://www.w3.org/2003/11/swrl#propertyPredicate>
+                              <http://ontology.irstea.fr/AgronomicTaxon#hasVernacularName>
+                    ] ;
+            <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>
+                    ()
+          
+          ]
+] .

@@ -10,6 +10,7 @@ import Candidate.NodeCandidate.NodeCandidate;
 import MultiSources.Extension;
 import MultiSources.Fusionner;
 import MultiSources.NodeCandidateGenerator;
+import MultiSources.Solver.ExtensionChocoSolver;
 import MultiSources.Solver.GLPK.ExtensionGlpkSolver;
 import Source.Source;
 import Source.SparqlProxy;
@@ -149,9 +150,11 @@ public class Muskca
     
      private static Extension getBestExtension(Fusionner fusionner, ArrayList<NodeCandidate> allCands)
      {
-        ExtensionGlpkSolver solver = Muskca.getExtensionSolver(fusionner, allCands);
+        //ExtensionGlpkSolver solver = Muskca.getExtensionSolver(fusionner, allCands);
         Extension extOpti = null;
-        Extension extCur = fusionner.getNextExtension(solver);
+       // Extension extCur = fusionner.getNextExtension(solver);
+        ExtensionChocoSolver choco = new ExtensionChocoSolver();
+       Extension extCur = choco.getSolution(allCands, fusionner);
         return extCur;
      }
      
@@ -232,74 +235,32 @@ public class Muskca
         
         
         String dateFileName = new SimpleDateFormat("dd-MM_HH-mm_").format(new Date());
-        System.out.println("Exporting all candidates (PROVO)...");
+        /*System.out.println("Exporting all candidates (PROVO)...");
         SparqlProxy spOutAllProvo = fusionner.nodeCandidatesToProvo(allCands, Muskca.provoFile, Muskca.spOutProvo, Muskca.moduleFile, Muskca.baseUriMuskca);
         spOutAllProvo.writeKBFile("Muskca_"+dateFileName+"_"+Muskca.muskcaVersion+"_Provo_"+Muskca.projectName+"_allCands");
         
         System.out.println("Exporting all candidates (OWL)...");
         SparqlProxy spOutAllOwl = fusionner.nodeCandidatesToOWL(allCands, Muskca.spOutProvo, Muskca.moduleFile, Muskca.baseUriMuskca);
         spOutAllOwl.writeKBFile("Muskca_"+dateFileName+"_"+Muskca.muskcaVersion+"_OWL_"+Muskca.projectName+"_allCands");
-        
+        */
         
         Extension ext = Muskca.getBestExtension(fusionner, allCands);
         if(ext != null)
         {
-            System.out.println("Solution founded! ("+ext.getCandidates().size()+" NodeCandidates)");
+            System.out.println("Solution found! ("+ext.getCandidates().size()+" NodeCandidates)");
             System.out.println("Exporting ext candidates (PROVO) ...");
             SparqlProxy spOutExtProvo = fusionner.nodeCandidatesToProvo(ext.getCandidates(), Muskca.provoFile, Muskca.spOutProvo, Muskca.moduleFile, Muskca.baseUriMuskca);
             spOutExtProvo.writeKBFile("Muskca_"+dateFileName+"_"+Muskca.muskcaVersion+"_Provo_"+Muskca.projectName+"_bestExt");
             
-            System.out.println("Exporting ext candidates (OWL) ...");
+            /*System.out.println("Exporting ext candidates (OWL) ...");
             SparqlProxy spOutExtOwl = fusionner.nodeCandidatesToOWL(ext.getCandidates(), Muskca.spOutProvo, Muskca.moduleFile, Muskca.baseUriMuskca);
-            spOutExtOwl.writeKBFile("Muskca_"+dateFileName+"_"+Muskca.muskcaVersion+"_OWL_"+Muskca.projectName+"_bestExt");
+            spOutExtOwl.writeKBFile("Muskca_"+dateFileName+"_"+Muskca.muskcaVersion+"_OWL_"+Muskca.projectName+"_bestExt");*/
         }
         else
         {
             System.out.println("Error, no extension available with these constraints...");
         }
         System.exit(0);
-        
-       
-        
-        /*Muskca.dateEnd = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").format(new Date());
-        Muskca.exportFile(extExport, projectName+"_Extensions_data.txt");
-        Muskca.exportFile(extPl, projectName+"_Extensions_data.ecl");
-        System.out.println("End treatment ("+extensions.size()+" extensions generated)");
-        System.out.println(Muskca.dateBegin+" ----> "+Muskca.dateEnd);
-        System.exit(0);
-        
-        String retRelCandidate = "";
-        for(String uriRel : urisRelImp)
-        {
-            fusionner.computeRelationCandidate(mongoDbs.get("objPropArcCandidateMongoCol"), uriRel);
-        }
-        fusionner.computeTypeCandidate(mongoDbs.get("typeArcCandidateMongoCol"));
-        fusionner.computeLabelCandidate(mongoDbs.get("labelArcCandidateMongoCol"), urisLabelsImp);
-        
-        
-        System.out.println("NB SAVED ON MONGO : "+fusionner.nbMongoSaved);
-        
-        Muskca.dateEnd = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").format(new Date());*/
-        
-        
-        /*String retClassFile = fusionner.allClassCandidatesToString();
-        System.out.println("EXPORTING class stats file ...");
-         Muskca.exportFile(retClassFile, projectName+"_HypClassCandidate_stats.txt");
-        //AlignRKBAgroTaxon.exportFile(fusionner.allCandidatesToCSV(), projectName+".csv");
-        System.out.println("FILE CLASS PERSO EXPORTED");
-        
-        String retFile = retClassFile+"\n\n"+fusionner.allCandidatesToString();
-        System.out.println("EXPORTING stats file ...");
-         Muskca.exportFile(retFile, projectName+"_HypCandidate_stats.txt");
-        //AlignRKBAgroTaxon.exportFile(fusionner.allCandidatesToCSV(), projectName+".csv");
-        System.out.println("FILE PERSO EXPORTED");*/
-        
-       /* System.out.println("EXPORTING provo owl file ...");
-        SparqlProxy spProvo = fusionner.allCandidatesToProvo(provoFile, spOutProvo, adomFile, baseUriMuskca);
-        //Muskca.exportFile(spProvo., projectName+"_CandProvo.owl");
-        spProvo.writeKBFile(projectName+"_CandProvo");
-        System.out.println("FILE PROVO EXPORTED");*/
-        
      }
     
     
