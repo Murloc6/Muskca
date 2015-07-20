@@ -71,9 +71,17 @@ public class ExtensionChocoSolver {
         IntVar[] trust3=VF.enumeratedArray("trust3", n, 0, (int)(100*precision), solver);
             //trust4[0] : "points" of the objective function earned by trust arc
             //trust4[1] : "points" earned by trust node
-        IntVar[] trust4=VF.enumeratedArray("trust4", 2, 0, (int)(n*100*n*precision), solver); 
-            //sum of trust4[1] and trust4[0] : objective function
-        IntVar trustFinal=VF.enumerated("trustFinal", 0,(int)(200*n*n*precision), solver);
+        IntVar[] trust4;
+        //sum of trust4[1] and trust4[0] : objective function
+        IntVar trustFinal;
+        if(n>=100){
+            trust4=VF.enumeratedArray("trust4", 2, 0, (int)(n*n*precision), solver); 
+            trustFinal=VF.enumerated("trustFinal", 0,(int)(2*n*n*precision), solver);
+        }
+        else{
+            trust4=VF.enumeratedArray("trust4", 2, 0, (int)(100*n*precision), solver); 
+            trustFinal=VF.enumerated("trustFinal", 0,(int)(200*n*precision), solver);
+        }
         for(int[] a : conflicts)
         {
             Arrays.fill(a, 0);
