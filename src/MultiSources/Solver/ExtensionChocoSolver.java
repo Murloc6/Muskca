@@ -79,7 +79,7 @@ public class ExtensionChocoSolver {
             Arrays.fill(a, 0);
            // System.out.println("boucle remplissage de aaaaa en 00000");
         }
-       // System.out.println("array conflicts filled");
+        System.out.println("array conflicts filled");
         for(int i = 0; i< initCands.size(); i++)
         {
             NodeCandidate nc = initCands.get(i);
