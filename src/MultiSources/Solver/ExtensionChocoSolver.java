@@ -56,7 +56,6 @@ public class ExtensionChocoSolver {
         int nbTotal = 0;
         int n = initCands.size();
         float precision = 100.0f;
-        int conflictTemp =0;
         Solver solver= new Solver();
         trust = new float[initCands.size()];
         trustArc = new float[initCands.size()][initCands.size()];
@@ -88,11 +87,15 @@ public class ExtensionChocoSolver {
                 Arrays.fill(a, 0);
                // System.out.println("boucle remplissage de aaaaa en 00000");
             }
+            Arrays.fill(candidatSeul,1);
             System.out.println("array conflicts filled");
             for(int i = 0; i< initCands.size(); i++)
             {
                 NodeCandidate nc = initCands.get(i);
                 trust[i] = nc.getTrustScore()+nc.getSumArcCandIntr();
+                if(trust[i]>100*(int)precision){
+                    trust[i]=100.0f;
+                }
                 for(int j = i+1; j < initCands.size(); j++)
                 {
                     NodeCandidate nc2 = initCands.get(j);
@@ -103,39 +106,39 @@ public class ExtensionChocoSolver {
                     {
                         conflicts[i][j] = 1;
                         conflicts[j][i] = 1;
-
+                        candidatSeul[i] = 0;
+                        candidatSeul [j] =0;
                         nbConflict ++;
                     }
                 }
-                conflictTemp=0;
-                if(trust[i]>100*(int)precision){
-                    trust[i]=100;
-                }
-                for (int j=0;j<n;j++ ){
-                     if(conflicts[i][j]==1){
-                         conflictTemp++;
-                        solver.post(ICF.arithm(X[i],"+", X[j],"<=",1));
+                for (int j=0;j<n;j++){
+                    if(j>i){
+                        if(conflicts[i][j]==1||conflicts[j][i]==1){
+                             solver.post(ICF.arithm(X[i],"+", X[j],"<=",1));
+                        }
+                        solver.post(LCF.ifThenElse_reifiable(ICF.arithm(X[j],"=",0), 
+                                ICF.arithm(trust1[i][j], "=", 0),
+                                ICF.arithm(trust1[i][j],"=",(int)(precision*trustArc[i][j]))));
                     }
-                    solver.post(LCF.ifThenElse_reifiable(ICF.arithm(X[j],"=",0), ICF.arithm(trust1[i][j], "=", 0),ICF.arithm(trust1[i][j],"=",(int)(precision*trustArc[i][j]))));
+                    else{
+                        solver.post(ICF.arithm(trust1[i][j], "=", 0)); 
+                    }             
                 }
-
-                solver.post(LCF.ifThenElse_reifiable(ICF.arithm(X[i], "=", 0), ICF.arithm(trust2[i], "=", 0), ICF.sum(trust1[i], trust2[i])));
-                solver.post(LCF.ifThenElse_reifiable(ICF.arithm(X[i], "=", 0), ICF.arithm(trust3[i], "=", 0),ICF.arithm(trust3[i], "=", (int)(trust[i]*precision)) ));
-                solver.post(ICF.sum(trust3, trust4[1]));
-                solver.post(ICF.sum(trust2, trust4[0]));
-
-                if(conflictTemp==0){
-                    candidatSeul[i]=1;
-                    if(defined[i] != 0) {
-                        solver.post(ICF.arithm(X[i], "=", 1));
-                    }
-                }
-                else{
-                    candidatSeul[i]=0;
+                if(candidatSeul[i]==1 && defined[i] != 0 ){
+                    solver.post(ICF.arithm(X[i], "=", 1));
+                    //System.out.println(i);
                 }
                 if (defined[i]!=-1){
                     solver.post(ICF.arithm(X[i],"=",defined[i]));
                 }
+
+                solver.post(LCF.ifThenElse_reifiable(ICF.arithm(X[i],"=", 0),
+                        ICF.arithm(trust2[i],"+", trust3[i],"=",0),
+                        LCF.and(ICF.arithm(trust3[i],"=",(int)(trust[i]*precision)),
+                                ICF.sum(trust1[i], trust2[i]))));
+
+                solver.post(ICF.sum(trust3, trust4[1]));
+                solver.post(ICF.sum(trust2, trust4[0]));
             }
             solver.post(ICF.sum(trust4, trustFinal));
             System.out.println("Constraints taken, solver processing...");
