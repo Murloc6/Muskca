@@ -6,6 +6,7 @@
 
 package muskca;
 
+import Candidate.NodeCandidate.IndividualCandidate;
 import Candidate.NodeCandidate.NodeCandidate;
 import MultiSources.Extension;
 import MultiSources.Fusionner;
@@ -90,7 +91,7 @@ public class Muskca
         NodeCandidateGenerator ncg = new NodeCandidateGenerator(fusionner.getSources(), fusionner.getAlignments());
         ret = ncg.generateNodeCandidates();
         fusionner.setNodeCands(ret);
-        
+
         System.out.println("Node candidates computed! ("+ret.size()+" candidates generated)");
         
         return ret;
@@ -149,9 +150,9 @@ public class Muskca
      {
         //ExtensionGlpkSolver solver = Muskca.getExtensionSolver(fusionner, allCands);
         Extension extOpti = null;
-       // Extension extCur = fusionner.getNextExtension(solver);
-        ExtensionChocoSolver choco = new ExtensionChocoSolver();
-       Extension extCur = choco.getSolution(allCands, fusionner);
+      // Extension extCur = fusionner.getNextExtension(solver);
+       ExtensionChocoSolver choco = new ExtensionChocoSolver();
+      Extension extCur = choco.getSolution(allCands, fusionner);
         return extCur;
      }
      
