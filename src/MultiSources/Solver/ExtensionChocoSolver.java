@@ -11,19 +11,14 @@ import MultiSources.Extension;
 import MultiSources.Fusionner;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import org.chocosolver.solver.ResolutionPolicy;
 import org.chocosolver.solver.Solver;
 import org.chocosolver.solver.constraints.ICF;
-import org.chocosolver.solver.constraints.LCF;
 import org.chocosolver.solver.search.solution.ISolutionRecorder;
 import org.chocosolver.solver.search.solution.Solution;
-import org.chocosolver.solver.variables.BoolVar;
 import org.chocosolver.solver.variables.IntVar;
 import org.chocosolver.solver.variables.VF;
-import org.gnu.glpk.GLPK;
-import org.gnu.glpk.GLPKConstants;
+
 
 /**
  *
@@ -46,12 +41,9 @@ public class ExtensionChocoSolver {
     
       public Extension getSolution(ArrayList<NodeCandidate> initCands, Fusionner fusionner) 
     {
-        Extension ext = new Extension();
-        //System.out.println("je suis dans get Solution, extension créée");
-        
+        Extension ext = new Extension();       
         defined = new int[initCands.size()];
         Arrays.fill(defined, -1);
-
         int nbConflict = 0;
         int nbTotal = 0;
         int n = initCands.size();
@@ -62,22 +54,16 @@ public class ExtensionChocoSolver {
         conflicts = new int[initCands.size()][initCands.size()];
         candidatSeul = new int[n];
         int []sumTrustArc = new int[n];
-        int []sumTrustTot = new int[n];
+        int []sumTrustTot = new int[n];//for each node sum trust arc + trust intr
         Arrays.fill(sumTrustArc,0);
         try{
             IntVar[] X = VF.boundedArray("X", n, 0, 1, solver);
-            IntVar[] trusti=VF.boundedArray("trusti", n, 0, (int)(100*precision), solver);
-            IntVar trustFinal;
-            if(n>=100){
-                trustFinal=VF.bounded("trustFinal", 0,(int)(2*n*n*precision), solver);
-            }
-            else{
-                trustFinal=VF.bounded("trustFinal", 0,(int)(200*n*precision), solver);
-            }
+            IntVar[] trusti=VF.boundedArray("trusti", n, 0, (int)((n+100)*precision), solver);
+            IntVar trustFinal=VF.bounded("trustFinal", 0,(int)((n+100)*n*precision), solver);
+
             for(int[] a : conflicts)
             {
                 Arrays.fill(a, 0);
-               // System.out.println("boucle remplissage de aaaaa en 00000");
             }
             Arrays.fill(candidatSeul,1);
             System.out.println("array conflicts filled");
@@ -104,17 +90,15 @@ public class ExtensionChocoSolver {
                         nbConflict ++;
                     }
                 }
-                    trustArc[i][i]=0.0f;
-                    for(int j =0;j<n;j++){
-                        sumTrustArc[i]+=trustArc[i][j];
-                    }
+                trustArc[i][i]=0.0f;
+                for(int j =0;j<n;j++){
+                    sumTrustArc[i]+=(int)(trustArc[i][j]*precision);
+                }
                 if(candidatSeul[i]==1 && defined[i] != 0 ){
                     solver.post(ICF.arithm(X[i], "=", 1));
                 }
                 sumTrustTot [i]= sumTrustArc[i]+(int)(precision*trust[i]);
-                solver.post(LCF.ifThenElse_reifiable(ICF.arithm(X[i], "=", 0),
-                        ICF.arithm(trusti[i], "=", 0),
-                        ICF.arithm(trusti[i], "=", sumTrustTot[i])));
+                solver.post(ICF.times(X[i],sumTrustTot[i],trusti[i]));
                 if (defined[i]!=-1){
                     solver.post(ICF.arithm(X[i],"=",defined[i]));
                 }
@@ -128,15 +112,13 @@ public class ExtensionChocoSolver {
 
             ISolutionRecorder solutionRecorder = solver.getSolutionRecorder();
             for(Solution s : solutionRecorder.getSolutions()){
-                System.out.println("SOLUTION (max : ");
+                //System.out.println("SOLUTION (max : ");
                 for(int i=0;i<n;i++){
-                    //System.out.println(X[i].getName()+" -> "+s.getIntVal(X[i]));
                     if(s.getIntVal(X[i])==1){
                         ext.addNodeCandidate(initCands.get(i));
-                        System.out.println(i+1+" ");
+                        //System.out.println(i+1+" ");
                     }
                 }
-
                 System.out.println("trustFinal : " + trustFinal.getValue() );
 
             }
