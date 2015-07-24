@@ -67,9 +67,10 @@ public class Muskca
         ArrayList<String> urisTypeImp = params.getArrayParams("uriTypeImps");
         
         String aligner = params.getParam("aligner");
+        float threshold = Float.valueOf(params.getParam("threshold"));
         System.out.println("ALIGNER : " + aligner);
         
-        Fusionner fusionner = new Fusionner(sources, urisLabelsImp, urisRelImp, uriTypeBase, urisTypeImp, aligner);
+        Fusionner fusionner = new Fusionner(sources, urisLabelsImp, urisRelImp, uriTypeBase, urisTypeImp, aligner,threshold);
         
         System.out.println("Start filling sources");
         fusionner.setElemsOnSources();
@@ -150,9 +151,9 @@ public class Muskca
      {
         //ExtensionGlpkSolver solver = Muskca.getExtensionSolver(fusionner, allCands);
         Extension extOpti = null;
-      // Extension extCur = fusionner.getNextExtension(solver);
+       //Extension extCur = fusionner.getNextExtension(solver);
        ExtensionChocoSolver choco = new ExtensionChocoSolver();
-      Extension extCur = choco.getSolution(allCands, fusionner);
+       Extension extCur = choco.getSolution(allCands, fusionner);
         return extCur;
      }
      
@@ -236,12 +237,13 @@ public class Muskca
         /*System.out.println("Exporting all candidates (PROVO)...");
         SparqlProxy spOutAllProvo = fusionner.nodeCandidatesToProvo(allCands, Muskca.provoFile, Muskca.spOutProvo, Muskca.moduleFile, Muskca.baseUriMuskca);
         spOutAllProvo.writeKBFile("Muskca_"+dateFileName+"_"+Muskca.muskcaVersion+"_Provo_"+Muskca.projectName+"_allCands");
-        
-        System.out.println("Exporting all candidates (OWL)...");
-        SparqlProxy spOutAllOwl = fusionner.nodeCandidatesToOWL(allCands, Muskca.spOutProvo, Muskca.moduleFile, Muskca.baseUriMuskca);
-        spOutAllOwl.writeKBFile("Muskca_"+dateFileName+"_"+Muskca.muskcaVersion+"_OWL_"+Muskca.projectName+"_allCands");
         */
+        System.out.println("Exporting all candidates (OWL)...");
+        SparqlProxy spOutAllOwl = fusionner.nodeCandidatesToOwlThreshold(allCands, Muskca.spOutProvo, Muskca.moduleFile, Muskca.baseUriMuskca);
+        spOutAllOwl.writeKBFile("Muskca_"+dateFileName+"_"+Muskca.muskcaVersion+"_OWL_"+
+                Muskca.projectName+"_allCands_threshold_"+(int)fusionner.getThreshold()+"_"+(int)fusionner.getThreshold()*10);
         
+        System.exit(0);
         Extension ext = Muskca.getBestExtension(fusionner, allCands);
         if(ext != null)
         {

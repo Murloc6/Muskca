@@ -75,5 +75,7 @@
     "spOutProvo" : "http://amarger.murloc.fr:8080/Muskca-provo/",
     "provoFile" : "in/prov-o.owl",
     "baseUri" : "http://muskca_system.fr/"
-  }
+  },
+  "aligner" : "logmap2",
+  "threshold" : 0.2
 }

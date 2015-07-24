@@ -103,7 +103,7 @@ public class AlignerSeals extends Aligner
                 {
                     String uri1 = mapping.getIRIStrEnt1();
                     String uri2 = mapping.getIRIStrEnt2();
-                    if(! (uri1.startsWith("http://ontology.irstea.fr/AgronomicTaxon") && uri2.startsWith("http://ontology.irstea.fr/AgronomicTaxon")) && !(uri1.startsWith("http://www.w3.org/2004/02/skos/core") && uri2.startsWith("http://www.w3.org/2004/02/skos/core")))
+                    if(! (uri1.startsWith(fusionner.getUriTypeBase()) && uri2.startsWith(fusionner.getUriTypeBase())) && !(uri1.startsWith("http://www.w3.org/2004/02/skos/core") && uri2.startsWith("http://www.w3.org/2004/02/skos/core")))
                     {
                         //System.out.println("NEW CLASS ALIGN !!");
                         //System.out.println(mapping.toString());
@@ -204,7 +204,7 @@ public class AlignerSeals extends Aligner
                 
                 
                 if(probleme){
-                    System.out.println("PB : elements of different types aligned");
+                    System.out.println("PB : elements of different types aligned ("+mapping.getIRIStrEnt1()+" -- "+mapping.getIRIStrEnt2()+")");
                 }
                 
             }

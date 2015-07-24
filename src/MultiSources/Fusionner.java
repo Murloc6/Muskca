@@ -78,11 +78,10 @@ public class Fusionner implements Serializable
     public int nbMongoSaved = 0;
     
     private String aligner = "";
+    private float threshold =0.0f;
     
-    public Fusionner(ArrayList<Source> sources, ArrayList<String> urisLabelsImp, ArrayList<String> urisRelImp, String uriTypeBase, ArrayList<String> urisTypeImp, String aligner)
+    public Fusionner(ArrayList<Source> sources, ArrayList<String> urisLabelsImp, ArrayList<String> urisRelImp, String uriTypeBase, ArrayList<String> urisTypeImp, String aligner,float threshold)
     {
-        
-        
         this.urisLabelsImp = urisLabelsImp;
         this.urisRelImp = urisRelImp;
         this.uriTypeBase = uriTypeBase;
@@ -94,6 +93,7 @@ public class Fusionner implements Serializable
         
         this.allNodeCands = new ArrayList<>();
         this.aligner = aligner;
+        this.threshold = threshold;
     }
     
     
@@ -289,8 +289,9 @@ public class Fusionner implements Serializable
     {
         String ret = "";
         
+        ret += "PREFIX : <http://muskca_evals/>\n";
         ret +="PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>  \n";
-        ret += "PREFIX : <http://www.w3.org/ns/prov#>  \n";
+        ret += "PREFIX provo: <http://www.w3.org/ns/prov#>  \n";
         ret += "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>  \n";
         ret += "PREFIX owl: <http://www.w3.org/2002/07/owl#>  \n";
         ret += "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>  \n";
@@ -309,7 +310,15 @@ public class Fusionner implements Serializable
         return ret;
     }
     
-    public SparqlProxy nodeCandidatesToProvo(ArrayList<NodeCandidate> cands, String provoFile, String provoSpOut, String adomFile, String baseUri)
+    public SparqlProxy nodeCandidatesToProvo(ArrayList<NodeCandidate> cands,String provoFile, String provoSpOut, String adomFile, String baseUri){
+        return this.nodeCandidatesToProvo(cands, provoFile, provoSpOut, adomFile, baseUri, 0.0f);
+    }
+    
+    public SparqlProxy nodeCandidatesToProvoThreshold(ArrayList<NodeCandidate> cands, String provoFile,String provoSpOut, String adomFile, String baseUri){
+        return this.nodeCandidatesToProvo(cands, provoFile, provoSpOut, adomFile, baseUri, this.getThreshold());
+    }
+    
+    private SparqlProxy nodeCandidatesToProvo(ArrayList<NodeCandidate> cands, String provoFile, String provoSpOut, String adomFile, String baseUri,float threshold)
     {
         SparqlProxy spOutProvo = SparqlProxy.getSparqlProxy(provoSpOut);
         spOutProvo.clearSp();
@@ -342,14 +351,25 @@ public class Fusionner implements Serializable
         
         for(NodeCandidate nc : cands)
         {
-            spOutProvo.storeData(new StringBuilder(this.setPrefix()+" INSERT DATA {"+nc.toProvO(baseUri, numInst, provoSourceUri, uriKbMerge)+"}"));
-            numInst ++;
+            if(nc.getTrustScore()>=threshold){
+                spOutProvo.storeData(new StringBuilder(this.setPrefix()+" INSERT DATA {"+nc.toProvO(baseUri, numInst, provoSourceUri, uriKbMerge)+"}"));
+                numInst ++;  
+            }
+            
         }
         
         return spOutProvo;
     }
     
-    public SparqlProxy nodeCandidatesToOWL(ArrayList<NodeCandidate> cands, String provoSpOut, String adomFile, String baseUri)
+    public SparqlProxy nodeCandidatesToOwl(ArrayList<NodeCandidate> cands, String provoSpOut, String adomFile, String baseUri){
+        return this.nodeCandidatesToOWL(cands, provoSpOut, adomFile, baseUri, 0.0f);
+    }
+    
+    public SparqlProxy nodeCandidatesToOwlThreshold(ArrayList<NodeCandidate> cands, String provoSpOut, String adomFile, String baseUri){
+        return this.nodeCandidatesToOWL(cands, provoSpOut, adomFile, baseUri, this.getThreshold());
+    }
+    
+    private SparqlProxy nodeCandidatesToOWL(ArrayList<NodeCandidate> cands, String provoSpOut, String adomFile, String baseUri,float threshold)
     {
         SparqlProxy spOutProvo = SparqlProxy.getSparqlProxy(provoSpOut);
         spOutProvo.clearSp();
@@ -358,13 +378,14 @@ public class Fusionner implements Serializable
         int numInst = 1;
         for(NodeCandidate nc : cands)
         {
-            spOutProvo.storeData(new StringBuilder(this.setPrefix()+" INSERT DATA {"+nc.toOWL(baseUri)+"}"));
+            if(nc.getTrustScore()>=threshold){
+                spOutProvo.storeData(new StringBuilder(this.setPrefix()+" INSERT DATA {"+nc.toOWL(baseUri)+"}"));
             numInst ++;
+            }  
         }
-        
         return spOutProvo;
     }
-    
+      
     
     public ArrayList<NodeCandidate> getAllNodeCandidates()
     {
@@ -619,6 +640,13 @@ public class Fusionner implements Serializable
      */
     public void setAligner(String aligner) {
         this.aligner = aligner;
+    }
+
+    /**
+     * @return the threshold
+     */
+    public float getThreshold() {
+        return threshold;
     }
    
     

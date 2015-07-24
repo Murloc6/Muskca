@@ -179,6 +179,7 @@ public class ExtensionGlpkSolver extends GlpkSolver
             {
                 NodeCandidate nc2 = initCands.get(j);
                 trustArc[i][j] = nc.getSumArcCandImplied(nc2)+nc2.getSumArcCandImplied(nc);
+                trustArc[j][i] = trustArc[i][j];
                 nbTotal ++;
                 if(!nc.isCompatible(nc2))
                 {
@@ -188,6 +189,8 @@ public class ExtensionGlpkSolver extends GlpkSolver
                     nbConflict ++;
                 }
             }
+            trustArc[i][i]=0.0f;
+            
         }
         System.out.println("STATS : "+nbConflict+" / "+nbTotal);
         this.generateDataFile();

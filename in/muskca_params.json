@@ -43,5 +43,6 @@
     "provoFile" : "in/prov-o.owl",
     "baseUri" : "http://muskca_system.fr/"
   }
-  "aligner" : "logmap2"
+  "aligner" : "logmap2",
+  "threshold" : 0.0
 }
