@@ -9,8 +9,8 @@ TODO:
 ---------
 * Web services architecture (c.f. MuskcaWS projet (not versioned yet))
 * Search and remove dead source code
-* Clean up the source code (the commented code especially)
 * Use the SparqlLib project to generate the sparql queries (https://github.com/NSeydoux/SparqlLib)
+* Update README with the new params in the config file
 
 
 > **Dependencies:**

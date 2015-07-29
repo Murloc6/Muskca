@@ -38,6 +38,8 @@ public abstract class NodeCandidate extends Candidate
     protected String uriOntObj = "";
     protected String uriCand = "";
     
+    private float trustDegree = 0.0f;
+    
     public NodeCandidate()
     {
         super();
@@ -227,10 +229,10 @@ public abstract class NodeCandidate extends Candidate
     
     
     @Override
-    public float getUtilityWithMin(float min, int nbSources, float maxSourceQual)
+    public float getUtilityWithMin(float min, int nbSources, float maxSourceQual, float x0, float gamma)
     {
-        float utilitySources = super.getUtilityWithMin(min, nbSources, maxSourceQual);
-        int nbM = 0;
+        float utilitySources = super.getUtilityWithMin(min, nbSources, maxSourceQual, x0, gamma);
+        /*int nbM = 0;
         for(Alignment a : this.aligns)
         {
             if( a.getValue() >= min)
@@ -242,19 +244,40 @@ public abstract class NodeCandidate extends Candidate
         float utilityMappings = (float)nbM/(float)nbMaxMappings;
         
         //TODO : set ponderation here!
-        return (utilityMappings+utilitySources)/2;
+        return (utilityMappings+utilitySources)/2;*/
+        
+        return utilitySources;
         
     }
 
     
-    @Override
-    public void computeTrustScore(int nbSources, float maxSourceQual)
+    public void computeTrustDegree(int nbSources)
     {
-        super.computeTrustScore(nbSources, maxSourceQual);
+        float ret = 0.0f;
+        float nbS = (float) nbSources;
+        float maxVal = (nbS * (nbS-1))/2.f;
+        float val = 0.f;
+        for(Alignment a : this.aligns){
+            val += a.getValue();
+        }
+        
+        this.trustDegree = val/maxVal;
+    }
+    
+    @Override
+    public void computeTrustScore(int nbSources, float maxSourceQual, float x0, float gamma)
+    {
+        super.computeTrustScore(nbSources, maxSourceQual, x0, gamma);
+        this.computeTrustDegree(nbSources);
         for(ArcCandidate ac : this.getAllArcCandidates())
         {
-            ac.computeTrustScore(nbSources, maxSourceQual);
+            ac.computeTrustScore(nbSources, maxSourceQual, x0, gamma);
         }
+    }
+    
+    public float getTrustScore()
+    {
+        return (this.trustChoquet+this.trustDegree)/2;
     }
     
     @Override
@@ -367,6 +390,10 @@ public abstract class NodeCandidate extends Candidate
         for(Entry<Source, OntologicalElement> e : this.uriImplicate.entrySet())
         {
             ret += "<"+uriOntObj+"> owl:sameAs <"+e.getValue()+">.\n";
+            Source s = e.getKey();
+            for(String sameAsUri : s.getAllSameAs(e.getValue().getUri())){
+                ret += "<"+uriOntObj+"> owl:sameAs <"+sameAsUri+">.\n";
+            }
         }
         
          if(this.labelCands.size() > 0)

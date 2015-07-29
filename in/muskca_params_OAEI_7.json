@@ -58,24 +58,21 @@
   "uriTypeBase" : "http://muskca_evals/",
   "uriTypeImps" : 
   [
-  	"http://muskca_evals/Chair_PC",
-    "http://muskca_evals/Banquet",
-    "http://muskca_evals/Conference",
-    "http://muskca_evals/Reception",
-    "http://muskca_evals/Trip",
+  	"http://muskca_evals/Comitee",
+    "http://muskca_evals/Event",
     "http://muskca_evals/Location",
     "http://muskca_evals/Paper",
-    "http://muskca_evals/Speaker",
-    "http://muskca_evals/Author",
-    "http://muskca_evals/Review",
-    "http://muskca_evals/City"
+    "http://muskca_evals/Person",
+    "http://muskca_evals/Review"
   ],
   "output" :
   {
-    "spOutProvo" : "http://amarger.murloc.fr:8080/Muskca-provo/",
+    "spOutProvo" : "http://amarger.murloc.fr:8080/OAEI_allcands_AutoMap/",
     "provoFile" : "in/prov-o.owl",
     "baseUri" : "http://muskca_system.fr/"
   },
   "aligner" : "logmap2",
-  "threshold" : 0.2
+  "threshold" : 0.0,
+  "x0" : 3.5,
+  "gamma" : 3.5
 }

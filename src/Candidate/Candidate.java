@@ -148,19 +148,21 @@ public abstract class Candidate
         return Math.atan((x-x0)/gamma);
     }
     
-    protected float mu(float n, float nMax)
+    protected float mu(float n, float nMax, float x0, float gamma)
     {
-        double lambdan = this.lambdaCompute(n, 2, 1.5f);
-        double lambdaN = this.lambdaCompute((float)nMax, 2, 1.5f);
-        double lambda0 = this.lambdaCompute(0f, 2, 1.5f);
+        //x0 = 2;
+        //gamma = 3.5f;
+        double lambdan = this.lambdaCompute(n, x0, gamma);
+        double lambdaN = this.lambdaCompute((float)nMax, x0, gamma);
+        double lambda0 = this.lambdaCompute(0f, x0, gamma);
         double mu = (lambdan-lambda0)/(lambdaN-lambda0);
         
         return (float)mu;
     }
     
-    protected float mu(int n, int nMax)
+    protected float mu(int n, int nMax, float x0, float gamma)
     {
-        return this.mu((float) n , (float)nMax);
+        return this.mu((float) n , (float)nMax, x0, gamma);
     }
     
     public ArrayList<Float> getAllTrustScore()
@@ -177,7 +179,7 @@ public abstract class Candidate
         return ret;
     }
     
-    public float getUtilityWithMin(float min, int nbSources, float maxSourceQual)
+    public float getUtilityWithMin(float min, int nbSources, float maxSourceQual, float x0, float gamma)
     {
         int ret = 0;
         for(Source s : this.uriImplicate.keySet())
@@ -188,17 +190,17 @@ public abstract class Candidate
             }
         }
         
-        return this.mu(ret, maxSourceQual);
+        return this.mu(ret, maxSourceQual, x0, gamma);
         
     }
     
-    public void computeTrustScore(int nbSources , float maxSourceQual)
+    public void computeTrustScore(int nbSources , float maxSourceQual, float x0, float gamma)
     {
         float prevThres = 0;
         float trustTemp = 0;
         for(float thres : this.getAllTrustScore())
         {
-            trustTemp += (thres-prevThres) * this.getUtilityWithMin(thres, nbSources, maxSourceQual);
+            trustTemp += (thres-prevThres) * this.getUtilityWithMin(thres, nbSources, maxSourceQual, x0, gamma);
             prevThres = thres;
         }
         

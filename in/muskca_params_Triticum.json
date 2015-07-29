@@ -44,5 +44,7 @@
     "baseUri" : "http://muskca_system.fr/"
   },
   "aligner" : "logmap2",
-  "threshold" : 0.0
+  "threshold" : 0.0,
+  "x0" : 2,
+  "gamma" : 1.5
 }

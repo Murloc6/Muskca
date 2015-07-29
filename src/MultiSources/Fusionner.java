@@ -80,7 +80,10 @@ public class Fusionner implements Serializable
     private String aligner = "";
     private float threshold =0.0f;
     
-    public Fusionner(ArrayList<Source> sources, ArrayList<String> urisLabelsImp, ArrayList<String> urisRelImp, String uriTypeBase, ArrayList<String> urisTypeImp, String aligner,float threshold)
+    private float x0 = 0.0f;
+    private float gamma = 0.0f;
+    
+    public Fusionner(ArrayList<Source> sources, ArrayList<String> urisLabelsImp, ArrayList<String> urisRelImp, String uriTypeBase, ArrayList<String> urisTypeImp, String aligner,float threshold, float x0, float gamma)
     {
         this.urisLabelsImp = urisLabelsImp;
         this.urisRelImp = urisRelImp;
@@ -94,6 +97,9 @@ public class Fusionner implements Serializable
         this.allNodeCands = new ArrayList<>();
         this.aligner = aligner;
         this.threshold = threshold;
+        
+        this.x0 = x0;
+        this.gamma = gamma;
     }
     
     
@@ -234,7 +240,7 @@ public class Fusionner implements Serializable
         }
         for(NodeCandidate nc : this.getAllNodeCandidates())
         {
-            nc.computeTrustScore(nbSources, maxSourceQual);
+            nc.computeTrustScore(nbSources, maxSourceQual, this.x0, this.gamma);
         }
     }
     
@@ -372,18 +378,79 @@ public class Fusionner implements Serializable
     private SparqlProxy nodeCandidatesToOWL(ArrayList<NodeCandidate> cands, String provoSpOut, String adomFile, String baseUri,float threshold)
     {
         SparqlProxy spOutProvo = SparqlProxy.getSparqlProxy(provoSpOut);
-        spOutProvo.clearSp();
+        /*SparqlProxy spOut1 = SparqlProxy.getSparqlProxy("http://amarger.murloc.fr:8080/OAEI_allcands_0_1/");
+        SparqlProxy spOut2 = SparqlProxy.getSparqlProxy("http://amarger.murloc.fr:8080/OAEI_allcands_0_2/");
+        SparqlProxy spOut3 = SparqlProxy.getSparqlProxy("http://amarger.murloc.fr:8080/OAEI_allcands_0_3/");
+        SparqlProxy spOut4 = SparqlProxy.getSparqlProxy("http://amarger.murloc.fr:8080/OAEI_allcands_0_4/");
+        SparqlProxy spOut5 = SparqlProxy.getSparqlProxy("http://amarger.murloc.fr:8080/OAEI_allcands_0_5/");
+        SparqlProxy spOut6 = SparqlProxy.getSparqlProxy("http://amarger.murloc.fr:8080/OAEI_allcands_0_6/");
+        SparqlProxy spOut7 = SparqlProxy.getSparqlProxy("http://amarger.murloc.fr:8080/OAEI_allcands_0_7/");
+        SparqlProxy spOut8 = SparqlProxy.getSparqlProxy("http://amarger.murloc.fr:8080/OAEI_allcands_0_8/");
+        SparqlProxy spOut9 = SparqlProxy.getSparqlProxy("http://amarger.murloc.fr:8080/OAEI_allcands_0_9/");
         
-        spOutProvo.storeData(new StringBuilder(this.setPrefix()+" INSERT DATA {"+this.getOwlFileToTtl(adomFile)+"}"));
+        spOut1.clearSp();
+        spOut2.clearSp();
+        spOut3.clearSp();
+        spOut4.clearSp();
+        spOut5.clearSp();
+        spOut6.clearSp();
+        spOut7.clearSp();
+        spOut8.clearSp();
+        spOut9.clearSp();
+        
+        spOut1.storeData(new StringBuilder(this.getModuleAndSameAse()));
+        spOut2.storeData(new StringBuilder(this.getModuleAndSameAse()));
+        spOut3.storeData(new StringBuilder(this.getModuleAndSameAse()));
+        spOut4.storeData(new StringBuilder(this.getModuleAndSameAse()));
+        spOut5.storeData(new StringBuilder(this.getModuleAndSameAse()));
+        spOut6.storeData(new StringBuilder(this.getModuleAndSameAse()));
+        spOut7.storeData(new StringBuilder(this.getModuleAndSameAse()));
+        spOut8.storeData(new StringBuilder(this.getModuleAndSameAse()));
+        spOut9.storeData(new StringBuilder(this.getModuleAndSameAse()));*/
+        
+        spOutProvo.clearSp();
+        System.out.println("Export with threshold : "+threshold);
+        //spOutProvo.storeData(new StringBuilder(this.setPrefix()+" INSERT DATA {"+this.getOwlFileToTtl(adomFile)+"}"));
+        spOutProvo.storeData(new StringBuilder(this.getModuleAndSameAse()));
         int numInst = 1;
         for(NodeCandidate nc : cands)
         {
+            StringBuilder data = new StringBuilder(this.setPrefix()+" INSERT DATA {"+nc.toOWL(baseUri)+"}");
             if(nc.getTrustScore()>=threshold){
-                spOutProvo.storeData(new StringBuilder(this.setPrefix()+" INSERT DATA {"+nc.toOWL(baseUri)+"}"));
-            numInst ++;
-            }  
+                spOutProvo.storeData(data);
+                numInst ++;
+            }
+            
+            /*if(nc.getTrustScore() >= 0.1){
+                spOut1.storeData(data);
+            }
+            if(nc.getTrustScore() >= 0.2){
+                spOut2.storeData(data);
+            }
+            if(nc.getTrustScore() >= 0.3){
+                spOut3.storeData(data);
+            }
+            if(nc.getTrustScore() >= 0.4){
+                spOut4.storeData(data);
+            }
+            if(nc.getTrustScore() >= 0.5){
+                spOut5.storeData(data);
+            }
+            if(nc.getTrustScore() >= 0.6){
+                spOut6.storeData(data);
+            }
+            if(nc.getTrustScore() >= 0.7){
+                spOut7.storeData(data);
+            }
+            if(nc.getTrustScore() >= 0.8){
+                spOut8.storeData(data);
+            }
+            if(nc.getTrustScore() >= 0.9){
+                spOut9.storeData(data);
+            }*/
         }
         return spOutProvo;
+        //return spOut1;
     }
       
     
@@ -649,6 +716,205 @@ public class Fusionner implements Serializable
         return threshold;
     }
    
+    public String getModuleAndSameAse(){
+        return "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
+"PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n" +
+"PREFIX owl: <http://www.w3.org/2002/07/owl#>\n" +
+"PREFIX foaf: <http://xmlsn.com/foaf/0.1#>\n" +
+"PREFIX : <http://muskca_evals/>\n" +
+"INSERT DATA {\n" +
+"\n" +
+":hasAuthor rdf:type owl:ObjectProperty ;\n" +
+"           \n" +
+"           rdfs:range :Author ;\n" +
+"           \n" +
+"           rdfs:domain :Paper .\n" +
+"\n" +
+"\n" +
+":reviewWrittenBy rdf:type owl:ObjectProperty .\n" +
+"\n" +
+"\n" +
+":Attendee rdf:type owl:Class ;\n" +
+"          \n" +
+"          rdfs:label \"Conference atendee\" ,\n" +
+"                     \"Atendee\" ,\n" +
+"                     \"Conference participant\" ,\n" +
+"                     \"Participant\" ;\n" +
+"          \n" +
+"          rdfs:subClassOf :Person .\n" +
+"\n" +
+"\n" +
+":Author rdf:type owl:Class ;\n" +
+"        \n" +
+"        rdfs:label \"Paper author\" ,\n" +
+"                   \"Writer\" ;\n" +
+"        \n" +
+"        rdfs:subClassOf :Person .\n" +
+"\n" +
+"\n" +
+":Banquet rdf:type owl:Class ;\n" +
+"         \n" +
+"         rdfs:label \"Banquet Event\" ,\n" +
+"                    \"Banquet\" ;\n" +
+"         \n" +
+"         rdfs:subClassOf :Event .\n" +
+"\n" +
+"\n" +
+":Chair_PC rdf:type owl:Class ;\n" +
+"          \n" +
+"          rdfs:label \"Chair PC\" ,\n" +
+"                     \"Chair Program Comitee\" ,\n" +
+"                     \"Session chair\" ,\n" +
+"                     \"Program Comitee Chair\" ;\n" +
+"          \n" +
+"          rdfs:subClassOf :ProgramComitee .\n" +
+"\n" +
+"\n" +
+":City rdf:type owl:Class ;\n" +
+"      \n" +
+"      rdfs:label \"City\" ;\n" +
+"      \n" +
+"      rdfs:subClassOf :Location .\n" +
+"\n" +
+"\n" +
+":Comitee rdf:type owl:Class ;\n" +
+"         \n" +
+"         rdfs:label \"Comitee\" .\n" +
+"\n" +
+"\n" +
+":Conference rdf:type owl:Class ;\n" +
+"            \n" +
+"            rdfs:label \"Conference\" ;\n" +
+"            \n" +
+"            rdfs:subClassOf :Event .\n" +
+"\n" +
+"\n" +
+":Event rdf:type owl:Class ;\n" +
+"       \n" +
+"       rdfs:label \"Event\" .\n" +
+"\n" +
+"\n" +
+":Location rdf:type owl:Class ;\n" +
+"          \n" +
+"          rdfs:label \"Place\" ,\n" +
+"                     \"Location\" .\n" +
+"\n" +
+"\n" +
+":Paper rdf:type owl:Class ;\n" +
+"       \n" +
+"       rdfs:label \"Scientific article\" ,\n" +
+"                  \"Paper\" ,\n" +
+"                  \"Article\" .\n" +
+"\n" +
+"\n" +
+":Person rdf:type owl:Class .\n" +
+"\n" +
+"\n" +
+":ProgramComitee rdf:type owl:Class ;\n" +
+"                \n" +
+"                rdfs:label \"Program Comitee\" ;\n" +
+"                \n" +
+"                rdfs:subClassOf :Comitee .\n" +
+"\n" +
+":Reception rdf:type owl:Class ;\n" +
+"           \n" +
+"           rdfs:label \"Reception\" ;\n" +
+"           \n" +
+"           rdfs:subClassOf :Event .\n" +
+"\n" +
+"\n" +
+":Review rdf:type owl:Class ;\n" +
+"        \n" +
+"        rdfs:label \"Review\" .\n" +
+"\n" +
+"\n" +
+":Speaker rdf:type owl:Class ;\n" +
+"         \n" +
+"         rdfs:label \"Active participant\" ,\n" +
+"                    \"Speaker\" ;\n" +
+"         \n" +
+"         rdfs:subClassOf :Attendee .\n" +
+"\n" +
+"\n" +
+":Trip rdf:type owl:Class ;\n" +
+"      \n" +
+"      rdfs:label \"Trip\" ,\n" +
+"                 \"Excursion\" ;\n" +
+"      \n" +
+"      rdfs:subClassOf :Event .\n" +
+"\n" +
+"\n" +
+"\n" +
+"<http://muskca_evals/Chair_PC> <http://www.w3.org/2002/07/owl#sameAs> <http://ekaw#Session_Chair>.\n" +
+"        <http://muskca_evals/Speaker> <http://www.w3.org/2002/07/owl#sameAs> <http://ekaw#Invited_Speaker>.\n" +
+"        <http://muskca_evals/Speaker> <http://www.w3.org/2002/07/owl#sameAs> <http://ekaw#Presenter>.\n" +
+"        <http://muskca_evals/Review> <http://www.w3.org/2002/07/owl#sameAs> <http://ekaw#Review>.\n" +
+"        <http://muskca_evals/Trip> <http://www.w3.org/2002/07/owl#sameAs> <http://ekaw#Conference_Trip>.\n" +
+"        <http://muskca_evals/Chair_PC> <http://www.w3.org/2002/07/owl#sameAs> <http://ekaw#PC_Chair>.\n" +
+"        <http://muskca_evals/Location> <http://www.w3.org/2002/07/owl#sameAs> <http://ekaw#Location>.\n" +
+"        <http://muskca_evals/Author> <http://www.w3.org/2002/07/owl#sameAs> <http://ekaw#Paper_Author>.\n" +
+"        <http://muskca_evals/Paper> <http://www.w3.org/2002/07/owl#sameAs> <http://ekaw#Paper>.\n" +
+"        <http://muskca_evals/Banquet> <http://www.w3.org/2002/07/owl#sameAs> <http://ekaw#Conference_Banquet>.\n" +
+"        <http://muskca_evals/Person> <http://www.w3.org/2002/07/owl#sameAs> <http://ekaw#Person>.\n" +
+"        <http://muskca_evals/Attendee> <http://www.w3.org/2002/07/owl#sameAs> <http://ekaw#Conference_Participant>.\n" +
+"        <http://muskca_evals/Event> <http://www.w3.org/2002/07/owl#sameAs> <http://ekaw#Event>.\n" +
+"        <http://muskca_evals/Conference> <http://www.w3.org/2002/07/owl#sameAs> <http://ekaw#Conference>.\n" +
+"\n" +
+"<http://muskca_evals/City> <http://www.w3.org/2002/07/owl#sameAs> <http://iasted#City>.\n" +
+"        <http://muskca_evals/Location> <http://www.w3.org/2002/07/owl#sameAs> <http://iasted#Place>.\n" +
+"        <http://muskca_evals/Person> <http://www.w3.org/2002/07/owl#sameAs> <http://iasted#Person>.\n" +
+"        <http://muskca_evals/Review> <http://www.w3.org/2002/07/owl#sameAs> <http://iasted#Review>.\n" +
+"        <http://muskca_evals/Speaker> <http://www.w3.org/2002/07/owl#sameAs> <http://iasted#Speaker>.\n" +
+"        <http://muskca_evals/Chair_PC> <http://www.w3.org/2002/07/owl#sameAs> <http://iasted#Session_chair>.\n" +
+"        <http://muskca_evals/Author> <http://www.w3.org/2002/07/owl#sameAs> <http://iasted#Author>.\n" +
+"\n" +
+"<http://muskca_evals/Author> <http://www.w3.org/2002/07/owl#sameAs> <http://cmt#Author>.\n" +
+"        <http://muskca_evals/Person> <http://www.w3.org/2002/07/owl#sameAs> <http://cmt#Person>.\n" +
+"        <http://muskca_evals/Review> <http://www.w3.org/2002/07/owl#sameAs> <http://cmt#Review>.\n" +
+"        <http://muskca_evals/Paper> <http://www.w3.org/2002/07/owl#sameAs> <http://cmt#Paper>.\n" +
+"        <http://muskca_evals/Conference> <http://www.w3.org/2002/07/owl#sameAs> <http://cmt#Conference>.\n" +
+"\n" +
+"<http://muskca_evals/Review> <http://www.w3.org/2002/07/owl#sameAs> <http://conference#Review>.\n" +
+"        <http://muskca_evals/Paper> <http://www.w3.org/2002/07/owl#sameAs> <http://conference#Paper>.\n" +
+"        <http://muskca_evals/Speaker> <http://www.w3.org/2002/07/owl#sameAs> <http://conference#Active_conference_participant>.\n" +
+"        <http://muskca_evals/Person> <http://www.w3.org/2002/07/owl#sameAs> <http://conference#Person>.\n" +
+"        <http://muskca_evals/Attendee> <http://www.w3.org/2002/07/owl#sameAs> <http://conference#Conference_participant>.\n" +
+"        <http://muskca_evals/Conference> <http://www.w3.org/2002/07/owl#sameAs> <http://conference#Conference>.\n" +
+"\n" +
+" <http://muskca_evals/City> <http://www.w3.org/2002/07/owl#sameAs> <http://confOf#City>.\n" +
+"        <http://muskca_evals/Paper> <http://www.w3.org/2002/07/owl#sameAs> <http://confOf#Paper>.\n" +
+"        <http://muskca_evals/Review> <http://www.w3.org/2002/07/owl#sameAs> <http://confOf#Reviewing_event>.\n" +
+"        <http://muskca_evals/Banquet> <http://www.w3.org/2002/07/owl#sameAs> <http://confOf#Banquet>.\n" +
+"        <http://muskca_evals/Trip> <http://www.w3.org/2002/07/owl#sameAs> <http://confOf#Trip>.\n" +
+"        <http://muskca_evals/Person> <http://www.w3.org/2002/07/owl#sameAs> <http://confOf#Person>.\n" +
+"        <http://muskca_evals/Author> <http://www.w3.org/2002/07/owl#sameAs> <http://confOf#Author>.\n" +
+"        <http://muskca_evals/Conference> <http://www.w3.org/2002/07/owl#sameAs> <http://confOf#Conference>.\n" +
+"        <http://muskca_evals/Reception> <http://www.w3.org/2002/07/owl#sameAs> <http://confOf#Reception>.\n" +
+"        <http://muskca_evals/Chair_PC> <http://www.w3.org/2002/07/owl#sameAs> <http://confOf#Chair_PC>.\n" +
+"        <http://muskca_evals/Attendee> <http://www.w3.org/2002/07/owl#sameAs> <http://confOf#Participant>.\n" +
+"        <http://muskca_evals/Event> <http://www.w3.org/2002/07/owl#sameAs> <http://confOf#Event>.\n" +
+"\n" +
+"<http://muskca_evals/Review> <http://www.w3.org/2002/07/owl#sameAs> <http://edas#Review>.\n" +
+"        <http://muskca_evals/Person> <http://www.w3.org/2002/07/owl#sameAs> <http://edas#Person>.\n" +
+"        <http://muskca_evals/Attendee> <http://www.w3.org/2002/07/owl#sameAs> <http://edas#Attendee>.\n" +
+"        <http://muskca_evals/Paper> <http://www.w3.org/2002/07/owl#sameAs> <http://edas#Paper>.\n" +
+"        <http://muskca_evals/Reception> <http://www.w3.org/2002/07/owl#sameAs> <http://edas#Reception>.\n" +
+"        <http://muskca_evals/Location> <http://www.w3.org/2002/07/owl#sameAs> <http://edas#Place>.\n" +
+"        <http://muskca_evals/Chair_PC> <http://www.w3.org/2002/07/owl#sameAs> <http://edas#SessionChair>.\n" +
+"        <http://muskca_evals/Conference> <http://www.w3.org/2002/07/owl#sameAs> <http://edas#Conference>.\n" +
+"        <http://muskca_evals/Author> <http://www.w3.org/2002/07/owl#sameAs> <http://edas#Author>.\n" +
+"        <http://muskca_evals/Trip> <http://www.w3.org/2002/07/owl#sameAs> <http://edas#Excursion>.\n" +
+"\n" +
+"<http://muskca_evals/Speaker> <http://www.w3.org/2002/07/owl#sameAs> <http://sigkdd#Speaker>.\n" +
+"        <http://muskca_evals/Conference> <http://www.w3.org/2002/07/owl#sameAs> <http://sigkdd#Conference>.\n" +
+"        <http://muskca_evals/ProgramComitee> <http://www.w3.org/2002/07/owl#sameAs> <http://sigkdd#Program_Committee>.\n" +
+"        <http://muskca_evals/Person> <http://www.w3.org/2002/07/owl#sameAs> <http://sigkdd#Person>.\n" +
+"        <http://muskca_evals/Review> <http://www.w3.org/2002/07/owl#sameAs> <http://sigkdd#Review>.\n" +
+"        <http://muskca_evals/Author> <http://www.w3.org/2002/07/owl#sameAs> <http://sigkdd#Author>.\n" +
+"        <http://muskca_evals/Location> <http://www.w3.org/2002/07/owl#sameAs> <http://sigkdd#Place>.\n" +
+"        <http://muskca_evals/Paper> <http://www.w3.org/2002/07/owl#sameAs> <http://sigkdd#Paper>.\n" +
+"}";
+    }
     
    
 }

@@ -180,6 +180,15 @@ public class Source implements Serializable
     public ArrayList<OntologicalElement> getElems(){
         return new ArrayList<>(this.elems.values());
     }
+    
+    public ArrayList<String> getAllSameAs(String uri){
+        ArrayList<String> ret = new ArrayList<>();
+        String query = "SELECT DISTINCT ?uri WHERE{{<"+uri+"> owl:sameAs ?uri.} UNION {?uri owl:sameAs <"+uri+">.}}";
+        for(JsonNode jn : this.sp.getResponse(query)){
+            ret.add(jn.get("uri").get("value").asText());
+        }
+        return ret;
+    }
    
     public BasicDBObject toDBObject()
     {
@@ -207,7 +216,7 @@ public class Source implements Serializable
     public ArrayList<String> getAllClassUris(String baseModule)
     {
         ArrayList<String> ret = new ArrayList<>();
-        String query = " SELECT ?uri WHERE { OPTIONAL{?uri a owl:Class.} OPTIONAL{?uri rdfs:subClassOf ?a}} ";
+        String query = "SELECT DISTINCT ?uri WHERE {{?uri a owl:Class.} UNION {?uri rdfs:subClassOf ?a}} ";
         ArrayList<JsonNode> uris = this.sp.getResponse(query);
         for(JsonNode jn : uris)
         {

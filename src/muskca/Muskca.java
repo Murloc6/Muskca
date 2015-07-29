@@ -30,7 +30,7 @@ import org.apache.commons.io.FileUtils;
  */
 public class Muskca 
 {
-    public static String muskcaVersion = "V1";
+    public static String muskcaVersion = "V1beta2";
     public static String dateBegin = "";
     public static String dateEnd = "";
     
@@ -69,8 +69,25 @@ public class Muskca
         String aligner = params.getParam("aligner");
         float threshold = Float.valueOf(params.getParam("threshold"));
         System.out.println("ALIGNER : " + aligner);
+        System.out.println("Threshold : "+threshold);
         
-        Fusionner fusionner = new Fusionner(sources, urisLabelsImp, urisRelImp, uriTypeBase, urisTypeImp, aligner,threshold);
+        
+        String x0String = params.getParam("x0");
+        String gammaString = params.getParam("gamma");
+        float x0 = 0.0f;
+        if(x0String != null)
+            x0 = Float.valueOf(x0String);
+        else
+            x0 = ((float)sources.size())/2.f;
+        
+        float gamma = 0.0f;
+        if(gammaString != null)
+            gamma = Float.valueOf(gammaString);
+        else
+            gamma = ((float)sources.size())/2.f;
+        
+        
+        Fusionner fusionner = new Fusionner(sources, urisLabelsImp, urisRelImp, uriTypeBase, urisTypeImp, aligner, threshold, x0, gamma);
         
         System.out.println("Start filling sources");
         fusionner.setElemsOnSources();
@@ -234,16 +251,16 @@ public class Muskca
         
         
         String dateFileName = new SimpleDateFormat("dd-MM_HH-mm_").format(new Date());
-        /*System.out.println("Exporting all candidates (PROVO)...");
+        
+        System.out.println("Exporting all candidates (PROVO)...");
         SparqlProxy spOutAllProvo = fusionner.nodeCandidatesToProvo(allCands, Muskca.provoFile, Muskca.spOutProvo, Muskca.moduleFile, Muskca.baseUriMuskca);
         spOutAllProvo.writeKBFile("Muskca_"+dateFileName+"_"+Muskca.muskcaVersion+"_Provo_"+Muskca.projectName+"_allCands");
-        */
+        
         System.out.println("Exporting all candidates (OWL)...");
         SparqlProxy spOutAllOwl = fusionner.nodeCandidatesToOwlThreshold(allCands, Muskca.spOutProvo, Muskca.moduleFile, Muskca.baseUriMuskca);
         spOutAllOwl.writeKBFile("Muskca_"+dateFileName+"_"+Muskca.muskcaVersion+"_OWL_"+
-                Muskca.projectName+"_allCands_threshold_"+(int)fusionner.getThreshold()+"_"+(int)fusionner.getThreshold()*10);
+                Muskca.projectName+"_allCands_threshold_"+(int)fusionner.getThreshold()+"_"+(int)(fusionner.getThreshold()*10));
         
-        System.exit(0);
         Extension ext = Muskca.getBestExtension(fusionner, allCands);
         if(ext != null)
         {
@@ -252,15 +269,14 @@ public class Muskca
             SparqlProxy spOutExtProvo = fusionner.nodeCandidatesToProvo(ext.getCandidates(), Muskca.provoFile, Muskca.spOutProvo, Muskca.moduleFile, Muskca.baseUriMuskca);
             spOutExtProvo.writeKBFile("Muskca_"+dateFileName+"_"+Muskca.muskcaVersion+"_Provo_"+Muskca.projectName+"_bestExt");
             
-            /*System.out.println("Exporting ext candidates (OWL) ...");
-            SparqlProxy spOutExtOwl = fusionner.nodeCandidatesToOWL(ext.getCandidates(), Muskca.spOutProvo, Muskca.moduleFile, Muskca.baseUriMuskca);
-            spOutExtOwl.writeKBFile("Muskca_"+dateFileName+"_"+Muskca.muskcaVersion+"_OWL_"+Muskca.projectName+"_bestExt");*/
+            System.out.println("Exporting ext candidates (OWL) ...");
+            SparqlProxy spOutExtOwl = fusionner.nodeCandidatesToOwl(ext.getCandidates(), Muskca.spOutProvo, Muskca.moduleFile, Muskca.baseUriMuskca);
+            spOutExtOwl.writeKBFile("Muskca_"+dateFileName+"_"+Muskca.muskcaVersion+"_OWL_"+Muskca.projectName+"_bestExt");
         }
         else
         {
             System.out.println("Error, no extension available with these constraints...");
         }
-        System.exit(0);
      }
     
     
