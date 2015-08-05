@@ -72,5 +72,11 @@ public class ClassCandidate extends NodeCandidate
         
         return ret;
     }
+
+    @Override
+    public boolean isIndividual() 
+    {
+        return false;
+    }
     
 }

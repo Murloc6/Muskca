@@ -37,6 +37,10 @@ public class IndividualCandidate extends NodeCandidate
 //    }
     
     
+    public boolean isIndividual()
+    {
+        return true;
+    }
     
     public boolean addRelationCandidate(RelationCandidate rc)
     {

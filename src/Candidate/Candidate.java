@@ -23,6 +23,7 @@ import java.util.Map.Entry;
  */
 public abstract class Candidate 
 {
+    protected float trustSimple = 0;
     protected float trustChoquet = 0;
     protected HashMap<Source,  OntologicalElement> uriImplicate;
     protected String sElem;
@@ -206,6 +207,11 @@ public abstract class Candidate
         
         
         this.trustChoquet = (float) (Math.round(trustTemp*100.0)/100.0);
+        
+        this.trustSimple =  (float)this.uriImplicate.size()/(float)nbSources;
+        
+        
+        
     }
     
     public float getTrustScore()
@@ -242,8 +248,8 @@ public abstract class Candidate
             }
         }
         doc.append("elemCandidates", elemCandidates);
-        doc.append("trustScore", this.getTrustScore());
-        //doc.append("trustDegree", this.trustDegreeScore);
+        doc.append("trustScoreChoquet", this.getTrustScore());
+        doc.append("trustScoreSimple", this.trustSimple);
 
         return doc;
     }

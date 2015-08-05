@@ -11,6 +11,7 @@ import Alignment.AlignerLogMap;
 import Alignment.AlignerSeals;
 import Alignment.Alignments;
 import Alignment.StringDistance;
+import Candidate.ArcCandidate.ArcCandidate;
 import Candidate.NodeCandidate.ClassCandidate;
 import Candidate.NodeCandidate.IndividualCandidate;
 import Candidate.ArcCandidate.LabelCandidate;
@@ -23,15 +24,22 @@ import Source.OntologicalElement.IndividualOntologicalElement;
 import Source.OntologicalElement.OntologicalElement;
 import Source.Source;
 import Source.SparqlProxy;
+import com.mongodb.MongoClient;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.Serializable;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import muskca.FilePerso;
 import muskca.Muskca;
 import org.apache.commons.io.IOUtils;
+import org.bson.Document;
 
 /**
  *
@@ -378,7 +386,7 @@ public class Fusionner implements Serializable
     private SparqlProxy nodeCandidatesToOWL(ArrayList<NodeCandidate> cands, String provoSpOut, String adomFile, String baseUri,float threshold)
     {
         SparqlProxy spOutProvo = SparqlProxy.getSparqlProxy(provoSpOut);
-        /*SparqlProxy spOut1 = SparqlProxy.getSparqlProxy("http://amarger.murloc.fr:8080/OAEI_allcands_0_1/");
+        SparqlProxy spOut1 = SparqlProxy.getSparqlProxy("http://amarger.murloc.fr:8080/OAEI_allcands_0_1/");
         SparqlProxy spOut2 = SparqlProxy.getSparqlProxy("http://amarger.murloc.fr:8080/OAEI_allcands_0_2/");
         SparqlProxy spOut3 = SparqlProxy.getSparqlProxy("http://amarger.murloc.fr:8080/OAEI_allcands_0_3/");
         SparqlProxy spOut4 = SparqlProxy.getSparqlProxy("http://amarger.murloc.fr:8080/OAEI_allcands_0_4/");
@@ -406,7 +414,7 @@ public class Fusionner implements Serializable
         spOut6.storeData(new StringBuilder(this.getModuleAndSameAse()));
         spOut7.storeData(new StringBuilder(this.getModuleAndSameAse()));
         spOut8.storeData(new StringBuilder(this.getModuleAndSameAse()));
-        spOut9.storeData(new StringBuilder(this.getModuleAndSameAse()));*/
+        spOut9.storeData(new StringBuilder(this.getModuleAndSameAse()));
         
         spOutProvo.clearSp();
         System.out.println("Export with threshold : "+threshold);
@@ -421,7 +429,7 @@ public class Fusionner implements Serializable
                 numInst ++;
             }
             
-            /*if(nc.getTrustScore() >= 0.1){
+            if(nc.getTrustScore() >= 0.1){
                 spOut1.storeData(data);
             }
             if(nc.getTrustScore() >= 0.2){
@@ -447,7 +455,7 @@ public class Fusionner implements Serializable
             }
             if(nc.getTrustScore() >= 0.9){
                 spOut9.storeData(data);
-            }*/
+            }
         }
         return spOutProvo;
         //return spOut1;
@@ -555,7 +563,7 @@ public class Fusionner implements Serializable
                 for(String uriTypeCandidate : urisType)
                 {
                     //System.out.println(uriTypeCandidate);
-                    if(uriTypeCandidate.startsWith(this.uriTypeBase))
+                    if(uriTypeCandidate.startsWith(this.uriTypeBase) && !nc.containsSameTypeCand(e.getKey(), e.getValue().getUri(), relImp, uriTypeCandidate))
                     {
                         HashMap<Source, String> uriType = new HashMap<>();
                         uriType.put(e.getKey(), e.getValue()+" "+relImp+" "+uriTypeCandidate);
@@ -596,10 +604,10 @@ public class Fusionner implements Serializable
                         }
                     }
                 }
-                if(founded)
+                /*if(founded)
                 {
                     break;
-                }
+                }*/
             }
         }
         System.out.println("NB tc : "+nbtc);
@@ -715,204 +723,480 @@ public class Fusionner implements Serializable
     public float getThreshold() {
         return threshold;
     }
+    
+    public void exportAllCandsMongoDB(ArrayList<NodeCandidate> allCands)
+    {
+        MongoClient mongoClient = new MongoClient();
+        MongoDatabase db = mongoClient.getDatabase("evals_Triticum");
+        db.drop();
+        MongoCollection<Document> collection = db.getCollection("triticumCandidate");
+        MongoCollection<Document> collectionRel = db.getCollection("triticumICHR");
+        MongoCollection<Document> collectionType = db.getCollection("triticumTypeCandidate");
+        MongoCollection<Document> collectionLabel = db.getCollection("triticumLabelCandidate");
+        for(NodeCandidate nc : allCands)
+        {
+            if(nc.isIndividual())
+            {
+                collection.insertOne(new Document(nc.toDBObject()));
+                IndividualCandidate ic = (IndividualCandidate) nc;
+                for(ArcCandidate ac : ic.getAllArcCandidates())
+                {
+                    String prop = ac.getDataProp();
+                    if(prop.startsWith("http://www.w3.org/1999/02/22-rdf-syntax-ns#type"))
+                    {
+                        collectionType.insertOne(new Document(ac.toDBObject()));
+                    }
+                    else if(prop.startsWith("http://ontology.irstea.fr/AgronomicTaxon#hasHigherRank"))
+                    {
+                        collectionRel.insertOne(new Document(ac.toDBObject()));
+                    }
+                    for(LabelCandidate lc : ic.getLabelCandidates())
+                    {
+                        collectionLabel.insertOne(new Document(lc.toDBObject()));
+                    }
+                }
+            }
+            
+        }
+    }
    
-    public String getModuleAndSameAse(){
+    /*public String getModuleAndSameAse(){
         return "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
-"PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n" +
-"PREFIX owl: <http://www.w3.org/2002/07/owl#>\n" +
-"PREFIX foaf: <http://xmlsn.com/foaf/0.1#>\n" +
-"PREFIX : <http://muskca_evals/>\n" +
-"INSERT DATA {\n" +
+                "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n" +
+                "PREFIX owl: <http://www.w3.org/2002/07/owl#>\n" +
+                "PREFIX foaf: <http://xmlsn.com/foaf/0.1#>\n" +
+                "PREFIX : <http://muskca_evals/>\n" +
+                "INSERT DATA {\n" +
+                "\n" +
+                ":hasAuthor rdf:type owl:ObjectProperty ;\n" +
+                "           \n" +
+                "           rdfs:range :Author ;\n" +
+                "           \n" +
+                "           rdfs:domain :Paper .\n" +
+                "\n" +
+                "\n" +
+                ":reviewWrittenBy rdf:type owl:ObjectProperty .\n" +
+                "\n" +
+                "\n" +
+                ":Attendee rdf:type owl:Class ;\n" +
+                "          \n" +
+                "          rdfs:label \"Conference atendee\" ,\n" +
+                "                     \"Atendee\" ,\n" +
+                "                     \"Conference participant\" ,\n" +
+                "                     \"Participant\" ;\n" +
+                "          \n" +
+                "          rdfs:subClassOf :Person .\n" +
+                "\n" +
+                "\n" +
+                ":Author rdf:type owl:Class ;\n" +
+                "        \n" +
+                "        rdfs:label \"Paper author\" ,\n" +
+                "                   \"Writer\" ;\n" +
+                "        \n" +
+                "        rdfs:subClassOf :Person .\n" +
+                "\n" +
+                "\n" +
+                ":Banquet rdf:type owl:Class ;\n" +
+                "         \n" +
+                "         rdfs:label \"Banquet Event\" ,\n" +
+                "                    \"Banquet\" ;\n" +
+                "         \n" +
+                "         rdfs:subClassOf :Event .\n" +
+                "\n" +
+                "\n" +
+                ":Chair_PC rdf:type owl:Class ;\n" +
+                "          \n" +
+                "          rdfs:label \"Chair PC\" ,\n" +
+                "                     \"Chair Program Comitee\" ,\n" +
+                "                     \"Session chair\" ,\n" +
+                "                     \"Program Comitee Chair\" ;\n" +
+                "          \n" +
+                "          rdfs:subClassOf :Person .\n" +
+                "\n" +
+                "\n" +
+                ":City rdf:type owl:Class ;\n" +
+                "      \n" +
+                "      rdfs:label \"City\" ;\n" +
+                "      \n" +
+                "      rdfs:subClassOf :Location .\n" +
+                "\n" +
+                "\n" +
+                ":Comitee rdf:type owl:Class ;\n" +
+                "         \n" +
+                "         rdfs:label \"Comitee\" .\n" +
+                "\n" +
+                "\n" +
+                ":Conference rdf:type owl:Class ;\n" +
+                "            \n" +
+                "            rdfs:label \"Conference\" ;\n" +
+                "            \n" +
+                "            rdfs:subClassOf :Event .\n" +
+                "\n" +
+                "\n" +
+                ":Event rdf:type owl:Class ;\n" +
+                "       \n" +
+                "       rdfs:label \"Event\" .\n" +
+                "\n" +
+                "\n" +
+                ":Location rdf:type owl:Class ;\n" +
+                "          \n" +
+                "          rdfs:label \"Place\" ,\n" +
+                "                     \"Location\" .\n" +
+                "\n" +
+                "\n" +
+                ":Paper rdf:type owl:Class ;\n" +
+                "       \n" +
+                "       rdfs:label \"Scientific article\" ,\n" +
+                "                  \"Paper\" ,\n" +
+                "                  \"Article\" .\n" +
+                "\n" +
+                "\n" +
+                ":Person rdf:type owl:Class .\n" +
+                "\n" +
+                "\n" +
+                ":ProgramComitee rdf:type owl:Class ;\n" +
+                "                \n" +
+                "                rdfs:label \"Program Comitee\" ;\n" +
+                "                \n" +
+                "                rdfs:subClassOf :Comitee .\n" +
+                "\n" +
+                ":Reception rdf:type owl:Class ;\n" +
+                "           \n" +
+                "           rdfs:label \"Reception\" ;\n" +
+                "           \n" +
+                "           rdfs:subClassOf :Event .\n" +
+                "\n" +
+                "\n" +
+                ":Review rdf:type owl:Class ;\n" +
+                "        \n" +
+                "        rdfs:label \"Review\" .\n" +
+                "\n" +
+                "\n" +
+                ":Speaker rdf:type owl:Class ;\n" +
+                "         \n" +
+                "         rdfs:label \"Active participant\" ,\n" +
+                "                    \"Speaker\" ;\n" +
+                "         \n" +
+                "         rdfs:subClassOf :Attendee .\n" +
+                "\n" +
+                "\n" +
+                ":Trip rdf:type owl:Class ;\n" +
+                "      \n" +
+                "      rdfs:label \"Trip\" ,\n" +
+                "                 \"Excursion\" ;\n" +
+                "      \n" +
+                "      rdfs:subClassOf :Event .\n" +
+                "\n" +
+                "\n" +
+                "\n" +
+                "<http://muskca_evals/ProgramComitee> owl:sameAs <http://cmt#ProgramCommittee>.\n" +
+"<http://muskca_evals/ProgramComitee> owl:sameAs <http://conference#Program_committee>."+
+                " <http://muskca_evals/Chair_PC> owl:sameAs <http://ekaw#PC_Chair>.\n" +
+"        <http://muskca_evals/Banquet> owl:sameAs <http://ekaw#Conference_Banquet>.\n" +
+"        <http://muskca_evals/Conference> owl:sameAs <http://ekaw#Conference>.\n" +
+"        <http://muskca_evals/Trip> owl:sameAs <http://ekaw#Conference_Trip>.\n" +
+"        <http://muskca_evals/Location> owl:sameAs <http://ekaw#Location>.\n" +
+"        <http://muskca_evals/Paper> owl:sameAs <http://ekaw#Paper>.\n" +
+"        <http://muskca_evals/Speaker> owl:sameAs <http://ekaw#Presenter>.\n" +
+"        <http://muskca_evals/Paper> owl:sameAs <http://ekaw#Paper>.\n" +
+"        <http://muskca_evals/Review> owl:sameAs <http://ekaw#Review>.\n" +
+"        <http://muskca_evals/Attendee> owl:sameAs <http://ekaw#Conference_Participant>.\n" +
+"        <http://muskca_evals/Event> owl:sameAs <http://ekaw#Event>.\n" +
+"        <http://muskca_evals/Conference> owl:sameAs <http://ekaw#Conference>.\n" +
+"        <http://muskca_evals/Author> owl:sameAs <http://ekaw#Paper_Author>.\n" +
 "\n" +
-":hasAuthor rdf:type owl:ObjectProperty ;\n" +
-"           \n" +
-"           rdfs:range :Author ;\n" +
-"           \n" +
-"           rdfs:domain :Paper .\n" +
+"        <http://muskca_evals/Banquet> owl:sameAs <http://iasted#Dinner_banquet>.\n" +
+"        <http://muskca_evals/Reception> owl:sameAs <http://iasted#Coctail_reception>.\n" +
+"        <http://muskca_evals/Trip> owl:sameAs <http://iasted#Trip_city>.\n" +
+"        <http://muskca_evals/Location> owl:sameAs <http://iasted#Place>.\n" +
+"        <http://muskca_evals/Paper> owl:sameAs <http://iasted#Submission>.\n" +
+"        <http://muskca_evals/Speaker> owl:sameAs <http://iasted#Speaker>.\n" +
+"        <http://muskca_evals/Author> owl:sameAs <http://iasted#Author>.\n" +
+"        <http://muskca_evals/Review> owl:sameAs <http://iasted#Review>.\n" +
+"        <http://muskca_evals/City> owl:sameAs <http://iasted#City>.\n" +
+"        <http://muskca_evals/Location> owl:sameAs <http://iasted#Place>.\n" +
+"        <http://muskca_evals/Attendee> owl:sameAs <http://iasted#Delegate>.\n" +
 "\n" +
 "\n" +
-":reviewWrittenBy rdf:type owl:ObjectProperty .\n" +
-"\n" +
-"\n" +
-":Attendee rdf:type owl:Class ;\n" +
-"          \n" +
-"          rdfs:label \"Conference atendee\" ,\n" +
-"                     \"Atendee\" ,\n" +
-"                     \"Conference participant\" ,\n" +
-"                     \"Participant\" ;\n" +
-"          \n" +
-"          rdfs:subClassOf :Person .\n" +
-"\n" +
-"\n" +
-":Author rdf:type owl:Class ;\n" +
+"         <http://muskca_evals/Chair_PC> owl:sameAs <http://cmt#ProgramCommitteeChair>.\n" +
+"        <http://muskca_evals/Conference> owl:sameAs <http://cmt#Conference>.\n" +
+"        <http://muskca_evals/Attendee> owl:sameAs <http://cmt#ConferenceMember>.\n" +
+"        <http://muskca_evals/Paper> owl:sameAs <http://cmt#Paper>.\n" +
+"        <http://muskca_evals/Author> owl:sameAs <http://cmt#Author>.\n" +
+"        <http://muskca_evals/Review> owl:sameAs <http://cmt#Review>.\n" +
+"        <http://muskca_evals/Person> owl:sameAs <http://cmt#Person>.\n" +
 "        \n" +
-"        rdfs:label \"Paper author\" ,\n" +
-"                   \"Writer\" ;\n" +
-"        \n" +
-"        rdfs:subClassOf :Person .\n" +
+"\n" +
+"        <http://muskca_evals/Chair_PC> owl:sameAs <http://conference#Chair>.\n" +
+"        <http://muskca_evals/Conference> owl:sameAs <http://conference#Conference>.\n" +
+"        <http://muskca_evals/Paper> owl:sameAs <http://conference#Paper>.\n" +
+"        <http://muskca_evals/Author> owl:sameAs <http://conference#Regular_author>.\n" +
+"        <http://muskca_evals/Review> owl:sameAs <http://conference#Review>.\n" +
+"        <http://muskca_evals/Speaker> owl:sameAs <http://conference#Active_conference_participant>.\n" +
+"        <http://muskca_evals/Attendee> owl:sameAs <http://conference#Conference_participant>.\n" +
+"        <http://muskca_evals/Person> owl:sameAs <http://conference#Person>.\n" +
+"\n" +
+"        <http://muskca_evals/Chair_PC> owl:sameAs <http://confOf#Chair_PC>.\n" +
+"        <http://muskca_evals/Banquet> owl:sameAs <http://confOf#Banquet>.\n" +
+"        <http://muskca_evals/Conference> owl:sameAs <http://confOf#Conference>.\n" +
+"        <http://muskca_evals/Reception> owl:sameAs <http://confOf#Reception>.\n" +
+"        <http://muskca_evals/Trip> owl:sameAs <http://confOf#Trip>.\n" +
+"        <http://muskca_evals/Paper> owl:sameAs <http://confOf#Paper>.\n" +
+"        <http://muskca_evals/Author> owl:sameAs <http://confOf#Author>.\n" +
+"        <http://muskca_evals/City> owl:sameAs <http://confOf#City>.\n" +
+"        <http://muskca_evals/Attendee> owl:sameAs <http://confOf#Participant>.\n" +
+"        <http://muskca_evals/Event> owl:sameAs <http://confOf#Event>.\n" +
+"\n" +
+"        <http://muskca_evals/Conference> owl:sameAs <http://edas#Conference>.\n" +
+"        <http://muskca_evals/Reception> owl:sameAs <http://edas#Reception>.\n" +
+"        <http://muskca_evals/Trip> owl:sameAs <http://edas#Excursion>.\n" +
+"        <http://muskca_evals/Location> owl:sameAs <http://edas#Place>.\n" +
+"        <http://muskca_evals/Paper> owl:sameAs <http://edas#Paper>.\n" +
+"        <http://muskca_evals/Speaker> owl:sameAs <http://edas#Presenter>.\n" +
+"        <http://muskca_evals/Author> owl:sameAs <http://edas#Author>.\n" +
+"        <http://muskca_evals/Review> owl:sameAs <http://edas#Review>.\n" +
+"        <http://muskca_evals/Attendee> owl:sameAs <http://edas#Attendee>.\n" +
+"        <http://muskca_evals/Person> owl:sameAs <http://edas#Person>.\n" +
+"\n" +
+"         <http://muskca_evals/Chair_PC> owl:sameAs <http://sigkdd#Program_Chair>.\n" +
+"        <http://muskca_evals/Conference> owl:sameAs <http://sigkdd#Conference>.\n" +
+"        <http://muskca_evals/Location> owl:sameAs <http://sigkdd#Place>.\n" +
+"        <http://muskca_evals/Paper> owl:sameAs <http://sigkdd#Paper>.\n" +
+"        <http://muskca_evals/Author> owl:sameAs <http://sigkdd#Author>.\n" +
+"        <http://muskca_evals/Review> owl:sameAs <http://sigkdd#Review>.\n" +
+"        <http://muskca_evals/ProgramComitee> owl:sameAs <http://sigkdd#Program_Committee>.\n" +
+"        <http://muskca_evals/Person> owl:sameAs <http://sigkdd#Person>.\n" +
+"        <http://muskca_evals/Attendee> owl:sameAs <http://sigkdd#Listener>.\n" +
+"        <http://muskca_evals/Speaker> owl:sameAs <http://sigkdd#Speaker>.\n" +
 "\n" +
 "\n" +
-":Banquet rdf:type owl:Class ;\n" +
-"         \n" +
-"         rdfs:label \"Banquet Event\" ,\n" +
-"                    \"Banquet\" ;\n" +
-"         \n" +
-"         rdfs:subClassOf :Event .\n" +
+"          <http://muskca_evals/hasAuthor> owl:sameAs <http://ekaw#writtenBy>.\n" +
+"        <http://muskca_evals/reviewWrittenBy> owl:sameAs <http://ekaw#reviewWrittenBy>.\n" +
+"        <http://muskca_evals/hasAuthor> owl:sameAs <http://iasted#is_writen_by>.\n" +
 "\n" +
+"         <http://muskca_evals/hasAuthor> owl:sameAs <http://cmt#hasAuthor>.\n" +
+"        <http://muskca_evals/reviewWrittenBy> owl:sameAs <http://cmt#writtenBy>.\n" +
 "\n" +
-":Chair_PC rdf:type owl:Class ;\n" +
-"          \n" +
-"          rdfs:label \"Chair PC\" ,\n" +
-"                     \"Chair Program Comitee\" ,\n" +
-"                     \"Session chair\" ,\n" +
-"                     \"Program Comitee Chair\" ;\n" +
-"          \n" +
-"          rdfs:subClassOf :ProgramComitee .\n" +
+"        <http://muskca_evals/hasAuthor> owl:sameAs <http://conference#hasAuthors>.\n" +
+"        <http://muskca_evals/reviewWrittenBy> owl:sameAs <http://conference#has_authors>.\n" +
+"        <http://muskca_evals/hasAuthor> owl:sameAs <http://confOf#writtenBy>.\n" +
+"        <http://muskca_evals/hasAuthor> owl:sameAs <http://edas#isWrittenBy>.\n" +
+"         <http://muskca_evals/hasAuthor> owl:sameAs <http://sigkdd#submit>."+
+         "}";
+    }*/
+    
+    
+   /* AutoMap */
+    public String getModuleAndSameAse(){
+        return "PREFIX foaf: <http://xmlsn.com/foaf/0.1#>\n" +
+                "PREFIX : <http://muskca_evals/>\n" +
+                "INSERT DATA {\n" +
+                "\n" +
+                ":hasAuthor rdf:type owl:ObjectProperty ;\n" +
+                "           \n" +
+                "           rdfs:range :Author ;\n" +
+                "           \n" +
+                "           rdfs:domain :Paper .\n" +
+                "\n" +
+                "\n" +
+                ":reviewWrittenBy rdf:type owl:ObjectProperty .\n" +
+                "\n" +
+                "\n" +
+                ":Attendee rdf:type owl:Class ;\n" +
+                "          \n" +
+                "          rdfs:label \"Conference atendee\" ,\n" +
+                "                     \"Atendee\" ,\n" +
+                "                     \"Conference participant\" ,\n" +
+                "                     \"Participant\" ;\n" +
+                "          \n" +
+                "          rdfs:subClassOf :Person .\n" +
+                "\n" +
+                "\n" +
+                ":Author rdf:type owl:Class ;\n" +
+                "        \n" +
+                "        rdfs:label \"Paper author\" ,\n" +
+                "                   \"Writer\" ;\n" +
+                "        \n" +
+                "        rdfs:subClassOf :Person .\n" +
+                "\n" +
+                "\n" +
+                ":Banquet rdf:type owl:Class ;\n" +
+                "         \n" +
+                "         rdfs:label \"Banquet Event\" ,\n" +
+                "                    \"Banquet\" ;\n" +
+                "         \n" +
+                "         rdfs:subClassOf :Event .\n" +
+                "\n" +
+                "\n" +
+                ":Chair_PC rdf:type owl:Class ;\n" +
+                "          \n" +
+                "          rdfs:label \"Chair PC\" ,\n" +
+                "                     \"Chair Program Comitee\" ,\n" +
+                "                     \"Session chair\" ,\n" +
+                "                     \"Program Comitee Chair\" ;\n" +
+                "          \n" +
+                "          rdfs:subClassOf :Person .\n" +
+                "\n" +
+                "\n" +
+                ":City rdf:type owl:Class ;\n" +
+                "      \n" +
+                "      rdfs:label \"City\" ;\n" +
+                "      \n" +
+                "      rdfs:subClassOf :Location .\n" +
+                "\n" +
+                "\n" +
+                ":Comitee rdf:type owl:Class ;\n" +
+                "         \n" +
+                "         rdfs:label \"Comitee\" .\n" +
+                "\n" +
+                "\n" +
+                ":Conference rdf:type owl:Class ;\n" +
+                "            \n" +
+                "            rdfs:label \"Conference\" ;\n" +
+                "            \n" +
+                "            rdfs:subClassOf :Event .\n" +
+                "\n" +
+                "\n" +
+                ":Event rdf:type owl:Class ;\n" +
+                "       \n" +
+                "       rdfs:label \"Event\" .\n" +
+                "\n" +
+                "\n" +
+                ":Location rdf:type owl:Class ;\n" +
+                "          \n" +
+                "          rdfs:label \"Place\" ,\n" +
+                "                     \"Location\" .\n" +
+                "\n" +
+                "\n" +
+                ":Paper rdf:type owl:Class ;\n" +
+                "       \n" +
+                "       rdfs:label \"Scientific article\" ,\n" +
+                "                  \"Paper\" ,\n" +
+                "                  \"Article\" .\n" +
+                "\n" +
+                "\n" +
+                ":Person rdf:type owl:Class .\n" +
+                "\n" +
+                "\n" +
+                ":ProgramComitee rdf:type owl:Class ;\n" +
+                "                \n" +
+                "                rdfs:label \"Program Comitee\" ;\n" +
+                "                \n" +
+                "                rdfs:subClassOf :Comitee .\n" +
+                "\n" +
+                ":Reception rdf:type owl:Class ;\n" +
+                "           \n" +
+                "           rdfs:label \"Reception\" ;\n" +
+                "           \n" +
+                "           rdfs:subClassOf :Event .\n" +
+                "\n" +
+                "\n" +
+                ":Review rdf:type owl:Class ;\n" +
+                "        \n" +
+                "        rdfs:label \"Review\" .\n" +
+                "\n" +
+                "\n" +
+                ":Speaker rdf:type owl:Class ;\n" +
+                "         \n" +
+                "         rdfs:label \"Active participant\" ,\n" +
+                "                    \"Speaker\" ;\n" +
+                "         \n" +
+                "         rdfs:subClassOf :Attendee .\n" +
+                "\n" +
+                "\n" +
+                ":Trip rdf:type owl:Class ;\n" +
+                "      \n" +
+                "      rdfs:label \"Trip\" ,\n" +
+                "                 \"Excursion\" ;\n" +
+                "      \n" +
+                "      rdfs:subClassOf :Event .\n" +
+                "\n" +
 "\n" +
+"<http://muskca_evals/Chair_PC> owl:sameAs <http://ekaw#Session_Chair>.\n" +
+"        <http://muskca_evals/Speaker> owl:sameAs <http://ekaw#Invited_Speaker>.\n" +
+"        <http://muskca_evals/Speaker> owl:sameAs <http://ekaw#Presenter>.\n" +
+"        <http://muskca_evals/Review> owl:sameAs <http://ekaw#Review>.\n" +
+"        <http://muskca_evals/Trip> owl:sameAs <http://ekaw#Conference_Trip>.\n" +
+"        <http://muskca_evals/Chair_PC> owl:sameAs <http://ekaw#PC_Chair>.\n" +
+"        <http://muskca_evals/Location> owl:sameAs <http://ekaw#Location>.\n" +
+"        <http://muskca_evals/Author> owl:sameAs <http://ekaw#Paper_Author>.\n" +
+"        <http://muskca_evals/Paper> owl:sameAs <http://ekaw#Paper>.\n" +
+"        <http://muskca_evals/Banquet> owl:sameAs <http://ekaw#Conference_Banquet>.\n" +
+"        <http://muskca_evals/Person> owl:sameAs <http://ekaw#Person>.\n" +
+"        <http://muskca_evals/Attendee> owl:sameAs <http://ekaw#Conference_Participant>.\n" +
+"        <http://muskca_evals/Event> owl:sameAs <http://ekaw#Event>.\n" +
+"        <http://muskca_evals/Conference> owl:sameAs <http://ekaw#Conference>.\n" +
 "\n" +
-":City rdf:type owl:Class ;\n" +
-"      \n" +
-"      rdfs:label \"City\" ;\n" +
-"      \n" +
-"      rdfs:subClassOf :Location .\n" +
+"        <http://muskca_evals/hasAuthor> owl:sameAs <http://ekaw#writtenBy>.\n" +
+"        <http://muskca_evals/reviewWrittenBy> owl:sameAs <http://ekaw#reviewWrittenBy>.\n" +
 "\n" +
+"        <http://muskca_evals/City> owl:sameAs <http://iasted#City>.\n" +
+"        <http://muskca_evals/Location> owl:sameAs <http://iasted#Place>.\n" +
+"        <http://muskca_evals/Person> owl:sameAs <http://iasted#Person>.\n" +
+"        <http://muskca_evals/Review> owl:sameAs <http://iasted#Review>.\n" +
+"        <http://muskca_evals/Speaker> owl:sameAs <http://iasted#Speaker>.\n" +
+"        <http://muskca_evals/Chair_PC> owl:sameAs <http://iasted#Session_chair>.\n" +
+"        <http://muskca_evals/Author> owl:sameAs <http://iasted#Author>.\n" +
 "\n" +
-":Comitee rdf:type owl:Class ;\n" +
-"         \n" +
-"         rdfs:label \"Comitee\" .\n" +
+"         <http://muskca_evals/hasAuthor> owl:sameAs <http://iasted#is_writen_by>.\n" +
 "\n" +
+"         <http://muskca_evals/Author> owl:sameAs <http://cmt#Author>.\n" +
+"        <http://muskca_evals/Person> owl:sameAs <http://cmt#Person>.\n" +
+"        <http://muskca_evals/Review> owl:sameAs <http://cmt#Review>.\n" +
+"        <http://muskca_evals/Paper> owl:sameAs <http://cmt#Paper>.\n" +
+"        <http://muskca_evals/Conference> owl:sameAs <http://cmt#Conference>.\n" +
 "\n" +
-":Conference rdf:type owl:Class ;\n" +
-"            \n" +
-"            rdfs:label \"Conference\" ;\n" +
-"            \n" +
-"            rdfs:subClassOf :Event .\n" +
+"        <http://muskca_evals/hasAuthor> owl:sameAs <http://cmt#hasAuthor>.\n" +
+"        <http://muskca_evals/reviewWrittenBy> owl:sameAs <http://cmt#writtenBy>.\n" +
 "\n" +
+"         <http://muskca_evals/Review> owl:sameAs <http://conference#Review>.\n" +
+"        <http://muskca_evals/Paper> owl:sameAs <http://conference#Paper>.\n" +
+"        <http://muskca_evals/Speaker> owl:sameAs <http://conference#Active_conference_participant>.\n" +
+"        <http://muskca_evals/Person> owl:sameAs <http://conference#Person>.\n" +
+"        <http://muskca_evals/Attendee> owl:sameAs <http://conference#Conference_participant>.\n" +
+"        <http://muskca_evals/Conference> owl:sameAs <http://conference#Conference>.\n" +
 "\n" +
-":Event rdf:type owl:Class ;\n" +
-"       \n" +
-"       rdfs:label \"Event\" .\n" +
+"        <http://muskca_evals/hasAuthor> owl:sameAs <http://conference#hasAuthors>.\n" +
+"        <http://muskca_evals/reviewWrittenBy> owl:sameAs <http://conference#has_authors>.\n" +
 "\n" +
+"        <http://muskca_evals/City> owl:sameAs <http://confOf#City>.\n" +
+"        <http://muskca_evals/Paper> owl:sameAs <http://confOf#Paper>.\n" +
+"        <http://muskca_evals/Review> owl:sameAs <http://confOf#Reviewing_event>.\n" +
+"        <http://muskca_evals/Banquet> owl:sameAs <http://confOf#Banquet>.\n" +
+"        <http://muskca_evals/Trip> owl:sameAs <http://confOf#Trip>.\n" +
+"        <http://muskca_evals/Person> owl:sameAs <http://confOf#Person>.\n" +
+"        <http://muskca_evals/Author> owl:sameAs <http://confOf#Author>.\n" +
+"        <http://muskca_evals/Conference> owl:sameAs <http://confOf#Conference>.\n" +
+"        <http://muskca_evals/Reception> owl:sameAs <http://confOf#Reception>.\n" +
+"        <http://muskca_evals/Chair_PC> owl:sameAs <http://confOf#Chair_PC>.\n" +
+"        <http://muskca_evals/Attendee> owl:sameAs <http://confOf#Participant>.\n" +
+"        <http://muskca_evals/Event> owl:sameAs <http://confOf#Event>.\n" +
 "\n" +
-":Location rdf:type owl:Class ;\n" +
-"          \n" +
-"          rdfs:label \"Place\" ,\n" +
-"                     \"Location\" .\n" +
+"        <http://muskca_evals/hasAuthor> owl:sameAs <http://confOf#writtenBy>.\n" +
 "\n" +
+"        <http://muskca_evals/Review> owl:sameAs <http://edas#Review>.\n" +
+"        <http://muskca_evals/Person> owl:sameAs <http://edas#Person>.\n" +
+"        <http://muskca_evals/Attendee> owl:sameAs <http://edas#Attendee>.\n" +
+"        <http://muskca_evals/Paper> owl:sameAs <http://edas#Paper>.\n" +
+"        <http://muskca_evals/Reception> owl:sameAs <http://edas#Reception>.\n" +
+"        <http://muskca_evals/Location> owl:sameAs <http://edas#Place>.\n" +
+"        <http://muskca_evals/Chair_PC> owl:sameAs <http://edas#SessionChair>.\n" +
+"        <http://muskca_evals/Conference> owl:sameAs <http://edas#Conference>.\n" +
+"        <http://muskca_evals/Author> owl:sameAs <http://edas#Author>.\n" +
+"        <http://muskca_evals/Trip> owl:sameAs <http://edas#Excursion>.\n" +
 "\n" +
-":Paper rdf:type owl:Class ;\n" +
-"       \n" +
-"       rdfs:label \"Scientific article\" ,\n" +
-"                  \"Paper\" ,\n" +
-"                  \"Article\" .\n" +
+"          <http://muskca_evals/hasAuthor> owl:sameAs <http://edas#isWrittenBy>.\n" +
 "\n" +
+"          <http://muskca_evals/Speaker> owl:sameAs <http://sigkdd#Speaker>.\n" +
+"        <http://muskca_evals/Conference> owl:sameAs <http://sigkdd#Conference>.\n" +
+"        <http://muskca_evals/ProgramComitee> owl:sameAs <http://sigkdd#Program_Committee>.\n" +
+"        <http://muskca_evals/Person> owl:sameAs <http://sigkdd#Person>.\n" +
+"        <http://muskca_evals/Review> owl:sameAs <http://sigkdd#Review>.\n" +
+"        <http://muskca_evals/Author> owl:sameAs <http://sigkdd#Author>.\n" +
+"        <http://muskca_evals/Location> owl:sameAs <http://sigkdd#Place>.\n" +
+"        <http://muskca_evals/Paper> owl:sameAs <http://sigkdd#Paper>.\n" +
 "\n" +
-":Person rdf:type owl:Class .\n" +
-"\n" +
-"\n" +
-":ProgramComitee rdf:type owl:Class ;\n" +
-"                \n" +
-"                rdfs:label \"Program Comitee\" ;\n" +
-"                \n" +
-"                rdfs:subClassOf :Comitee .\n" +
-"\n" +
-":Reception rdf:type owl:Class ;\n" +
-"           \n" +
-"           rdfs:label \"Reception\" ;\n" +
-"           \n" +
-"           rdfs:subClassOf :Event .\n" +
-"\n" +
-"\n" +
-":Review rdf:type owl:Class ;\n" +
-"        \n" +
-"        rdfs:label \"Review\" .\n" +
-"\n" +
-"\n" +
-":Speaker rdf:type owl:Class ;\n" +
-"         \n" +
-"         rdfs:label \"Active participant\" ,\n" +
-"                    \"Speaker\" ;\n" +
-"         \n" +
-"         rdfs:subClassOf :Attendee .\n" +
-"\n" +
-"\n" +
-":Trip rdf:type owl:Class ;\n" +
-"      \n" +
-"      rdfs:label \"Trip\" ,\n" +
-"                 \"Excursion\" ;\n" +
-"      \n" +
-"      rdfs:subClassOf :Event .\n" +
-"\n" +
-"\n" +
-"\n" +
-"<http://muskca_evals/Chair_PC> <http://www.w3.org/2002/07/owl#sameAs> <http://ekaw#Session_Chair>.\n" +
-"        <http://muskca_evals/Speaker> <http://www.w3.org/2002/07/owl#sameAs> <http://ekaw#Invited_Speaker>.\n" +
-"        <http://muskca_evals/Speaker> <http://www.w3.org/2002/07/owl#sameAs> <http://ekaw#Presenter>.\n" +
-"        <http://muskca_evals/Review> <http://www.w3.org/2002/07/owl#sameAs> <http://ekaw#Review>.\n" +
-"        <http://muskca_evals/Trip> <http://www.w3.org/2002/07/owl#sameAs> <http://ekaw#Conference_Trip>.\n" +
-"        <http://muskca_evals/Chair_PC> <http://www.w3.org/2002/07/owl#sameAs> <http://ekaw#PC_Chair>.\n" +
-"        <http://muskca_evals/Location> <http://www.w3.org/2002/07/owl#sameAs> <http://ekaw#Location>.\n" +
-"        <http://muskca_evals/Author> <http://www.w3.org/2002/07/owl#sameAs> <http://ekaw#Paper_Author>.\n" +
-"        <http://muskca_evals/Paper> <http://www.w3.org/2002/07/owl#sameAs> <http://ekaw#Paper>.\n" +
-"        <http://muskca_evals/Banquet> <http://www.w3.org/2002/07/owl#sameAs> <http://ekaw#Conference_Banquet>.\n" +
-"        <http://muskca_evals/Person> <http://www.w3.org/2002/07/owl#sameAs> <http://ekaw#Person>.\n" +
-"        <http://muskca_evals/Attendee> <http://www.w3.org/2002/07/owl#sameAs> <http://ekaw#Conference_Participant>.\n" +
-"        <http://muskca_evals/Event> <http://www.w3.org/2002/07/owl#sameAs> <http://ekaw#Event>.\n" +
-"        <http://muskca_evals/Conference> <http://www.w3.org/2002/07/owl#sameAs> <http://ekaw#Conference>.\n" +
-"\n" +
-"<http://muskca_evals/City> <http://www.w3.org/2002/07/owl#sameAs> <http://iasted#City>.\n" +
-"        <http://muskca_evals/Location> <http://www.w3.org/2002/07/owl#sameAs> <http://iasted#Place>.\n" +
-"        <http://muskca_evals/Person> <http://www.w3.org/2002/07/owl#sameAs> <http://iasted#Person>.\n" +
-"        <http://muskca_evals/Review> <http://www.w3.org/2002/07/owl#sameAs> <http://iasted#Review>.\n" +
-"        <http://muskca_evals/Speaker> <http://www.w3.org/2002/07/owl#sameAs> <http://iasted#Speaker>.\n" +
-"        <http://muskca_evals/Chair_PC> <http://www.w3.org/2002/07/owl#sameAs> <http://iasted#Session_chair>.\n" +
-"        <http://muskca_evals/Author> <http://www.w3.org/2002/07/owl#sameAs> <http://iasted#Author>.\n" +
-"\n" +
-"<http://muskca_evals/Author> <http://www.w3.org/2002/07/owl#sameAs> <http://cmt#Author>.\n" +
-"        <http://muskca_evals/Person> <http://www.w3.org/2002/07/owl#sameAs> <http://cmt#Person>.\n" +
-"        <http://muskca_evals/Review> <http://www.w3.org/2002/07/owl#sameAs> <http://cmt#Review>.\n" +
-"        <http://muskca_evals/Paper> <http://www.w3.org/2002/07/owl#sameAs> <http://cmt#Paper>.\n" +
-"        <http://muskca_evals/Conference> <http://www.w3.org/2002/07/owl#sameAs> <http://cmt#Conference>.\n" +
-"\n" +
-"<http://muskca_evals/Review> <http://www.w3.org/2002/07/owl#sameAs> <http://conference#Review>.\n" +
-"        <http://muskca_evals/Paper> <http://www.w3.org/2002/07/owl#sameAs> <http://conference#Paper>.\n" +
-"        <http://muskca_evals/Speaker> <http://www.w3.org/2002/07/owl#sameAs> <http://conference#Active_conference_participant>.\n" +
-"        <http://muskca_evals/Person> <http://www.w3.org/2002/07/owl#sameAs> <http://conference#Person>.\n" +
-"        <http://muskca_evals/Attendee> <http://www.w3.org/2002/07/owl#sameAs> <http://conference#Conference_participant>.\n" +
-"        <http://muskca_evals/Conference> <http://www.w3.org/2002/07/owl#sameAs> <http://conference#Conference>.\n" +
-"\n" +
-" <http://muskca_evals/City> <http://www.w3.org/2002/07/owl#sameAs> <http://confOf#City>.\n" +
-"        <http://muskca_evals/Paper> <http://www.w3.org/2002/07/owl#sameAs> <http://confOf#Paper>.\n" +
-"        <http://muskca_evals/Review> <http://www.w3.org/2002/07/owl#sameAs> <http://confOf#Reviewing_event>.\n" +
-"        <http://muskca_evals/Banquet> <http://www.w3.org/2002/07/owl#sameAs> <http://confOf#Banquet>.\n" +
-"        <http://muskca_evals/Trip> <http://www.w3.org/2002/07/owl#sameAs> <http://confOf#Trip>.\n" +
-"        <http://muskca_evals/Person> <http://www.w3.org/2002/07/owl#sameAs> <http://confOf#Person>.\n" +
-"        <http://muskca_evals/Author> <http://www.w3.org/2002/07/owl#sameAs> <http://confOf#Author>.\n" +
-"        <http://muskca_evals/Conference> <http://www.w3.org/2002/07/owl#sameAs> <http://confOf#Conference>.\n" +
-"        <http://muskca_evals/Reception> <http://www.w3.org/2002/07/owl#sameAs> <http://confOf#Reception>.\n" +
-"        <http://muskca_evals/Chair_PC> <http://www.w3.org/2002/07/owl#sameAs> <http://confOf#Chair_PC>.\n" +
-"        <http://muskca_evals/Attendee> <http://www.w3.org/2002/07/owl#sameAs> <http://confOf#Participant>.\n" +
-"        <http://muskca_evals/Event> <http://www.w3.org/2002/07/owl#sameAs> <http://confOf#Event>.\n" +
-"\n" +
-"<http://muskca_evals/Review> <http://www.w3.org/2002/07/owl#sameAs> <http://edas#Review>.\n" +
-"        <http://muskca_evals/Person> <http://www.w3.org/2002/07/owl#sameAs> <http://edas#Person>.\n" +
-"        <http://muskca_evals/Attendee> <http://www.w3.org/2002/07/owl#sameAs> <http://edas#Attendee>.\n" +
-"        <http://muskca_evals/Paper> <http://www.w3.org/2002/07/owl#sameAs> <http://edas#Paper>.\n" +
-"        <http://muskca_evals/Reception> <http://www.w3.org/2002/07/owl#sameAs> <http://edas#Reception>.\n" +
-"        <http://muskca_evals/Location> <http://www.w3.org/2002/07/owl#sameAs> <http://edas#Place>.\n" +
-"        <http://muskca_evals/Chair_PC> <http://www.w3.org/2002/07/owl#sameAs> <http://edas#SessionChair>.\n" +
-"        <http://muskca_evals/Conference> <http://www.w3.org/2002/07/owl#sameAs> <http://edas#Conference>.\n" +
-"        <http://muskca_evals/Author> <http://www.w3.org/2002/07/owl#sameAs> <http://edas#Author>.\n" +
-"        <http://muskca_evals/Trip> <http://www.w3.org/2002/07/owl#sameAs> <http://edas#Excursion>.\n" +
-"\n" +
-"<http://muskca_evals/Speaker> <http://www.w3.org/2002/07/owl#sameAs> <http://sigkdd#Speaker>.\n" +
-"        <http://muskca_evals/Conference> <http://www.w3.org/2002/07/owl#sameAs> <http://sigkdd#Conference>.\n" +
-"        <http://muskca_evals/ProgramComitee> <http://www.w3.org/2002/07/owl#sameAs> <http://sigkdd#Program_Committee>.\n" +
-"        <http://muskca_evals/Person> <http://www.w3.org/2002/07/owl#sameAs> <http://sigkdd#Person>.\n" +
-"        <http://muskca_evals/Review> <http://www.w3.org/2002/07/owl#sameAs> <http://sigkdd#Review>.\n" +
-"        <http://muskca_evals/Author> <http://www.w3.org/2002/07/owl#sameAs> <http://sigkdd#Author>.\n" +
-"        <http://muskca_evals/Location> <http://www.w3.org/2002/07/owl#sameAs> <http://sigkdd#Place>.\n" +
-"        <http://muskca_evals/Paper> <http://www.w3.org/2002/07/owl#sameAs> <http://sigkdd#Paper>.\n" +
+"         <http://muskca_evals/hasAuthor> owl:sameAs <http://sigkdd#submit>.\n" +
 "}";
     }
     

@@ -137,7 +137,7 @@ public class AlignerSeals extends Aligner
 
                 ProcessBuilder pb =   new ProcessBuilder("java", "-jar", "SealsAligner.jar", aligner, url1_str, url2_str, mappings_file_name);
                 Map<String, String> env = pb.environment();
-                //System.out.println(aligner + " "+ url1_str+ " "+url2_str+ " "+ mappings_file_name);
+                System.out.println(aligner + " "+ url1_str+ " "+url2_str+ " "+ mappings_file_name);
                 pb.directory(new File("aligners"));
                 env.put("SEALS_HOME", pb.directory().getAbsolutePath());
                 File log = new File("out/temp/log_aligner");

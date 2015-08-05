@@ -156,6 +156,20 @@ public abstract class NodeCandidate extends Candidate
         return !isPresent;
     }
     
+    public boolean containsSameTypeCand(Source s, String uriElem, String uriRel, String uriType)
+    {
+        boolean ret = false;
+        for(TypeCandidate typeCand: this.typeCands)
+        {
+            if(typeCand.hasElem(s, uriElem+" "+uriRel+" "+uriType))
+            {
+                ret = true;
+                break;
+            }
+        }
+        return ret;
+    }
+    
     public boolean containsOneOfUri(ArrayList<String> notFoundUris)
     {
         boolean ret = true;
@@ -280,6 +294,9 @@ public abstract class NodeCandidate extends Candidate
         return (this.trustChoquet+this.trustDegree)/2;
     }
     
+    
+    public abstract boolean isIndividual();
+    
     @Override
     public BasicDBObject toDBObject() {
         BasicDBObject doc = super.toDBObject();
@@ -295,6 +312,7 @@ public abstract class NodeCandidate extends Candidate
         doc.append("aligns", alignsObject);
         doc.append("ncId", this.id);
         doc.append("alreadyValidated", this.alreadyValidated);
+        doc.append("trustScoreDegree", this.trustDegree);
         
         return doc;
     }

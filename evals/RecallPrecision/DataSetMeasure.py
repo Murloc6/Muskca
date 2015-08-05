@@ -7,16 +7,32 @@ class DataSetMeasure:
         #print("Connecting to mongoDB (localhost) server...")
         client = pymongo.MongoClient("localhost", 27017)
         db = client.valRKB
-        self.collCandidate = db[collCandidate]
+        dbCands = client.evals_Triticum
+        self.collCandidate = dbCands[collCandidate]
         self.collValid = db[collValid]
         
         self.collRelValid = db[collRelValid]
-        self.collRelCandidate = db[collRelCandidate]
-        self.collTypeCandidate = db[collTypeCandidate]
+        self.collRelCandidate = dbCands[collRelCandidate]
+        self.collTypeCandidate = dbCands[collTypeCandidate]
         self.collTypeValid = db[collTypeValid]
-        self.collLabelsCandidate = db[collLabelsCandidate]
+        self.collLabelsCandidate = dbCands[collLabelsCandidate]
         self.collLabelsValid = db[collLabelsValid]
         #print "Connected to "+db.name+"!"
+        self.nbValidate = 0
+        self.nbCandidate = 0
+        
+        self.nbRelValidate = 0
+        self.nbRelCandidate = 0
+        
+        self.nbTaxonValidate = 0
+        self.nbTaxonCandidate = 0
+        self.precision = -1
+        self.recall = -1
+
+        self.trustScoreParam = "trustScoreSimple"
+    def setTrustScoreParam(self, tsp):
+        self.trustScoreParam = tsp
+    def reinit(self):
         self.nbValidate = 0
         self.nbCandidate = 0
         
@@ -30,15 +46,17 @@ class DataSetMeasure:
     def getName(self):
         return self.name
     def getPrecision(self, trustScore, limitNbValidator):
-        for item in self.collCandidate.find({"trustScore" : {"$gt": trustScore}}):
+        for item in self.collCandidate.find({self.trustScoreParam : {"$gt": trustScore}}):
             self.nbCandidate += 1
-            #print item["elemCandidates"]
-            #print"\t\t\t --> "+str(item["trustScore"])
+            # print item["elemCandidates"]
+            # print"\t\t\t --> "+str(item[self.trustScoreParam])
             allValid = True
             for elem in item["elemCandidates"]:
+                # print elem['elem']
+                elem = elem['elem']
                 validElem = self.collValid.find_one({"uri": elem})
                 if(validElem != None):
-                    #print validElem
+                    # print validElem
                     if((validElem["nbVal"] >= limitNbValidator) and (validElem["nbNotVal"] == 0)):
                         #print "\t VALIDATE : "+elem+" --> "+str(validElem["nbVal"])
                         loutre = 42
@@ -52,8 +70,8 @@ class DataSetMeasure:
             if(allValid):
                 self.nbValidate +=1
                 
-        #print "Nb validate :"+str(self.nbValidate)
-        #print "Nb candidate : "+str(self.nbCandidate)
+        # print "Nb validate :"+str(self.nbValidate)
+        # print "Nb candidate : "+str(self.nbCandidate)
         print str(self.nbValidate)+ " / "+str(self.nbCandidate)
         self.precision = float(self.nbValidate)/float(self.nbCandidate)
         return self.precision
@@ -61,11 +79,11 @@ class DataSetMeasure:
         for item in self.collValid.find():
             if((item["nbVal"] >= limitNbValidators) and (item["nbNotVal"] == 0)):
                 self.nbTaxonValidate += 1
-#                 print "TEST : "+item['uri']+": "
-                for elem in self.collCandidate.find({'elemCandidates' : item["uri"]}):
-                    if(elem['trustScore'] > limitTrustScore):
-    #                     print "\t("+str(elem['trustScore'])+" -->"
-    #                     print elem['elemCandidates']
+                # print "TEST : "+item['uri']+": "
+                for elem in self.collCandidate.find({'elemCandidates.elem' : item["uri"]}):
+                    if(elem[self.trustScoreParam] >= limitTrustScore):
+                        # print "\t("+str(elem[self.trustScoreParam])+" -->"
+                        # print elem['elemCandidates']
                         self.nbTaxonCandidate +=1
                         break
         print str(self.nbTaxonCandidate)+" / "+str(self.nbTaxonValidate)
@@ -81,25 +99,19 @@ class DataSetMeasure:
     def getPrecisionRelation(self, trustScore, limitNbValidator):
         relCandidate = 0
         relCandidateValidated = 0
-        for item in self.collRelCandidate.find({"trustScore" : {"$gt": trustScore}}):
+        for item in self.collRelCandidate.find({self.trustScoreParam : {"$gt": trustScore}}):
             relCandidate += 1
             allValid = True
-            ic = item["ic"]
-            icHR = item["icHR"]
-            for elem in ic:
-                uri = elem["uri"]
-                source = elem["source"]
-                uriHR = self.__getUriFromSource(icHR, source)
-                if(uriHR != None):
-                    uriRel = "&lt;"+uri+"&gt; &lt;http://ontology.irstea.fr/AgronomicTaxon#hasHigherRank&gt; &lt;"+uriHR+"&gt;"
-                    validElem = self.collRelValid.find_one({"uri": uriRel})
-                    if(validElem != None):
-                        if((validElem["nbVal"] >= limitNbValidator) and (validElem["nbNotVal"] == 0)):
-                            loutre = 42
-                        else:
-                            allValid = False
+            for rel in item["rels"]:
+                uriRel = rel
+                validElem = self.collRelValid.find_one({"uri": uriRel})
+                if(validElem != None):
+                    if((validElem["nbVal"] >= limitNbValidator) and (validElem["nbNotVal"] == 0)):
+                        loutre = 42
                     else:
                         allValid = False
+                else:
+                    allValid = False
 
             if(allValid):
                 relCandidateValidated +=1
@@ -118,8 +130,11 @@ class DataSetMeasure:
                 nbRelValidate += 1
                 uri1 = self.__findSubString(item["uri"], "&lt;", "&gt;")
                 uri2 =  self.__findSubStringLast(item["uri"], "&lt;", "&gt;")
-                for elem in self.collRelCandidate.find({"ic":{"$elemMatch":{"uri" : uri1} }, "icHR":{"$elemMatch":{"uri":uri2}}}):
-                    if(elem['trustScore'] > limitTrustScore):
+                rel = item["uri"]
+                #print rel
+                #for elem in self.collRelCandidate.find({"ic":{"$elemMatch":{"uri" : uri1} }, "icHR":{"$elemMatch":{"uri":uri2}}}):
+                for elem in self.collRelCandidate.find({"rels" : rel}):
+                    if(elem[self.trustScoreParam] >= limitTrustScore):
                         nbRelCandidate +=1
                         break
         print str(nbRelCandidate)+" / "+str(nbRelValidate)
@@ -128,27 +143,19 @@ class DataSetMeasure:
     def getPrecisionType(self, trustScore, limitNbValidator):
         typeCandidate = 0
         typeCandidateValidated = 0
-        for item in self.collTypeCandidate.find({"trustScore" : {"$gt": trustScore}}):
+        for item in self.collTypeCandidate.find({self.trustScoreParam : {"$gt": trustScore}}):
             typeCandidate += 1
             allValid = True
-            ic = item["ic"]
-            typeUri = item["typeURI"]
-            if(typeUri != None):
-                for elem in ic:
-                    uri = elem["uri"]
-                    #source = elem["source"]
-                    uriValidation = "&lt;"+uri+"&gt; a &lt;"+typeUri+"&gt;"
-                    validElem = self.collTypeValid.find_one({"uri": uriValidation})
-                    if(validElem != None):
-                        if((validElem["nbVal"] >= limitNbValidator) and (validElem["nbNotVal"] == 0)):
-                            loutre = 42
-                        else:
-                            allValid = False
+            for rel in item["rels"]:
+                uriRel = rel
+                validElem = self.collTypeValid.find_one({"uri": uriRel})
+                if(validElem != None):
+                    if((validElem["nbVal"] >= limitNbValidator) and (validElem["nbNotVal"] == 0)):
+                        loutre = 42
                     else:
                         allValid = False
-            else:
-                allValid = False
-
+                else:
+                    allValid = False
             if(allValid):
                 typeCandidateValidated +=1
         print str(typeCandidateValidated)+ " / "+str(typeCandidate)
@@ -162,8 +169,10 @@ class DataSetMeasure:
                 nbTypeValidate += 1
                 uri = self.__findSubString(item["uri"], "&lt;", "&gt;")
                 uriType =  self.__findSubStringLast(item["uri"], "&lt;", "&gt;")
-                for elem in self.collTypeCandidate.find({"ic":{"$elemMatch":{"uri" : uri} }, "typeURI" : uriType}):
-                    if(elem['trustScore'] > limitTrustScore):
+                rel = item["uri"]
+                #for elem in self.collTypeCandidate.find({"ic":{"$elemMatch":{"uri" : uri} }, "typeURI" : uriType}):
+                for elem in self.collTypeCandidate.find({"rels" : rel}):
+                    if(elem[self.trustScoreParam] > limitTrustScore):
                         nbTypeCandidate +=1
                         break
         print str(nbTypeCandidate)+" / "+str(nbTypeValidate)
@@ -179,26 +188,16 @@ class DataSetMeasure:
     def getPrecisionLabels(self, trustScore, limitNbValidator):
         labelsCandidate = 0
         labelsCandidateValidated = 0
-        testInt = 0
-        for item in self.collLabelsCandidate.find({"trustScore" : {"$gt": trustScore}}):
-            testInt += 1
+        for item in self.collLabelsCandidate.find({self.trustScoreParam : {"$gt": trustScore}}):
             labelsCandidate += 1
             allValid = True
-            ic = item["ic"]
-            for elem in ic:
-                uri = elem["uri"]
-                source = elem["source"]
-                label = self.__getLabelFromSource(item["labels"], source)
-                #print "Label ("+str(testInt)+") : "+uri+"("+source+") -> "+label
-                if(label != None):
-                    uriValidation = uri.replace("?", "\?").replace(".", "\.")
-                    regexpVar = "^&lt;"+uriValidation+"&gt;.*"+label+"[\.,\[]"
-                    validElem = self.collLabelsValid.find_one({'uri':{'$regex': regexpVar}})
-                    if(validElem != None):
-                        if((validElem["nbVal"] >= limitNbValidator) and (validElem["nbNotVal"] == 0)):
-                            loutre = 42
-                        else:
-                            allValid = False
+            for label in item["rels"]:
+                #regexpVar = "^&lt;"+uriValidation+"&gt;.*"+label+"[\.,\[]"
+                regexpVar = label
+                validElem = self.collLabelsValid.find_one({'uri':{'$regex': regexpVar}})
+                if(validElem != None):
+                    if((validElem["nbVal"] >= limitNbValidator) and (validElem["nbNotVal"] == 0)):
+                        loutre = 42
                     else:
                         allValid = False
             if(allValid):
@@ -225,8 +224,8 @@ class DataSetMeasure:
                             sLabel = sLabel[0:sLabel.find("[")]
                         if sLabel.endswith("."):
                             sLabel = sLabel.strip(".")
-                        for elem in self.collLabelsCandidate.find({"ic":{"$elemMatch":{"uri": uri}}, "labels":{"$elemMatch":{"label":sLabel}}}):
-                            if(elem['trustScore'] > limitTrustScore):
+                        for elem in self.collLabelsCandidate.find({"rels":{"$regex": "&lt;"+uriVal+"&gt;.*"+sLabel} }):
+                            if(elem[self.trustScoreParam] > limitTrustScore):
                                 nbLabelCandidate +=1
                                 break
         print str(nbLabelCandidate)+" / "+str(nbLabelValidate)

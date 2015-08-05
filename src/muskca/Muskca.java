@@ -252,6 +252,9 @@ public class Muskca
         
         String dateFileName = new SimpleDateFormat("dd-MM_HH-mm_").format(new Date());
         
+        System.out.println("EXPORT MONGODB ...");
+        fusionner.exportAllCandsMongoDB(allCands);
+        
         System.out.println("Exporting all candidates (PROVO)...");
         SparqlProxy spOutAllProvo = fusionner.nodeCandidatesToProvo(allCands, Muskca.provoFile, Muskca.spOutProvo, Muskca.moduleFile, Muskca.baseUriMuskca);
         spOutAllProvo.writeKBFile("Muskca_"+dateFileName+"_"+Muskca.muskcaVersion+"_Provo_"+Muskca.projectName+"_allCands");
@@ -260,7 +263,7 @@ public class Muskca
         SparqlProxy spOutAllOwl = fusionner.nodeCandidatesToOwlThreshold(allCands, Muskca.spOutProvo, Muskca.moduleFile, Muskca.baseUriMuskca);
         spOutAllOwl.writeKBFile("Muskca_"+dateFileName+"_"+Muskca.muskcaVersion+"_OWL_"+
                 Muskca.projectName+"_allCands_threshold_"+(int)fusionner.getThreshold()+"_"+(int)(fusionner.getThreshold()*10));
-        
+
         Extension ext = Muskca.getBestExtension(fusionner, allCands);
         if(ext != null)
         {

@@ -10,9 +10,11 @@ import Candidate.NodeCandidate.NodeCandidate;
 import Source.OntologicalElement.OntologicalElement;
 import Source.Source;
 import com.mongodb.BasicDBObject;
+import com.mongodb.DBObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 /**
  *
@@ -60,6 +62,34 @@ public abstract class ArcCandidate extends Candidate
             ret += "<"+uriCand+"> :wasDerivedFrom <"+uriStatement+">. \n";
             idStatement++;
         }
+        
+        return ret;
+    }
+    
+    @Override
+    public BasicDBObject toDBObject()
+    {
+        BasicDBObject ret = super.toDBObject();
+        
+        ArrayList<String> rels = new ArrayList<>();
+        for(Entry<Source, OntologicalElement> e : this.uriImplicate.entrySet())
+        {
+            String[] elems = e.getValue().getUri().split(" ");
+            if(this.dataProperty.startsWith("http://www.w3.org/1999/02/22-rdf-syntax-ns#type"))
+            {
+                rels.add("&lt;"+elems[0]+"&gt; a &lt;"+elems[2]+"&gt;");
+            }
+            else if(this.dataProperty.startsWith("http://ontology.irstea.fr/AgronomicTaxon#hasHigherRank"))
+            {
+                rels.add("&lt;"+elems[0]+"&gt; &lt;"+this.dataProperty+"&gt; &lt;"+elems[2]+"&gt;");
+            }
+            else
+            {
+                String regexp = "^&lt;"+this.fromCandidate.getUriFromSource(e.getKey()).getUri()+"&gt;.*"+e.getValue().getUri()+"[\\.,\\[]";
+                rels.add(regexp);
+            }
+        }
+        ret.append("rels", rels);
         
         return ret;
     }
