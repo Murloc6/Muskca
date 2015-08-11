@@ -47,18 +47,18 @@ public class AlignerSeals extends Aligner
         super(fusionner, s1, s2, aligns);
     }
 
-    private String getAbsolutePathTemp(Source s)
+    /*private String getAbsolutePathTemp(Source s)
     {
         File f = new FilePerso(s.getTempExport());
         return f.getAbsolutePath();
-    }
+    }*/
     
     @Override
-    public void alignSources(float limitSimScore) 
+    public void alignSources(float limitSimScore, String moduleFile) 
     {
         System.out.println("Initialize sources ("+this.s1.getName()+" / "+this.s2.getName()+") for LogMap ..."); 
-        String fileNameS1 = this.s1.getTempExport();
-        String fileNameS2 = this.s2.getTempExport();      
+        String fileNameS1 = this.s1.getTempExport(moduleFile);
+        String fileNameS2 = this.s2.getTempExport(moduleFile);      
         
         int nbIndAlign = 0;
         int nbClassAlign = 0;
@@ -89,30 +89,36 @@ public class AlignerSeals extends Aligner
             mappings_file_name=fmap.getAbsolutePath();
             this.alignement(aligner, url1_str, url2_str, mappings_file_name); //rdfalignement écrit dans le fichier sealshome/retour.rdf
             Set<MappingObjectStr> mappings = readAndCreateMappings(mappings_file_name); 
-            
-            for (MappingObjectStr mapping: mappings)
+            if(mappings != null)
             {
-                //System.out.println(mapping.getTypeOfMapping()+" -- "+mapping.getConfidence());
-                if(mapping.getTypeOfMapping() == MappingObjectStr.INSTANCES && mapping.getConfidence() >= limitSimScore)
-                {
-                    this.addIndAlignment(mapping.getIRIStrEnt1(),mapping.getIRIStrEnt2(),(float)mapping.getConfidence());
-                    //System.out.println("Alignment founded : "+mapping.getIRIStrEnt1()+" --> "+mapping.getIRIStrEnt2()+" ("+mapping.getConfidence()+")");
-                    nbIndAlign ++;
-                }
-                else if(mapping.getTypeOfMapping() == MappingObjectStr.CLASSES && mapping.getConfidence() >= limitSimScore)
+                for (MappingObjectStr mapping: mappings)
                 {
                     String uri1 = mapping.getIRIStrEnt1();
                     String uri2 = mapping.getIRIStrEnt2();
-                    if(! (uri1.startsWith(fusionner.getUriTypeBase()) && uri2.startsWith(fusionner.getUriTypeBase())) && !(uri1.startsWith("http://www.w3.org/2004/02/skos/core") && uri2.startsWith("http://www.w3.org/2004/02/skos/core")))
+                    if(! (uri1.startsWith(fusionner.getUriTypeBase()) && uri2.startsWith(fusionner.getUriTypeBase())) && !(uri1.startsWith("http://www.w3.org/2004/02/skos/core") && uri2.startsWith("http://www.w3.org/2004/02/skos/core")) && uri1.compareTo(uri2) != 0 )
                     {
-                        //System.out.println("NEW CLASS ALIGN !!");
-                        //System.out.println(mapping.toString());
-                        //System.out.println("Alignment founded : "+mapping.getIRIStrEnt1()+" --> "+mapping.getIRIStrEnt2()+" ("+mapping.getConfidence()+")");
-                        //System.out.println(" ----------- ");
-                        nbClassAlign ++;
-                        this.addClassAlignment(uri1, uri2,(float)mapping.getConfidence());
+                        //System.out.println(mapping.getTypeOfMapping()+" -- "+mapping.getConfidence());
+                        if(mapping.getTypeOfMapping() == MappingObjectStr.INSTANCES && mapping.getConfidence() >= limitSimScore)
+                        {
+                            this.addIndAlignment(mapping.getIRIStrEnt1(),mapping.getIRIStrEnt2(),(float)mapping.getConfidence());
+                            //System.out.println("Alignment founded : "+mapping.getIRIStrEnt1()+" --> "+mapping.getIRIStrEnt2()+" ("+mapping.getConfidence()+")");
+                            nbIndAlign ++;
+                        }
+                        else if(mapping.getTypeOfMapping() == MappingObjectStr.CLASSES && mapping.getConfidence() >= limitSimScore)
+                        {
+                            //System.out.println("NEW CLASS ALIGN !!");
+                            //System.out.println(mapping.toString());
+                            //System.out.println("Alignment founded : "+mapping.getIRIStrEnt1()+" --> "+mapping.getIRIStrEnt2()+" ("+mapping.getConfidence()+")");
+                            //System.out.println(" ----------- ");
+                            nbClassAlign ++;
+                            this.addClassAlignment(uri1, uri2,(float)mapping.getConfidence());
+                        }
                     }
                 }
+            }
+            else
+            {
+                System.err.println("NO MAPPINGS FOUND!");
             }
 
         }

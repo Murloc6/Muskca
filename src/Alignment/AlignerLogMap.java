@@ -31,18 +31,18 @@ public class AlignerLogMap extends Aligner
         super(fusionner, s1, s2, aligns);
     }
 
-    private String getAbsolutePathTemp(Source s)
+    /*private String getAbsolutePathTemp(Source s)
     {
         File f = new FilePerso(s.getTempExport());
         return f.getAbsolutePath();
-    }
+    }*/
     
     @Override
-    public void alignSources(float limitSimScore) 
+    public void alignSources(float limitSimScore, String moduleFile) 
     {
         System.out.println("Initialize sources ("+this.s1.getName()+" / "+this.s2.getName()+") for LogMap ..."); 
-        String fileNameS1 = this.s1.getTempExport();
-        String fileNameS2 = this.s2.getTempExport();      
+        String fileNameS1 = this.s1.getTempExport(moduleFile);
+        String fileNameS2 = this.s2.getTempExport(moduleFile);      
         OWLOntology onto1;
         OWLOntology onto2;
         OWLOntologyManager onto_manager;

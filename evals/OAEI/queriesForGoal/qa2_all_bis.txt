@@ -1,0 +1,27 @@
+java -jar oa4qa.jar cmt ekaw ekaw query/qa2.txt data/reference/cmt-ekaw.rdf data/reference/cmt-ekaw.rdf
+java -jar oa4qa.jar cmt conference conference query/qa2.txt data/reference/cmt-conference.rdf data/reference/cmt-conference.rdf
+java -jar oa4qa.jar cmt confof confof query/qa2.txt data/reference/cmt-confof.rdf data/reference/cmt-confof.rdf
+java -jar oa4qa.jar cmt edas edas query/qa2.txt data/reference/cmt-edas.rdf data/reference/cmt-edas.rdf
+java -jar oa4qa.jar cmt iasted iasted query/qa2.txt data/reference/cmt-iasted.rdf data/reference/cmt-iasted.rdf
+java -jar oa4qa.jar cmt sigkdd sigkdd query/qa2.txt data/reference/cmt-sigkdd.rdf data/reference/cmt-sigkdd.rdf
+
+java -jar oa4qa.jar conference confof confof query/qa2.txt data/reference/conference-confof.rdf data/reference/conference-confof.rdf
+java -jar oa4qa.jar conference edas edas query/qa2.txt data/reference/conference-edas.rdf data/reference/conference-edas.rdf
+java -jar oa4qa.jar conference ekaw ekaw query/qa2.txt data/reference/conference-ekaw.rdf data/reference/conference-ekaw.rdf
+java -jar oa4qa.jar conference iasted iasted query/qa2.txt data/reference/conference-iasted.rdf data/reference/conference-iasted.rdf
+java -jar oa4qa.jar conference sigkdd sigkdd query/qa2.txt data/reference/conference-sigkdd.rdf data/reference/conference-sigkdd.rdf
+
+java -jar oa4qa.jar confof edas edas query/qa2.txt data/reference/confof-edas.rdf data/reference/confof-edas.rdf
+java -jar oa4qa.jar confof ekaw ekaw query/qa2.txt data/reference/confof-ekaw.rdf data/reference/confof-ekaw.rdf
+java -jar oa4qa.jar confof iasted iasted query/qa2.txt data/reference/confof-iasted.rdf data/reference/confof-iasted.rdf
+java -jar oa4qa.jar confof sigkdd sigkdd query/qa2.txt data/reference/confof-sigkdd.rdf data/reference/confof-sigkdd.rdf
+
+java -jar oa4qa.jar edas ekaw ekaw query/qa2.txt data/reference/edas-ekaw.rdf data/reference/edas-ekaw.rdf
+java -jar oa4qa.jar edas iasted iasted query/qa2.txt data/reference/edas-iasted.rdf data/reference/edas-iasted.rdf
+java -jar oa4qa.jar edas sigkdd sigkdd query/qa2.txt data/reference/edas-sigkdd.rdf data/reference/edas-sigkdd.rdf
+
+java -jar oa4qa.jar ekaw iasted iasted query/qa2.txt data/reference/ekaw-iasted.rdf data/reference/ekaw-iasted.rdf
+java -jar oa4qa.jar ekaw sigkdd sigkdd query/qa2.txt data/reference/ekaw-sigkdd.rdf data/reference/ekaw-sigkdd.rdf
+
+java -jar oa4qa.jar iasted sigkdd sigkdd query/qa2.txt data/reference/iasted-sigkdd.rdf data/reference/iasted-sigkdd.rdf
+

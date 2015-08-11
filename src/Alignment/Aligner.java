@@ -54,7 +54,7 @@ public abstract class Aligner implements Serializable
         this.aligns = aligns;
     }
     
-    public abstract void alignSources(float limitSimScore);
+    public abstract void alignSources(float limitSimScore, String moduleFile);
     
     public int nbIndAligned()
     {

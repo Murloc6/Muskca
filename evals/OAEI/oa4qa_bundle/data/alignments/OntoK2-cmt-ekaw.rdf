@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='utf-8'?>
+
+<rdf:RDF xmlns='http://knowledgeweb.semanticweb.org/heterogeneity/alignment'
+         xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#'
+         xmlns:xsd='http://www.w3.org/2001/XMLSchema#'>
+<Alignment>
+  <xml>yes</xml>
+  <level>0</level>
+  <type>11</type>
+  <onto1>http://seals-test.sti2.at/tdrs-web/testdata/persistent/595bcf86-52e2-4c01-b3f8-a4e975202bca/583405fb-8260-4d36-9425-0b19fc5a3243/suite/cmt-ekaw/component/source/</onto1>
+  <onto2>http://seals-test.sti2.at/tdrs-web/testdata/persistent/595bcf86-52e2-4c01-b3f8-a4e975202bca/583405fb-8260-4d36-9425-0b19fc5a3243/suite/cmt-ekaw/component/target/</onto2>
+  <uri1>http://seals-test.sti2.at/tdrs-web/testdata/persistent/595bcf86-52e2-4c01-b3f8-a4e975202bca/583405fb-8260-4d36-9425-0b19fc5a3243/suite/cmt-ekaw/component/source/</uri1>
+  <uri2>http://seals-test.sti2.at/tdrs-web/testdata/persistent/595bcf86-52e2-4c01-b3f8-a4e975202bca/583405fb-8260-4d36-9425-0b19fc5a3243/suite/cmt-ekaw/component/target/</uri2>
+  <map>
+    <Cell>
+      <entity1 rdf:resource='http://cmt#writtenBy'/>
+      <entity2 rdf:resource='http://ekaw#writtenBy'/>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>1.0</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1 rdf:resource='http://cmt#Conference'/>
+      <entity2 rdf:resource='http://ekaw#Conference'/>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>1.0</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1 rdf:resource='http://cmt#Paper'/>
+      <entity2 rdf:resource='http://ekaw#Paper'/>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>1.0</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1 rdf:resource='http://cmt#Review'/>
+      <entity2 rdf:resource='http://ekaw#Review'/>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>1.0</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1 rdf:resource='http://cmt#Document'/>
+      <entity2 rdf:resource='http://ekaw#Document'/>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>1.0</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1 rdf:resource='http://cmt#Person'/>
+      <entity2 rdf:resource='http://ekaw#Person'/>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>1.0</measure>
+    </Cell>
+  </map>
+</Alignment>
+</rdf:RDF>

@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rdf:RDF xmlns="http://knowledgeweb.semanticweb.org/heterogeneity/alignment" 
+	 xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" 
+	 xmlns:xsd="http://www.w3.org/2001/XMLSchema#">
+
+<Alignment>
+<xml>yes</xml>
+<level>0</level>
+<type>??</type>
+
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#co-writePaper"/>
+		<entity2 rdf:resource="http://confOf#writes"/>
+		<measure rdf:datatype="xsd:float">0.395</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#ConferenceMember"/>
+		<entity2 rdf:resource="http://confOf#Member"/>
+		<measure rdf:datatype="xsd:float">0.546</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#Decision"/>
+		<entity2 rdf:resource="http://confOf#Organization"/>
+		<measure rdf:datatype="xsd:float">0.191</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#writtenBy"/>
+		<entity2 rdf:resource="http://confOf#writtenBy"/>
+		<measure rdf:datatype="xsd:float">0.506</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#Administrator"/>
+		<entity2 rdf:resource="http://confOf#Administrator"/>
+		<measure rdf:datatype="xsd:float">0.718</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#Document"/>
+		<entity2 rdf:resource="http://confOf#Social_event"/>
+		<measure rdf:datatype="xsd:float">0.241</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#Paper"/>
+		<entity2 rdf:resource="http://confOf#Paper"/>
+		<measure rdf:datatype="xsd:float">0.647</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#ProgramCommitteeMember"/>
+		<entity2 rdf:resource="http://confOf#Member_PC"/>
+		<measure rdf:datatype="xsd:float">0.31</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#Conference"/>
+		<entity2 rdf:resource="http://confOf#Conference"/>
+		<measure rdf:datatype="xsd:float">0.966</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#Co-author"/>
+		<entity2 rdf:resource="http://confOf#Author"/>
+		<measure rdf:datatype="xsd:float">0.68</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#maxPapers"/>
+		<entity2 rdf:resource="http://confOf#maxChoice"/>
+		<measure rdf:datatype="xsd:float">0.19</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#AssociatedChair"/>
+		<entity2 rdf:resource="http://confOf#Chair_PC"/>
+		<measure rdf:datatype="xsd:float">0.606</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#endReview"/>
+		<entity2 rdf:resource="http://confOf#reviewes"/>
+		<measure rdf:datatype="xsd:float">0.367</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#Person"/>
+		<entity2 rdf:resource="http://confOf#Person"/>
+		<measure rdf:datatype="xsd:float">0.574</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#enableVirtualMeeting"/>
+		<entity2 rdf:resource="http://confOf#parallel_with"/>
+		<measure rdf:datatype="xsd:float">0.208</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#PaperAbstract"/>
+		<entity2 rdf:resource="http://confOf#Short_paper"/>
+		<measure rdf:datatype="xsd:float">0.375</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#name"/>
+		<entity2 rdf:resource="http://confOf#hasFirstName"/>
+		<measure rdf:datatype="xsd:float">0.499</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#ExternalReviewer"/>
+		<entity2 rdf:resource="http://confOf#Reviewing_results_event"/>
+		<measure rdf:datatype="xsd:float">0.264</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#memberOfConference"/>
+		<entity2 rdf:resource="http://confOf#expertOn"/>
+		<measure rdf:datatype="xsd:float">0.244</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#Meta-Reviewer"/>
+		<entity2 rdf:resource="http://confOf#Reviewing_event"/>
+		<measure rdf:datatype="xsd:float">0.307</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#title"/>
+		<entity2 rdf:resource="http://confOf#hasTitle"/>
+		<measure rdf:datatype="xsd:float">0.657</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#Rejection"/>
+		<entity2 rdf:resource="http://confOf#Reception"/>
+		<measure rdf:datatype="xsd:float">0.426</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#hasConflictOfInterest"/>
+		<entity2 rdf:resource="http://confOf#employedBy"/>
+		<measure rdf:datatype="xsd:float">0.214</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#email"/>
+		<entity2 rdf:resource="http://confOf#hasEmail"/>
+		<measure rdf:datatype="xsd:float">0.746</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#assignedByAdministrator"/>
+		<entity2 rdf:resource="http://confOf#hasAdministrativeEvent"/>
+		<measure rdf:datatype="xsd:float">0.382</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#enterConferenceDetails"/>
+		<entity2 rdf:resource="http://confOf#dealsWith"/>
+		<measure rdf:datatype="xsd:float">0.201</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#acceptsHardcopySubmissions"/>
+		<entity2 rdf:resource="http://confOf#earlyRegistration"/>
+		<measure rdf:datatype="xsd:float">0.325</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+
+</Alignment>
+</rdf:RDF>

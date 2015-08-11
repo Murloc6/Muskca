@@ -9,14 +9,19 @@ package Source;
 import Source.OntologicalElement.OntologicalElement;
 import Alignment.Aligner;
 import Alignment.Alignment;
+import MultiSources.Fusionner;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.mongodb.BasicDBObject;
 import java.io.File;
+import java.io.IOException;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.apache.commons.io.FileUtils;
 
 /**
  *
@@ -45,6 +50,8 @@ public class Source implements Serializable
 
     private String tempFileName;
     
+    private Fusionner fusionner;
+    
     public Source(String name, String baseUri, String spUrl)
     {
         this.name = name;
@@ -54,6 +61,12 @@ public class Source implements Serializable
         this.allClasses = new HashMap<>();
         this.aligners = new ArrayList<>();
         this.elems = new HashMap<>();
+        this.fusionner = fusionner;
+    }
+    
+    public void setFusionner(Fusionner fusionner)
+    {
+        this.fusionner = fusionner;
     }
     
 
@@ -333,7 +346,7 @@ public class Source implements Serializable
     }
     
     
-    public String getTempExport()
+    public String getTempExport(String moduleFile)
     {
         if(this.tempFileName == null)
         {
@@ -344,6 +357,12 @@ public class Source implements Serializable
             {
                 //this.tempFileName = tempFile.getAbsolutePath();
                 this.tempFileName = tempFile.getName();
+                try {
+                    FileUtils.writeStringToFile(tempFile, "<"+this.baseUri+"> a <http://www.w3.org/2002/07/owl#Ontology>. \n", true);
+                    FileUtils.writeStringToFile(tempFile, this.fusionner.getOwlFileToTtl(moduleFile), true);
+                } catch (IOException ex) {
+                    System.err.println("Can't export module to "+this.name+" temp file! ("+this.tempFileName+")");
+                }
             }
         }
         

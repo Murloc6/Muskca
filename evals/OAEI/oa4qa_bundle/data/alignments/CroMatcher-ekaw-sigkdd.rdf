@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rdf:RDF xmlns="http://knowledgeweb.semanticweb.org/heterogeneity/alignment" 
+	 xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" 
+	 xmlns:xsd="http://www.w3.org/2001/XMLSchema#">
+
+<Alignment>
+<xml>yes</xml>
+<level>0</level>
+<type>??</type>
+
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://ekaw#Submitted_Paper"/>
+		<entity2 rdf:resource="http://sigkdd#Best_Paper_Awards_Committee"/>
+		<measure rdf:datatype="xsd:float">0.464</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://ekaw#referencedIn"/>
+		<entity2 rdf:resource="http://sigkdd#Name_of_conference"/>
+		<measure rdf:datatype="xsd:float">0.275</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://ekaw#Late-Registered_Participant"/>
+		<entity2 rdf:resource="http://sigkdd#Registration_Student"/>
+		<measure rdf:datatype="xsd:float">0.327</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://ekaw#Paper"/>
+		<entity2 rdf:resource="http://sigkdd#Paper"/>
+		<measure rdf:datatype="xsd:float">0.906</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://ekaw#SC_Member"/>
+		<entity2 rdf:resource="http://sigkdd#Registration_Non-Member"/>
+		<measure rdf:datatype="xsd:float">0.449</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://ekaw#Academic_Institution"/>
+		<entity2 rdf:resource="http://sigkdd#Deadline_Author_notification"/>
+		<measure rdf:datatype="xsd:float">0.343</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://ekaw#presentationOfPaper"/>
+		<entity2 rdf:resource="http://sigkdd#presentationed_by"/>
+		<measure rdf:datatype="xsd:float">0.379</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://ekaw#reviewerOfPaper"/>
+		<entity2 rdf:resource="http://sigkdd#submit"/>
+		<measure rdf:datatype="xsd:float">0.472</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://ekaw#OC_Chair"/>
+		<entity2 rdf:resource="http://sigkdd#General_Chair"/>
+		<measure rdf:datatype="xsd:float">0.512</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://ekaw#Poster_Paper"/>
+		<entity2 rdf:resource="http://sigkdd#Best_Student_Paper_Supporter"/>
+		<measure rdf:datatype="xsd:float">0.508</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://ekaw#Multi-author_Volume"/>
+		<entity2 rdf:resource="http://sigkdd#Author"/>
+		<measure rdf:datatype="xsd:float">0.476</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://ekaw#Presenter"/>
+		<entity2 rdf:resource="http://sigkdd#Listener"/>
+		<measure rdf:datatype="xsd:float">0.289</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://ekaw#references"/>
+		<entity2 rdf:resource="http://sigkdd#End_of_conference"/>
+		<measure rdf:datatype="xsd:float">0.227</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://ekaw#Organising_Agency"/>
+		<entity2 rdf:resource="http://sigkdd#Organizing_Committee"/>
+		<measure rdf:datatype="xsd:float">0.36</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://ekaw#PC_Chair"/>
+		<entity2 rdf:resource="http://sigkdd#Program_Chair"/>
+		<measure rdf:datatype="xsd:float">0.482</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://ekaw#Document"/>
+		<entity2 rdf:resource="http://sigkdd#Document"/>
+		<measure rdf:datatype="xsd:float">0.902</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://ekaw#writtenBy"/>
+		<entity2 rdf:resource="http://sigkdd#payed_by"/>
+		<measure rdf:datatype="xsd:float">0.472</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://ekaw#Student"/>
+		<entity2 rdf:resource="http://sigkdd#Best_Student_Paper_Award"/>
+		<measure rdf:datatype="xsd:float">0.546</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://ekaw#locationOf"/>
+		<entity2 rdf:resource="http://sigkdd#Nation"/>
+		<measure rdf:datatype="xsd:float">0.285</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://ekaw#Paper_Author"/>
+		<entity2 rdf:resource="http://sigkdd#Author_of_paper"/>
+		<measure rdf:datatype="xsd:float">0.901</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://ekaw#Web_Site"/>
+		<entity2 rdf:resource="http://sigkdd#Webmaster"/>
+		<measure rdf:datatype="xsd:float">0.357</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://ekaw#Programme_Brochure"/>
+		<entity2 rdf:resource="http://sigkdd#Program_Committee_member"/>
+		<measure rdf:datatype="xsd:float">0.401</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://ekaw#Conference_Paper"/>
+		<entity2 rdf:resource="http://sigkdd#Conference_hall"/>
+		<measure rdf:datatype="xsd:float">0.603</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://ekaw#Conference_Trip"/>
+		<entity2 rdf:resource="http://sigkdd#Conference"/>
+		<measure rdf:datatype="xsd:float">0.672</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://ekaw#Research_Topic"/>
+		<entity2 rdf:resource="http://sigkdd#Best_Research_Paper_Award"/>
+		<measure rdf:datatype="xsd:float">0.462</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://ekaw#scientificallyOrganisedBy"/>
+		<entity2 rdf:resource="http://sigkdd#notification_until"/>
+		<measure rdf:datatype="xsd:float">0.303</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://ekaw#Abstract"/>
+		<entity2 rdf:resource="http://sigkdd#Abstract"/>
+		<measure rdf:datatype="xsd:float">0.916</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://ekaw#hasUpdatedVersion"/>
+		<entity2 rdf:resource="http://sigkdd#presentation"/>
+		<measure rdf:datatype="xsd:float">0.574</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://ekaw#Person"/>
+		<entity2 rdf:resource="http://sigkdd#Person"/>
+		<measure rdf:datatype="xsd:float">0.888</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://ekaw#Review"/>
+		<entity2 rdf:resource="http://sigkdd#Review"/>
+		<measure rdf:datatype="xsd:float">0.911</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://ekaw#Organisation"/>
+		<entity2 rdf:resource="http://sigkdd#Organizator"/>
+		<measure rdf:datatype="xsd:float">0.433</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://ekaw#Invited_Speaker"/>
+		<entity2 rdf:resource="http://sigkdd#Invited_Speaker"/>
+		<measure rdf:datatype="xsd:float">0.908</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+
+</Alignment>
+</rdf:RDF>

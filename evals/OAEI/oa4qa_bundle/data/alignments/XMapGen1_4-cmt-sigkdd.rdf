@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rdf:RDF xmlns="http://knowledgeweb.semanticweb.org/heterogeneity/alignment" 
+	 xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" 
+	 xmlns:xsd="http://www.w3.org/2001/XMLSchema#">
+
+<Alignment>
+<xml>yes</xml>
+<level>0</level>
+<type>??</type>
+
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#ProgramCommittee"/>
+		<entity2 rdf:resource="http://sigkdd#Program_Committee"/>
+		<measure rdf:datatype="xsd:float">0.9436366301806244</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#User"/>
+		<entity2 rdf:resource="http://sigkdd#Speaker"/>
+		<measure rdf:datatype="xsd:float">0.9328665231111211</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#Conference"/>
+		<entity2 rdf:resource="http://sigkdd#Conference"/>
+		<measure rdf:datatype="xsd:float">0.9020325350385163</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#Reviewer"/>
+		<entity2 rdf:resource="http://sigkdd#Review"/>
+		<measure rdf:datatype="xsd:float">0.899421842493052</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#Author"/>
+		<entity2 rdf:resource="http://sigkdd#Author"/>
+		<measure rdf:datatype="xsd:float">1.0</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#ProgramCommitteeChair"/>
+		<entity2 rdf:resource="http://sigkdd#Program_Committee"/>
+		<measure rdf:datatype="xsd:float">0.8749344086756345</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#Review"/>
+		<entity2 rdf:resource="http://sigkdd#Review"/>
+		<measure rdf:datatype="xsd:float">1.0</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+		<entity2 rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+		<measure rdf:datatype="xsd:float">1.0</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#PaperAbstract"/>
+		<entity2 rdf:resource="http://sigkdd#Abstract"/>
+		<measure rdf:datatype="xsd:float">0.8736254850562941</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#Person"/>
+		<entity2 rdf:resource="http://sigkdd#Person"/>
+		<measure rdf:datatype="xsd:float">0.9677537208516376</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#Meta-Review"/>
+		<entity2 rdf:resource="http://sigkdd#Review"/>
+		<measure rdf:datatype="xsd:float">0.8868755304961549</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#ProgramCommitteeMember"/>
+		<entity2 rdf:resource="http://sigkdd#Program_Committee_member"/>
+		<measure rdf:datatype="xsd:float">0.9537643301909982</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#Document"/>
+		<entity2 rdf:resource="http://sigkdd#Document"/>
+		<measure rdf:datatype="xsd:float">0.9718900744063211</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#Paper"/>
+		<entity2 rdf:resource="http://sigkdd#Paper"/>
+		<measure rdf:datatype="xsd:float">0.9792351600196771</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#Co-author"/>
+		<entity2 rdf:resource="http://sigkdd#Author"/>
+		<measure rdf:datatype="xsd:float">0.9338603765565283</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#name"/>
+		<entity2 rdf:resource="http://sigkdd#Name"/>
+		<measure rdf:datatype="xsd:float">1.0</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#email"/>
+		<entity2 rdf:resource="http://sigkdd#E-mail"/>
+		<measure rdf:datatype="xsd:float">0.8685849159659426</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#date"/>
+		<entity2 rdf:resource="http://sigkdd#Date"/>
+		<measure rdf:datatype="xsd:float">1.0</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+
+</Alignment>
+</rdf:RDF>

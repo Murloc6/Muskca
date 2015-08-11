@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rdf:RDF xmlns="http://knowledgeweb.semanticweb.org/heterogeneity/alignment" 
+	 xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" 
+	 xmlns:xsd="http://www.w3.org/2001/XMLSchema#">
+
+<Alignment>
+<xml>yes</xml>
+<level>0</level>
+<type>??</type>
+
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://confOf#Science_Worker"/>
+		<entity2 rdf:resource="http://iasted#Sponsor"/>
+		<measure rdf:datatype="xsd:float">0.8753259773111293</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://confOf#Assistant"/>
+		<entity2 rdf:resource="http://iasted#Delegate"/>
+		<measure rdf:datatype="xsd:float">0.8874862925663707</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://confOf#City"/>
+		<entity2 rdf:resource="http://iasted#City"/>
+		<measure rdf:datatype="xsd:float">0.9039152991464185</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://confOf#Participant"/>
+		<entity2 rdf:resource="http://iasted#Departure_tax"/>
+		<measure rdf:datatype="xsd:float">0.8717560625608382</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://confOf#Person"/>
+		<entity2 rdf:resource="http://iasted#Person"/>
+		<measure rdf:datatype="xsd:float">0.9010330479125945</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://confOf#Author"/>
+		<entity2 rdf:resource="http://iasted#Author"/>
+		<measure rdf:datatype="xsd:float">0.9494655376818407</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://confOf#Administrator"/>
+		<entity2 rdf:resource="http://iasted#Sponsor"/>
+		<measure rdf:datatype="xsd:float">0.8815981854937717</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://confOf#Tutorial"/>
+		<entity2 rdf:resource="http://iasted#Tutorial"/>
+		<measure rdf:datatype="xsd:float">0.9097260499565663</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+		<entity2 rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+		<measure rdf:datatype="xsd:float">0.9569942122900386</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://confOf#writes"/>
+		<entity2 rdf:resource="http://iasted#write"/>
+		<measure rdf:datatype="xsd:float">0.9234009957870548</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+
+</Alignment>
+</rdf:RDF>

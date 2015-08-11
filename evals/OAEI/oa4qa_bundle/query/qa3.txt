@@ -1,0 +1,17 @@
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX cmt: <http://cmt#>
+PREFIX conference: <http://conference#>
+PREFIX confof: <http://confOf#>
+PREFIX edas: <http://edas#>
+PREFIX ekaw: <http://ekaw#>
+PREFIX iasted: <http://iasted#>
+PREFIX sigkdd: <http://sigkdd#>
+PREFIX foaf: <http://xmlsn.com/foaf/0.1#>
+SELECT DISTINCT ?x 
+WHERE {
+  ?y rdf:type owl:NamedIndividual.
+  ?x rdf:type owl:NamedIndividual.
+  ?x ekaw:reviewWrittenBy ?y.
+}

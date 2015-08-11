@@ -27,6 +27,7 @@ import Source.SparqlProxy;
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.Serializable;
@@ -91,7 +92,9 @@ public class Fusionner implements Serializable
     private float x0 = 0.0f;
     private float gamma = 0.0f;
     
-    public Fusionner(ArrayList<Source> sources, ArrayList<String> urisLabelsImp, ArrayList<String> urisRelImp, String uriTypeBase, ArrayList<String> urisTypeImp, String aligner,float threshold, float x0, float gamma)
+    private String moduleFile;
+    
+    public Fusionner(ArrayList<Source> sources, ArrayList<String> urisLabelsImp, ArrayList<String> urisRelImp, String uriTypeBase, ArrayList<String> urisTypeImp, String aligner,float threshold, float x0, float gamma, String moduleFile)
     {
         this.urisLabelsImp = urisLabelsImp;
         this.urisRelImp = urisRelImp;
@@ -108,6 +111,7 @@ public class Fusionner implements Serializable
         
         this.x0 = x0;
         this.gamma = gamma;
+        this.moduleFile = moduleFile;
     }
     
     
@@ -148,6 +152,7 @@ public class Fusionner implements Serializable
     public void setElemsOnSources(){
         System.out.println("Get ontological elements (classes)");
         for(Source s : this.sources){
+            s.setFusionner(this);
             System.out.println("Fill "+s.getName());
             int i = 0;
             for(String uri : s.getAllClassUris(this.uriTypeBase)){
@@ -194,7 +199,7 @@ public class Fusionner implements Serializable
                 System.out.println(s1.getName()+"/"+s2.getName()+ ": ");
                 Aligner aligner = new AlignerSeals(this, s1, s2, this.aligns);
                 //System.out.println("Aligner ended !");
-                aligner.alignSources(0); // score min = 0 to keep all alignment (filter will be done by taken the first one)
+                aligner.alignSources(0, this.moduleFile); // score min = 0 to keep all alignment (filter will be done by taken the first one)
             }
         }
     }
@@ -261,7 +266,7 @@ public class Fusionner implements Serializable
     }
    
     
-    private String getOwlFileToTtl(String owlFile)
+    public String getOwlFileToTtl(String owlFile)
     {
         
 //        String ret = "prefix : <http://www.w3.org/2002/07/owl#> \n" +
@@ -386,7 +391,7 @@ public class Fusionner implements Serializable
     private SparqlProxy nodeCandidatesToOWL(ArrayList<NodeCandidate> cands, String provoSpOut, String adomFile, String baseUri,float threshold)
     {
         SparqlProxy spOutProvo = SparqlProxy.getSparqlProxy(provoSpOut);
-        SparqlProxy spOut1 = SparqlProxy.getSparqlProxy("http://amarger.murloc.fr:8080/OAEI_allcands_0_1/");
+        /*SparqlProxy spOut1 = SparqlProxy.getSparqlProxy("http://amarger.murloc.fr:8080/OAEI_allcands_0_1/");
         SparqlProxy spOut2 = SparqlProxy.getSparqlProxy("http://amarger.murloc.fr:8080/OAEI_allcands_0_2/");
         SparqlProxy spOut3 = SparqlProxy.getSparqlProxy("http://amarger.murloc.fr:8080/OAEI_allcands_0_3/");
         SparqlProxy spOut4 = SparqlProxy.getSparqlProxy("http://amarger.murloc.fr:8080/OAEI_allcands_0_4/");
@@ -414,12 +419,12 @@ public class Fusionner implements Serializable
         spOut6.storeData(new StringBuilder(this.getModuleAndSameAse()));
         spOut7.storeData(new StringBuilder(this.getModuleAndSameAse()));
         spOut8.storeData(new StringBuilder(this.getModuleAndSameAse()));
-        spOut9.storeData(new StringBuilder(this.getModuleAndSameAse()));
+        spOut9.storeData(new StringBuilder(this.getModuleAndSameAse()));*/
         
         spOutProvo.clearSp();
         System.out.println("Export with threshold : "+threshold);
-        //spOutProvo.storeData(new StringBuilder(this.setPrefix()+" INSERT DATA {"+this.getOwlFileToTtl(adomFile)+"}"));
-        spOutProvo.storeData(new StringBuilder(this.getModuleAndSameAse()));
+        spOutProvo.storeData(new StringBuilder(this.setPrefix()+" INSERT DATA {"+this.getOwlFileToTtl(adomFile)+"}"));
+        //spOutProvo.storeData(new StringBuilder(this.getModuleAndSameAse()));
         int numInst = 1;
         for(NodeCandidate nc : cands)
         {
@@ -429,7 +434,7 @@ public class Fusionner implements Serializable
                 numInst ++;
             }
             
-            if(nc.getTrustScore() >= 0.1){
+            /*if(nc.getTrustScore() >= 0.1){
                 spOut1.storeData(data);
             }
             if(nc.getTrustScore() >= 0.2){
@@ -455,7 +460,7 @@ public class Fusionner implements Serializable
             }
             if(nc.getTrustScore() >= 0.9){
                 spOut9.storeData(data);
-            }
+            }*/
         }
         return spOutProvo;
         //return spOut1;

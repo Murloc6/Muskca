@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rdf:RDF xmlns="http://knowledgeweb.semanticweb.org/heterogeneity/alignment" 
+	 xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" 
+	 xmlns:xsd="http://www.w3.org/2001/XMLSchema#">
+
+<Alignment>
+<xml>yes</xml>
+<level>0</level>
+<type>??</type>
+
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#email"/>
+		<entity2 rdf:resource="http://iasted#done_till"/>
+		<measure rdf:datatype="xsd:float">0.229</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#hasAuthor"/>
+		<entity2 rdf:resource="http://iasted#go_through"/>
+		<measure rdf:datatype="xsd:float">0.212</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#detailsEnteredBy"/>
+		<entity2 rdf:resource="http://iasted#is_sent_after"/>
+		<measure rdf:datatype="xsd:float">0.377</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#AssociatedChair"/>
+		<entity2 rdf:resource="http://iasted#Session_chair"/>
+		<measure rdf:datatype="xsd:float">0.563</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#Person"/>
+		<entity2 rdf:resource="http://iasted#Person"/>
+		<measure rdf:datatype="xsd:float">0.784</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#Reviewer"/>
+		<entity2 rdf:resource="http://iasted#Reviewer"/>
+		<measure rdf:datatype="xsd:float">0.627</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#date"/>
+		<entity2 rdf:resource="http://iasted#is_dated_on"/>
+		<measure rdf:datatype="xsd:float">0.75</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#Co-author"/>
+		<entity2 rdf:resource="http://iasted#Author"/>
+		<measure rdf:datatype="xsd:float">0.852</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#hasBeenAssigned"/>
+		<entity2 rdf:resource="http://iasted#is_signed_by"/>
+		<measure rdf:datatype="xsd:float">0.829</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#PaperFullVersion"/>
+		<entity2 rdf:resource="http://iasted#Full_day_tour"/>
+		<measure rdf:datatype="xsd:float">0.325</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#maxPapers"/>
+		<entity2 rdf:resource="http://iasted#has_amount_of"/>
+		<measure rdf:datatype="xsd:float">0.21</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#ProgramCommitteeChair"/>
+		<entity2 rdf:resource="http://iasted#Technical_commitee"/>
+		<measure rdf:datatype="xsd:float">0.447</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#writtenBy"/>
+		<entity2 rdf:resource="http://iasted#is_writen_by"/>
+		<measure rdf:datatype="xsd:float">0.804</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#ConferenceMember"/>
+		<entity2 rdf:resource="http://iasted#Conference_days"/>
+		<measure rdf:datatype="xsd:float">0.53</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#Review"/>
+		<entity2 rdf:resource="http://iasted#Review"/>
+		<measure rdf:datatype="xsd:float">0.787</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#adjustedBy"/>
+		<entity2 rdf:resource="http://iasted#is_used_by"/>
+		<measure rdf:datatype="xsd:float">0.32</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#hasConflictOfInterest"/>
+		<entity2 rdf:resource="http://iasted#is_present"/>
+		<measure rdf:datatype="xsd:float">0.321</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#ProgramCommittee"/>
+		<entity2 rdf:resource="http://iasted#Social_program"/>
+		<measure rdf:datatype="xsd:float">0.368</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#rejectedBy"/>
+		<entity2 rdf:resource="http://iasted#is_connected_with"/>
+		<measure rdf:datatype="xsd:float">0.468</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#Administrator"/>
+		<entity2 rdf:resource="http://iasted#Registration"/>
+		<measure rdf:datatype="xsd:float">0.419</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#siteURL"/>
+		<entity2 rdf:resource="http://iasted#is_visited_by"/>
+		<measure rdf:datatype="xsd:float">0.423</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#hasSubjectArea"/>
+		<entity2 rdf:resource="http://iasted#prepare"/>
+		<measure rdf:datatype="xsd:float">0.307</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#endReview"/>
+		<entity2 rdf:resource="http://iasted#send"/>
+		<measure rdf:datatype="xsd:float">0.432</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#SubjectArea"/>
+		<entity2 rdf:resource="http://iasted#Lecture"/>
+		<measure rdf:datatype="xsd:float">0.246</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#Rejection"/>
+		<entity2 rdf:resource="http://iasted#Coctail_reception"/>
+		<measure rdf:datatype="xsd:float">0.37</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#paperID"/>
+		<entity2 rdf:resource="http://iasted#is_paid_for"/>
+		<measure rdf:datatype="xsd:float">0.394</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#addedBy"/>
+		<entity2 rdf:resource="http://iasted#is_made_from"/>
+		<measure rdf:datatype="xsd:float">0.461</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#ConferenceChair"/>
+		<entity2 rdf:resource="http://iasted#Conference_Hiker"/>
+		<measure rdf:datatype="xsd:float">0.645</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#Conference"/>
+		<entity2 rdf:resource="http://iasted#One_conference_day"/>
+		<measure rdf:datatype="xsd:float">0.627</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#writePaper"/>
+		<entity2 rdf:resource="http://iasted#write"/>
+		<measure rdf:datatype="xsd:float">0.602</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#Decision"/>
+		<entity2 rdf:resource="http://iasted#Submission"/>
+		<measure rdf:datatype="xsd:float">0.365</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#hasBid"/>
+		<entity2 rdf:resource="http://iasted#is_paid_in"/>
+		<measure rdf:datatype="xsd:float">0.351</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#readPaper"/>
+		<entity2 rdf:resource="http://iasted#speak_in"/>
+		<measure rdf:datatype="xsd:float">0.329</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#Acceptance"/>
+		<entity2 rdf:resource="http://iasted#Deadline_for_notification_of_acceptance"/>
+		<measure rdf:datatype="xsd:float">0.396</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#assignedTo"/>
+		<entity2 rdf:resource="http://iasted#sign"/>
+		<measure rdf:datatype="xsd:float">0.64</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#User"/>
+		<entity2 rdf:resource="http://iasted#Presenter_house"/>
+		<measure rdf:datatype="xsd:float">0.302</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#Document"/>
+		<entity2 rdf:resource="http://iasted#Document"/>
+		<measure rdf:datatype="xsd:float">0.757</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#Paper"/>
+		<entity2 rdf:resource="http://iasted#Speaker"/>
+		<measure rdf:datatype="xsd:float">0.268</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#rejectPaper"/>
+		<entity2 rdf:resource="http://iasted#is_prepared_by"/>
+		<measure rdf:datatype="xsd:float">0.3</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+
+</Alignment>
+</rdf:RDF>

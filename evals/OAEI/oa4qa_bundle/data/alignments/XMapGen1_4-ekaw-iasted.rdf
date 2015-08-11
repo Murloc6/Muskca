@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rdf:RDF xmlns="http://knowledgeweb.semanticweb.org/heterogeneity/alignment" 
+	 xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" 
+	 xmlns:xsd="http://www.w3.org/2001/XMLSchema#">
+
+<Alignment>
+<xml>yes</xml>
+<level>0</level>
+<type>??</type>
+
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://ekaw#Student"/>
+		<entity2 rdf:resource="http://iasted#Sponzorship"/>
+		<measure rdf:datatype="xsd:float">0.8606694083347952</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://ekaw#Session_Chair"/>
+		<entity2 rdf:resource="http://iasted#Session_chair"/>
+		<measure rdf:datatype="xsd:float">0.9679341191723452</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://ekaw#Presenter"/>
+		<entity2 rdf:resource="http://iasted#Presenter_city"/>
+		<measure rdf:datatype="xsd:float">0.8666759793008959</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://ekaw#Demo_Session"/>
+		<entity2 rdf:resource="http://iasted#Session"/>
+		<measure rdf:datatype="xsd:float">0.8612768795274861</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://ekaw#PC_Member"/>
+		<entity2 rdf:resource="http://iasted#Delegate"/>
+		<measure rdf:datatype="xsd:float">0.8748944749301254</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://ekaw#SC_Member"/>
+		<entity2 rdf:resource="http://iasted#Delegate"/>
+		<measure rdf:datatype="xsd:float">0.8606756392878108</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://ekaw#Invited_Speaker"/>
+		<entity2 rdf:resource="http://iasted#Speaker"/>
+		<measure rdf:datatype="xsd:float">0.8644088713973642</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+		<entity2 rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+		<measure rdf:datatype="xsd:float">0.9020325350385163</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://ekaw#Review"/>
+		<entity2 rdf:resource="http://iasted#Review"/>
+		<measure rdf:datatype="xsd:float">0.9785355268707399</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://ekaw#Document"/>
+		<entity2 rdf:resource="http://iasted#Document"/>
+		<measure rdf:datatype="xsd:float">1.0</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://ekaw#Paper_Author"/>
+		<entity2 rdf:resource="http://iasted#Author"/>
+		<measure rdf:datatype="xsd:float">0.9150694444970244</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://ekaw#Possible_Reviewer"/>
+		<entity2 rdf:resource="http://iasted#Delegate"/>
+		<measure rdf:datatype="xsd:float">0.8606947249605719</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://ekaw#Person"/>
+		<entity2 rdf:resource="http://iasted#Person"/>
+		<measure rdf:datatype="xsd:float">0.9543963580610589</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://ekaw#Tutorial"/>
+		<entity2 rdf:resource="http://iasted#Tutorial"/>
+		<measure rdf:datatype="xsd:float">0.9475237004483121</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://ekaw#Session"/>
+		<entity2 rdf:resource="http://iasted#Session"/>
+		<measure rdf:datatype="xsd:float">0.9534502780625356</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+
+</Alignment>
+</rdf:RDF>

@@ -1,0 +1,277 @@
+<?xml version='1.0' encoding='utf-8' standalone='no'?>
+<rdf:RDF xmlns='http://knowledgeweb.semanticweb.org/heterogeneity/alignment#'
+	xml:base='http://knowledgeweb.semanticweb.org/heterogeneity/alignment#'
+	xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#'
+	xmlns:xsd='http://www.w3.org/2001/XMLSchema#'>
+<Alignment>
+	<level>0</level>
+	<type>**</type>
+	<time>0.38522009242815425</time>
+	<onto1>http://seals-test.sti2.at/tdrs-web/testdata/persistent/595bcf86-52e2-4c01-b3f8-a4e975202bca/583405fb-8260-4d36-9425-0b19fc5a3243/suite/cmt-sigkdd/component/source/</onto1>
+	<onto2>http://seals-test.sti2.at/tdrs-web/testdata/persistent/595bcf86-52e2-4c01-b3f8-a4e975202bca/583405fb-8260-4d36-9425-0b19fc5a3243/suite/cmt-sigkdd/component/target/</onto2>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://cmt#Conference"/>
+			<entity2 rdf:resource="http://sigkdd#Conference"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.2218127984348062</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://cmt#date"/>
+			<entity2 rdf:resource="http://sigkdd#Date"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.2218127984348062</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://cmt#Review"/>
+			<entity2 rdf:resource="http://sigkdd#Paper"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.17744936613655557</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://cmt#Review"/>
+			<entity2 rdf:resource="http://sigkdd#Review"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.3992621645713618</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://cmt#Review"/>
+			<entity2 rdf:resource="http://sigkdd#Abstract"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.17744936613655557</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://cmt#Co-author"/>
+			<entity2 rdf:resource="http://sigkdd#Author_of_paper_student"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.15686007016533948</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://cmt#Co-author"/>
+			<entity2 rdf:resource="http://sigkdd#Author_of_paper"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.15686007016533948</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://cmt#name"/>
+			<entity2 rdf:resource="http://sigkdd#Name"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.2218127984348062</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://cmt#ProgramCommittee"/>
+			<entity2 rdf:resource="http://sigkdd#Program_Committee"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.2218127984348062</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://cmt#Paper"/>
+			<entity2 rdf:resource="http://sigkdd#Paper"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.3992621645713618</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://cmt#Paper"/>
+			<entity2 rdf:resource="http://sigkdd#Review"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.17744936613655557</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://cmt#Paper"/>
+			<entity2 rdf:resource="http://sigkdd#Abstract"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.17744936613655557</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://cmt#Chairman"/>
+			<entity2 rdf:resource="http://sigkdd#Listener"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.10812602751002445</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://cmt#Chairman"/>
+			<entity2 rdf:resource="http://sigkdd#Speaker"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.10812602751002445</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://cmt#Chairman"/>
+			<entity2 rdf:resource="http://sigkdd#Organizator"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.10812602751002445</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://cmt#User"/>
+			<entity2 rdf:resource="http://sigkdd#Listener"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.10812602751002445</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://cmt#User"/>
+			<entity2 rdf:resource="http://sigkdd#Speaker"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.3553824070015923</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://cmt#User"/>
+			<entity2 rdf:resource="http://sigkdd#Organizator"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.1612217811572456</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://cmt#Person"/>
+			<entity2 rdf:resource="http://sigkdd#Person"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.7153407311362018</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://cmt#ConferenceMember"/>
+			<entity2 rdf:resource="http://sigkdd#Listener"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.10812602751002445</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://cmt#ConferenceMember"/>
+			<entity2 rdf:resource="http://sigkdd#Speaker"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.3726384675861904</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://cmt#ConferenceMember"/>
+			<entity2 rdf:resource="http://sigkdd#Organizator"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.49367508014400824</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://cmt#Author"/>
+			<entity2 rdf:resource="http://sigkdd#Invited_Speaker"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.05472387427668706</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://cmt#Author"/>
+			<entity2 rdf:resource="http://sigkdd#Author"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.41550766446873905</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://cmt#ProgramCommitteeMember"/>
+			<entity2 rdf:resource="http://sigkdd#Program_Committee_member"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.24347851514309066</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://cmt#Reviewer"/>
+			<entity2 rdf:resource="http://sigkdd#Invited_Speaker"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.05472387427668706</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://cmt#Reviewer"/>
+			<entity2 rdf:resource="http://sigkdd#Author"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.058340146722153804</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://cmt#Document"/>
+			<entity2 rdf:resource="http://sigkdd#Document"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">1.0</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://cmt#AuthorNotReviewer"/>
+			<entity2 rdf:resource="http://sigkdd#Author_of_paper_student"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.15686007016533948</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://cmt#AuthorNotReviewer"/>
+			<entity2 rdf:resource="http://sigkdd#Author_of_paper"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.15686007016533948</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://cmt#ExternalReviewer"/>
+			<entity2 rdf:resource="http://sigkdd#Listener"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.10812602751002445</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://cmt#ExternalReviewer"/>
+			<entity2 rdf:resource="http://sigkdd#Speaker"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.10812602751002445</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://cmt#ExternalReviewer"/>
+			<entity2 rdf:resource="http://sigkdd#Organizator"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.10812602751002445</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+</Alignment>
+</rdf:RDF>

@@ -1,0 +1,381 @@
+<?xml version='1.0' encoding='utf-8' standalone='no'?>
+<rdf:RDF xmlns='http://knowledgeweb.semanticweb.org/heterogeneity/alignment#'
+	xml:base='http://knowledgeweb.semanticweb.org/heterogeneity/alignment#'
+	xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#'
+	xmlns:xsd='http://www.w3.org/2001/XMLSchema#'>
+<Alignment>
+	<level>0</level>
+	<type>**</type>
+	<time>0.8279053964408296</time>
+	<onto1>http://seals-test.sti2.at/tdrs-web/testdata/persistent/595bcf86-52e2-4c01-b3f8-a4e975202bca/583405fb-8260-4d36-9425-0b19fc5a3243/suite/edas-sigkdd/component/source/</onto1>
+	<onto2>http://seals-test.sti2.at/tdrs-web/testdata/persistent/595bcf86-52e2-4c01-b3f8-a4e975202bca/583405fb-8260-4d36-9425-0b19fc5a3243/suite/edas-sigkdd/component/target/</onto2>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://edas#Attendee"/>
+			<entity2 rdf:resource="http://sigkdd#Listener"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.08122390019417494</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://edas#Attendee"/>
+			<entity2 rdf:resource="http://sigkdd#Speaker"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.08122390019417494</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://edas#Attendee"/>
+			<entity2 rdf:resource="http://sigkdd#Organizator"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.08122390019417494</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://edas#Document"/>
+			<entity2 rdf:resource="http://sigkdd#Document"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">1.0</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://edas#Paper"/>
+			<entity2 rdf:resource="http://sigkdd#Paper"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.30439423240086244</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://edas#Paper"/>
+			<entity2 rdf:resource="http://sigkdd#Review"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.10146452777894638</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://edas#Paper"/>
+			<entity2 rdf:resource="http://sigkdd#Abstract"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.10146452777894638</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://edas#ConferenceChair"/>
+			<entity2 rdf:resource="http://sigkdd#Listener"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.08122390019417494</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://edas#ConferenceChair"/>
+			<entity2 rdf:resource="http://sigkdd#Speaker"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.08122390019417494</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://edas#ConferenceChair"/>
+			<entity2 rdf:resource="http://sigkdd#Organizator"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.08122390019417494</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://edas#Conference"/>
+			<entity2 rdf:resource="http://sigkdd#Conference"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.20292970462191606</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://edas#Review"/>
+			<entity2 rdf:resource="http://sigkdd#Paper"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.10146452777894638</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://edas#Review"/>
+			<entity2 rdf:resource="http://sigkdd#Review"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.30439423240086244</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://edas#Review"/>
+			<entity2 rdf:resource="http://sigkdd#Abstract"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.10146452777894638</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://edas#DiningPlace"/>
+			<entity2 rdf:resource="http://sigkdd#Conference_hall"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.08122390019417494</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://edas#DiningPlace"/>
+			<entity2 rdf:resource="http://sigkdd#Main_office"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.08122390019417494</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://edas#DiningPlace"/>
+			<entity2 rdf:resource="http://sigkdd#Hotel"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.08122390019417494</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://edas#Place"/>
+			<entity2 rdf:resource="http://sigkdd#Place"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.40077070168277373</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://edas#AccommodationPlace"/>
+			<entity2 rdf:resource="http://sigkdd#Conference_hall"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.08122390019417494</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://edas#AccommodationPlace"/>
+			<entity2 rdf:resource="http://sigkdd#Main_office"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.08122390019417494</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://edas#AccommodationPlace"/>
+			<entity2 rdf:resource="http://sigkdd#Hotel"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.08122390019417494</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://edas#Programme"/>
+			<entity2 rdf:resource="http://sigkdd#Paper"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.10146452777894638</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://edas#Programme"/>
+			<entity2 rdf:resource="http://sigkdd#Review"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.10146452777894638</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://edas#Programme"/>
+			<entity2 rdf:resource="http://sigkdd#Abstract"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.10146452777894638</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://edas#MealMenu"/>
+			<entity2 rdf:resource="http://sigkdd#Paper"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.10146452777894638</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://edas#MealMenu"/>
+			<entity2 rdf:resource="http://sigkdd#Review"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.10146452777894638</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://edas#MealMenu"/>
+			<entity2 rdf:resource="http://sigkdd#Abstract"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.10146452777894638</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://edas#SlideSet"/>
+			<entity2 rdf:resource="http://sigkdd#Paper"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.10146452777894638</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://edas#SlideSet"/>
+			<entity2 rdf:resource="http://sigkdd#Review"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.10146452777894638</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://edas#SlideSet"/>
+			<entity2 rdf:resource="http://sigkdd#Abstract"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.10146452777894638</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://edas#TPCMember"/>
+			<entity2 rdf:resource="http://sigkdd#Listener"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.08122390019417494</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://edas#TPCMember"/>
+			<entity2 rdf:resource="http://sigkdd#Speaker"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.08122390019417494</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://edas#TPCMember"/>
+			<entity2 rdf:resource="http://sigkdd#Organizator"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.08122390019417494</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://edas#MeetingRoomPlace"/>
+			<entity2 rdf:resource="http://sigkdd#Conference_hall"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.08122390019417494</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://edas#MeetingRoomPlace"/>
+			<entity2 rdf:resource="http://sigkdd#Main_office"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.08122390019417494</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://edas#MeetingRoomPlace"/>
+			<entity2 rdf:resource="http://sigkdd#Hotel"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.08122390019417494</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://edas#SessionChair"/>
+			<entity2 rdf:resource="http://sigkdd#Listener"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.08122390019417494</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://edas#SessionChair"/>
+			<entity2 rdf:resource="http://sigkdd#Speaker"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.08122390019417494</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://edas#SessionChair"/>
+			<entity2 rdf:resource="http://sigkdd#Organizator"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.08122390019417494</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://edas#ConferenceVenuePlace"/>
+			<entity2 rdf:resource="http://sigkdd#Conference_hall"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.08122390019417494</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://edas#ConferenceVenuePlace"/>
+			<entity2 rdf:resource="http://sigkdd#Main_office"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.08122390019417494</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://edas#ConferenceVenuePlace"/>
+			<entity2 rdf:resource="http://sigkdd#Hotel"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.08122390019417494</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://edas#Person"/>
+			<entity2 rdf:resource="http://sigkdd#Person"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.40077070168277373</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://edas#Author"/>
+			<entity2 rdf:resource="http://sigkdd#Author"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.27287835280488104</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://edas#Presenter"/>
+			<entity2 rdf:resource="http://sigkdd#Author_of_paper_student"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.17223048278893038</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://edas#Presenter"/>
+			<entity2 rdf:resource="http://sigkdd#Author_of_paper"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.17223048278893038</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+</Alignment>
+</rdf:RDF>

@@ -1,0 +1,50 @@
+{
+  "projectName" : "Plantae",
+  "moduleFile" : "in/agronomicTaxon.owl",
+  "sources" :
+  [
+    {
+      "name" : "Agrovoc",
+      "baseUri" : "http://aims.fao.org/aos/agrovoc/",
+      "spIn" : "http://amarger.murloc.fr:8080/Agrovoc2KB_TESTClass_out/",
+      "sourceQuality" : 0.6
+    },
+    {
+      "name" : "TaxRef",
+      "baseUri" : "http://inpn.mnhn.fr/espece/cd_nom/",
+      "spIn" : "http://amarger.murloc.fr:8080/TaxRef2RKB_out_TEST/",
+      "sourceQuality" : 0.9
+    },
+    {
+      "name" : "NCBI",
+      "baseUri" : "http://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=",
+      "spIn" : "http://amarger.murloc.fr:8080/Ncbi2RKB_out/",
+      "sourceQuality" : 0.8
+    }
+  ],
+  "relImps" :
+  [
+    "http://ontology.irstea.fr/AgronomicTaxon#hasHigherRank",
+    "http://www.w3.org/1999/02/22-rdf-syntax-ns#type"
+  ],
+  "labelRelImps" :
+  [
+    "http://ontology.irstea.fr/AgronomicTaxon#hasScientificName",
+    "http://ontology.irstea.fr/AgronomicTaxon#hasVernacularName"
+  ],
+  "uriTypeBase" : "http://ontology.irstea.fr/AgronomicTaxon",
+  "uriTypeImps" : 
+  [
+  	"http://ontology.irstea.fr/AgronomicTaxon#Taxon"
+  ],
+  "output" :
+  {
+    "spOutProvo" : "http://amarger.murloc.fr:8080/Muskca-provo/",
+    "provoFile" : "in/prov-o.owl",
+    "baseUri" : "http://muskca_system.fr/"
+  },
+  "aligner" : "logmap2",
+  "threshold" : 0.0,
+  "x0" : 1.5,
+  "gamma" : 1.5
+}

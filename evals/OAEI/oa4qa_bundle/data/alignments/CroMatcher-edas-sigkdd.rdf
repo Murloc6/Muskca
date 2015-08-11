@@ -1,0 +1,405 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rdf:RDF xmlns="http://knowledgeweb.semanticweb.org/heterogeneity/alignment" 
+	 xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" 
+	 xmlns:xsd="http://www.w3.org/2001/XMLSchema#">
+
+<Alignment>
+<xml>yes</xml>
+<level>0</level>
+<type>??</type>
+
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://edas#hasAttendee"/>
+		<entity2 rdf:resource="http://sigkdd#payed_by"/>
+		<measure rdf:datatype="xsd:float">0.402</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://edas#TestOnlyTopic"/>
+		<entity2 rdf:resource="http://sigkdd#Webmaster"/>
+		<measure rdf:datatype="xsd:float">0.237</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://edas#Place"/>
+		<entity2 rdf:resource="http://sigkdd#Place"/>
+		<measure rdf:datatype="xsd:float">0.772</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://edas#OrganizationalMeeting"/>
+		<entity2 rdf:resource="http://sigkdd#Organizing_Committee_member"/>
+		<measure rdf:datatype="xsd:float">0.429</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://edas#hasLastName"/>
+		<entity2 rdf:resource="http://sigkdd#Name"/>
+		<measure rdf:datatype="xsd:float">0.786</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://edas#hasRelatedDocument"/>
+		<entity2 rdf:resource="http://sigkdd#presentation"/>
+		<measure rdf:datatype="xsd:float">0.447</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://edas#hasCostAmount"/>
+		<entity2 rdf:resource="http://sigkdd#Price"/>
+		<measure rdf:datatype="xsd:float">0.417</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://edas#hasName"/>
+		<entity2 rdf:resource="http://sigkdd#Name_of_conference"/>
+		<measure rdf:datatype="xsd:float">0.714</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://edas#DiningPlace"/>
+		<entity2 rdf:resource="http://sigkdd#Main_office"/>
+		<measure rdf:datatype="xsd:float">0.356</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://edas#IndustryOrganization"/>
+		<entity2 rdf:resource="http://sigkdd#Organizing_Committee"/>
+		<measure rdf:datatype="xsd:float">0.35</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://edas#ConferenceVenuePlace"/>
+		<entity2 rdf:resource="http://sigkdd#Conference_hall"/>
+		<measure rdf:datatype="xsd:float">0.605</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://edas#hasEmail"/>
+		<entity2 rdf:resource="http://sigkdd#E-mail"/>
+		<measure rdf:datatype="xsd:float">0.735</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://edas#hasProgramme"/>
+		<entity2 rdf:resource="http://sigkdd#holded_by"/>
+		<measure rdf:datatype="xsd:float">0.207</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://edas#Author"/>
+		<entity2 rdf:resource="http://sigkdd#Author"/>
+		<measure rdf:datatype="xsd:float">0.712</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://edas#BreakEvent"/>
+		<entity2 rdf:resource="http://sigkdd#Speaker"/>
+		<measure rdf:datatype="xsd:float">0.342</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://edas#PowerlineTransmissionTopic"/>
+		<entity2 rdf:resource="http://sigkdd#Deadline_Abstract_Submission"/>
+		<measure rdf:datatype="xsd:float">0.437</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://edas#belongsToEvent"/>
+		<entity2 rdf:resource="http://sigkdd#hold"/>
+		<measure rdf:datatype="xsd:float">0.293</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://edas#hasPhone"/>
+		<entity2 rdf:resource="http://sigkdd#Name_of_sponsor"/>
+		<measure rdf:datatype="xsd:float">0.47</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://edas#PaperPresentation"/>
+		<entity2 rdf:resource="http://sigkdd#Registration_Student"/>
+		<measure rdf:datatype="xsd:float">0.433</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://edas#Programme"/>
+		<entity2 rdf:resource="http://sigkdd#Program_Chair"/>
+		<measure rdf:datatype="xsd:float">0.55</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://edas#SecurityTopic"/>
+		<entity2 rdf:resource="http://sigkdd#Exhibitor"/>
+		<measure rdf:datatype="xsd:float">0.248</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://edas#startDate"/>
+		<entity2 rdf:resource="http://sigkdd#Start_of_conference"/>
+		<measure rdf:datatype="xsd:float">0.729</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://edas#relatesTo"/>
+		<entity2 rdf:resource="http://sigkdd#presentationed_by"/>
+		<measure rdf:datatype="xsd:float">0.322</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://edas#hasRelatedPaper"/>
+		<entity2 rdf:resource="http://sigkdd#submit"/>
+		<measure rdf:datatype="xsd:float">0.502</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://edas#Sponsorship"/>
+		<entity2 rdf:resource="http://sigkdd#Sponzor"/>
+		<measure rdf:datatype="xsd:float">0.406</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://edas#hasCity"/>
+		<entity2 rdf:resource="http://sigkdd#City_of_conference"/>
+		<measure rdf:datatype="xsd:float">0.645</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://edas#hasLocation"/>
+		<entity2 rdf:resource="http://sigkdd#can_stay_in"/>
+		<measure rdf:datatype="xsd:float">0.389</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://edas#Presenter"/>
+		<entity2 rdf:resource="http://sigkdd#Best_Research_Paper_Award"/>
+		<measure rdf:datatype="xsd:float">0.388</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://edas#Review"/>
+		<entity2 rdf:resource="http://sigkdd#Review"/>
+		<measure rdf:datatype="xsd:float">0.947</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://edas#Document"/>
+		<entity2 rdf:resource="http://sigkdd#Document"/>
+		<measure rdf:datatype="xsd:float">0.81</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://edas#ComputerNetworksAapplicationsTopic"/>
+		<entity2 rdf:resource="http://sigkdd#Best_Applications_Paper_Award"/>
+		<measure rdf:datatype="xsd:float">0.457</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://edas#ConferenceChair"/>
+		<entity2 rdf:resource="http://sigkdd#Conference"/>
+		<measure rdf:datatype="xsd:float">0.557</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://edas#Organization"/>
+		<entity2 rdf:resource="http://sigkdd#Organizator"/>
+		<measure rdf:datatype="xsd:float">0.588</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://edas#Person"/>
+		<entity2 rdf:resource="http://sigkdd#Person"/>
+		<measure rdf:datatype="xsd:float">0.768</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://edas#AcademiaOrganization"/>
+		<entity2 rdf:resource="http://sigkdd#Deadline_Author_notification"/>
+		<measure rdf:datatype="xsd:float">0.368</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://edas#hasEndDateTime"/>
+		<entity2 rdf:resource="http://sigkdd#Date"/>
+		<measure rdf:datatype="xsd:float">0.644</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://edas#hasBiography"/>
+		<entity2 rdf:resource="http://sigkdd#Nation"/>
+		<measure rdf:datatype="xsd:float">0.594</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://edas#hasCostCurrency"/>
+		<entity2 rdf:resource="http://sigkdd#Currency"/>
+		<measure rdf:datatype="xsd:float">0.756</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://edas#TravelGrant"/>
+		<entity2 rdf:resource="http://sigkdd#Silver_Supporter"/>
+		<measure rdf:datatype="xsd:float">0.269</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://edas#MealMenu"/>
+		<entity2 rdf:resource="http://sigkdd#Abstract"/>
+		<measure rdf:datatype="xsd:float">0.312</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://edas#endDate"/>
+		<entity2 rdf:resource="http://sigkdd#End_of_conference"/>
+		<measure rdf:datatype="xsd:float">0.709</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://edas#attendeeAt"/>
+		<entity2 rdf:resource="http://sigkdd#pay"/>
+		<measure rdf:datatype="xsd:float">0.288</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://edas#TPCMember"/>
+		<entity2 rdf:resource="http://sigkdd#Registration_Non-Member"/>
+		<measure rdf:datatype="xsd:float">0.405</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://edas#AccpetIfRoomRating"/>
+		<entity2 rdf:resource="http://sigkdd#Program_Committee"/>
+		<measure rdf:datatype="xsd:float">0.302</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://edas#CoffeeBreak"/>
+		<entity2 rdf:resource="http://sigkdd#Fee"/>
+		<measure rdf:datatype="xsd:float">0.302</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://edas#isProviderOf"/>
+		<entity2 rdf:resource="http://sigkdd#search"/>
+		<measure rdf:datatype="xsd:float">0.21</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://edas#Paper"/>
+		<entity2 rdf:resource="http://sigkdd#Paper"/>
+		<measure rdf:datatype="xsd:float">0.842</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://edas#SessionChair"/>
+		<entity2 rdf:resource="http://sigkdd#General_Chair"/>
+		<measure rdf:datatype="xsd:float">0.403</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://edas#Attendee"/>
+		<entity2 rdf:resource="http://sigkdd#Listener"/>
+		<measure rdf:datatype="xsd:float">0.315</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+
+</Alignment>
+</rdf:RDF>

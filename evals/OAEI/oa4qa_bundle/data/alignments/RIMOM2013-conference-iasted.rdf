@@ -1,0 +1,301 @@
+<?xml version='1.0' encoding='utf-8' standalone='no'?>
+<rdf:RDF xmlns='http://knowledgeweb.semanticweb.org/heterogeneity/alignment#'
+	xml:base='http://knowledgeweb.semanticweb.org/heterogeneity/alignment#'
+	xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#'
+	xmlns:xsd='http://www.w3.org/2001/XMLSchema#'>
+<Alignment>
+	<level>0</level>
+	<type>**</type>
+	<time>0.32766296589658017</time>
+	<onto1>http://seals-test.sti2.at/tdrs-web/testdata/persistent/595bcf86-52e2-4c01-b3f8-a4e975202bca/583405fb-8260-4d36-9425-0b19fc5a3243/suite/conference-iasted/component/source/</onto1>
+	<onto2>http://seals-test.sti2.at/tdrs-web/testdata/persistent/595bcf86-52e2-4c01-b3f8-a4e975202bca/583405fb-8260-4d36-9425-0b19fc5a3243/suite/conference-iasted/component/target/</onto2>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://conference#Presentation"/>
+			<entity2 rdf:resource="http://iasted#Presentation"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.4728764479480051</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://conference#Invited_talk"/>
+			<entity2 rdf:resource="http://iasted#Video_presentation"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.2771728798614414</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://conference#Invited_talk"/>
+			<entity2 rdf:resource="http://iasted#PowerPoint_presentation"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.2771728798614414</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://conference#Committee_member"/>
+			<entity2 rdf:resource="http://iasted#Sponsor"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.12723927687745892</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://conference#Committee_member"/>
+			<entity2 rdf:resource="http://iasted#Author"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.049192858127494625</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://conference#Committee_member"/>
+			<entity2 rdf:resource="http://iasted#Delegate"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.17858278113349274</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://conference#is_given_by"/>
+			<entity2 rdf:resource="http://iasted#is_given_by"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.2787960843730376</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://conference#Track-workshop_chair"/>
+			<entity2 rdf:resource="http://iasted#Sponsor"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.12723927687745892</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://conference#Track-workshop_chair"/>
+			<entity2 rdf:resource="http://iasted#Delegate"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.12723927687745892</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://conference#Conference_contribution"/>
+			<entity2 rdf:resource="http://iasted#Conference_activity"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.7041223808298954</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://conference#Tutorial"/>
+			<entity2 rdf:resource="http://iasted#Tutorial"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.3262706782697214</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://conference#Tutorial"/>
+			<entity2 rdf:resource="http://iasted#Plenary_lecture"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.047474593896683785</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://conference#Tutorial"/>
+			<entity2 rdf:resource="http://iasted#Session"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.047474593896683785</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://conference#Conference_participant"/>
+			<entity2 rdf:resource="http://iasted#Sponsor"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.12723927687745892</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://conference#Conference_participant"/>
+			<entity2 rdf:resource="http://iasted#Author"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.051490982448356565</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://conference#Conference_participant"/>
+			<entity2 rdf:resource="http://iasted#Delegate"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.19117435201788865</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://conference#Reviewer"/>
+			<entity2 rdf:resource="http://iasted#Sponsor"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.12723927687745892</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://conference#Reviewer"/>
+			<entity2 rdf:resource="http://iasted#Reviewer"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.3154544426383472</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://conference#Reviewer"/>
+			<entity2 rdf:resource="http://iasted#Delegate"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.12723927687745892</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://conference#Conference_contributor"/>
+			<entity2 rdf:resource="http://iasted#Sponsor"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.12723927687745892</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://conference#Conference_contributor"/>
+			<entity2 rdf:resource="http://iasted#Author"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.05744045602554656</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://conference#Conference_contributor"/>
+			<entity2 rdf:resource="http://iasted#Delegate"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.22173448183243805</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://conference#Workshop"/>
+			<entity2 rdf:resource="http://iasted#Tutorial"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.047474593896683785</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://conference#Workshop"/>
+			<entity2 rdf:resource="http://iasted#Plenary_lecture"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.047474593896683785</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://conference#Workshop"/>
+			<entity2 rdf:resource="http://iasted#Session"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.047474593896683785</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://conference#Track"/>
+			<entity2 rdf:resource="http://iasted#Tutorial"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.047474593896683785</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://conference#Track"/>
+			<entity2 rdf:resource="http://iasted#Plenary_lecture"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.047474593896683785</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://conference#Track"/>
+			<entity2 rdf:resource="http://iasted#Session"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.047474593896683785</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://conference#Person"/>
+			<entity2 rdf:resource="http://iasted#Speaker"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.5051601960614858</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://conference#Person"/>
+			<entity2 rdf:resource="http://iasted#Person"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.789341379671346</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://conference#Review"/>
+			<entity2 rdf:resource="http://iasted#Review"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.311571825656909</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://conference#Conference_document"/>
+			<entity2 rdf:resource="http://iasted#Activity"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.30070098310359766</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://conference#Conference_document"/>
+			<entity2 rdf:resource="http://iasted#Document"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">1.0</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://conference#Conference_applicant"/>
+			<entity2 rdf:resource="http://iasted#Sponsor"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.12723927687745892</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://conference#Conference_applicant"/>
+			<entity2 rdf:resource="http://iasted#Delegate"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.15205168239310263</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://conference#Conference_part"/>
+			<entity2 rdf:resource="http://iasted#Lecture"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.4872280331326526</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+</Alignment>
+</rdf:RDF>

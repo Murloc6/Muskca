@@ -1,0 +1,357 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rdf:RDF xmlns="http://knowledgeweb.semanticweb.org/heterogeneity/alignment" 
+	 xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" 
+	 xmlns:xsd="http://www.w3.org/2001/XMLSchema#">
+
+<Alignment>
+<xml>yes</xml>
+<level>0</level>
+<type>??</type>
+
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#email"/>
+		<entity2 rdf:resource="http://edas#hasEmail"/>
+		<measure rdf:datatype="xsd:float">0.815</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#Conference"/>
+		<entity2 rdf:resource="http://edas#Conference"/>
+		<measure rdf:datatype="xsd:float">0.688</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#rejectedBy"/>
+		<entity2 rdf:resource="http://edas#relatedToEvent"/>
+		<measure rdf:datatype="xsd:float">0.409</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#name"/>
+		<entity2 rdf:resource="http://edas#hasLastName"/>
+		<measure rdf:datatype="xsd:float">0.607</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#User"/>
+		<entity2 rdf:resource="http://edas#Presenter"/>
+		<measure rdf:datatype="xsd:float">0.273</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#hasConferenceMember"/>
+		<entity2 rdf:resource="http://edas#hasMember"/>
+		<measure rdf:datatype="xsd:float">0.548</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#markConflictOfInterest"/>
+		<entity2 rdf:resource="http://edas#isReviewing"/>
+		<measure rdf:datatype="xsd:float">0.338</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#ExternalReviewer"/>
+		<entity2 rdf:resource="http://edas#CallForReviews"/>
+		<measure rdf:datatype="xsd:float">0.401</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#Meta-Review"/>
+		<entity2 rdf:resource="http://edas#PersonalReviewHistory"/>
+		<measure rdf:datatype="xsd:float">0.425</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#ConferenceChair"/>
+		<entity2 rdf:resource="http://edas#ConferenceChair"/>
+		<measure rdf:datatype="xsd:float">0.703</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#acceptsHardcopySubmissions"/>
+		<entity2 rdf:resource="http://edas#registrationDueOn"/>
+		<measure rdf:datatype="xsd:float">0.288</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#readPaper"/>
+		<entity2 rdf:resource="http://edas#relatedToPaper"/>
+		<measure rdf:datatype="xsd:float">0.491</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#Review"/>
+		<entity2 rdf:resource="http://edas#Review"/>
+		<measure rdf:datatype="xsd:float">0.784</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#writeReview"/>
+		<entity2 rdf:resource="http://edas#hasReviewHistory"/>
+		<measure rdf:datatype="xsd:float">0.558</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#Co-author"/>
+		<entity2 rdf:resource="http://edas#Author"/>
+		<measure rdf:datatype="xsd:float">0.545</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#memberOfProgramCommittee"/>
+		<entity2 rdf:resource="http://edas#hasProgramme"/>
+		<measure rdf:datatype="xsd:float">0.492</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#Paper"/>
+		<entity2 rdf:resource="http://edas#Paper"/>
+		<measure rdf:datatype="xsd:float">0.709</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#Chairman"/>
+		<entity2 rdf:resource="http://edas#SessionChair"/>
+		<measure rdf:datatype="xsd:float">0.56</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#hardcopyMailingManifestsPrintedBy"/>
+		<entity2 rdf:resource="http://edas#hasCountry"/>
+		<measure rdf:datatype="xsd:float">0.324</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#date"/>
+		<entity2 rdf:resource="http://edas#endDate"/>
+		<measure rdf:datatype="xsd:float">0.447</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#detailsEnteredBy"/>
+		<entity2 rdf:resource="http://edas#hasAttendee"/>
+		<measure rdf:datatype="xsd:float">0.381</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#Person"/>
+		<entity2 rdf:resource="http://edas#Person"/>
+		<measure rdf:datatype="xsd:float">0.735</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#writtenBy"/>
+		<entity2 rdf:resource="http://edas#isWrittenBy"/>
+		<measure rdf:datatype="xsd:float">0.576</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#endReview"/>
+		<entity2 rdf:resource="http://edas#isReviewHistoryOf"/>
+		<measure rdf:datatype="xsd:float">0.495</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#addedBy"/>
+		<entity2 rdf:resource="http://edas#providedBy"/>
+		<measure rdf:datatype="xsd:float">0.313</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#readByReviewer"/>
+		<entity2 rdf:resource="http://edas#isReviewedBy"/>
+		<measure rdf:datatype="xsd:float">0.636</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#ProgramCommitteeChair"/>
+		<entity2 rdf:resource="http://edas#Programme"/>
+		<measure rdf:datatype="xsd:float">0.39</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#Administrator"/>
+		<entity2 rdf:resource="http://edas#OrganizationalMeeting"/>
+		<measure rdf:datatype="xsd:float">0.351</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#Acceptance"/>
+		<entity2 rdf:resource="http://edas#AcceptRating"/>
+		<measure rdf:datatype="xsd:float">0.527</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#Decision"/>
+		<entity2 rdf:resource="http://edas#ReviewQuestion"/>
+		<measure rdf:datatype="xsd:float">0.43</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#Reviewer"/>
+		<entity2 rdf:resource="http://edas#Reviewer"/>
+		<measure rdf:datatype="xsd:float">0.42</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#PaperFullVersion"/>
+		<entity2 rdf:resource="http://edas#PaperPresentation"/>
+		<measure rdf:datatype="xsd:float">0.479</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#hasConflictOfInterest"/>
+		<entity2 rdf:resource="http://edas#attendeeAt"/>
+		<measure rdf:datatype="xsd:float">0.432</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#memberOfConference"/>
+		<entity2 rdf:resource="http://edas#isMemberOf"/>
+		<measure rdf:datatype="xsd:float">0.504</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#co-writePaper"/>
+		<entity2 rdf:resource="http://edas#hasRelatedPaper"/>
+		<measure rdf:datatype="xsd:float">0.684</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#title"/>
+		<entity2 rdf:resource="http://edas#hasCity"/>
+		<measure rdf:datatype="xsd:float">0.378</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#reviewsPerPaper"/>
+		<entity2 rdf:resource="http://edas#paperDueOn"/>
+		<measure rdf:datatype="xsd:float">0.388</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#Document"/>
+		<entity2 rdf:resource="http://edas#Document"/>
+		<measure rdf:datatype="xsd:float">0.585</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#Rejection"/>
+		<entity2 rdf:resource="http://edas#RejectRating"/>
+		<measure rdf:datatype="xsd:float">0.584</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#maxPapers"/>
+		<entity2 rdf:resource="http://edas#hasCostAmount"/>
+		<measure rdf:datatype="xsd:float">0.312</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#Preference"/>
+		<entity2 rdf:resource="http://edas#TwoLevelConference"/>
+		<measure rdf:datatype="xsd:float">0.353</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#PaperAbstract"/>
+		<entity2 rdf:resource="http://edas#AcceptedPaper"/>
+		<measure rdf:datatype="xsd:float">0.546</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://cmt#siteURL"/>
+		<entity2 rdf:resource="http://edas#startDate"/>
+		<measure rdf:datatype="xsd:float">0.273</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+
+</Alignment>
+</rdf:RDF>

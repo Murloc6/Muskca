@@ -1,0 +1,493 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rdf:RDF xmlns="http://knowledgeweb.semanticweb.org/heterogeneity/alignment" 
+	 xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" 
+	 xmlns:xsd="http://www.w3.org/2001/XMLSchema#">
+
+<Alignment>
+<xml>yes</xml>
+<level>0</level>
+<type>??</type>
+
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://edas#isTopicOf"/>
+		<entity2 rdf:resource="http://ekaw#topicCoveredBy"/>
+		<measure rdf:datatype="xsd:float">0.53</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://edas#AcademicEvent"/>
+		<entity2 rdf:resource="http://ekaw#Scientific_Event"/>
+		<measure rdf:datatype="xsd:float">0.482</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://edas#RatedPapers"/>
+		<entity2 rdf:resource="http://ekaw#Evaluated_Paper"/>
+		<measure rdf:datatype="xsd:float">0.531</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://edas#SocialEvent"/>
+		<entity2 rdf:resource="http://ekaw#Social_Event"/>
+		<measure rdf:datatype="xsd:float">0.765</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://edas#PublishedPaper"/>
+		<entity2 rdf:resource="http://ekaw#Workshop_Paper"/>
+		<measure rdf:datatype="xsd:float">0.583</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://edas#hasAttendee"/>
+		<entity2 rdf:resource="http://ekaw#writtenBy"/>
+		<measure rdf:datatype="xsd:float">0.542</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://edas#Presenter"/>
+		<entity2 rdf:resource="http://ekaw#Presenter"/>
+		<measure rdf:datatype="xsd:float">0.743</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://edas#isReviewing"/>
+		<entity2 rdf:resource="http://ekaw#reviewOfPaper"/>
+		<measure rdf:datatype="xsd:float">0.564</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://edas#Organization"/>
+		<entity2 rdf:resource="http://ekaw#Organisation"/>
+		<measure rdf:datatype="xsd:float">0.627</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://edas#belongsToEvent"/>
+		<entity2 rdf:resource="http://ekaw#listsEvent"/>
+		<measure rdf:datatype="xsd:float">0.422</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://edas#Author"/>
+		<entity2 rdf:resource="http://ekaw#Paper_Author"/>
+		<measure rdf:datatype="xsd:float">0.485</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://edas#WelcomeTalk"/>
+		<entity2 rdf:resource="http://ekaw#Invited_Talk"/>
+		<measure rdf:datatype="xsd:float">0.48</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://edas#isProviderOf"/>
+		<entity2 rdf:resource="http://ekaw#publisherOf"/>
+		<measure rdf:datatype="xsd:float">0.328</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://edas#ReviewRating"/>
+		<entity2 rdf:resource="http://ekaw#Negative_Review"/>
+		<measure rdf:datatype="xsd:float">0.438</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://edas#Topic"/>
+		<entity2 rdf:resource="http://ekaw#Research_Topic"/>
+		<measure rdf:datatype="xsd:float">0.411</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://edas#NGO"/>
+		<entity2 rdf:resource="http://ekaw#Proceedings_Publisher"/>
+		<measure rdf:datatype="xsd:float">0.275</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://edas#Person"/>
+		<entity2 rdf:resource="http://ekaw#Person"/>
+		<measure rdf:datatype="xsd:float">0.795</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://edas#Programme"/>
+		<entity2 rdf:resource="http://ekaw#Programme_Brochure"/>
+		<measure rdf:datatype="xsd:float">0.722</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://edas#ComputerArchitectureTopic"/>
+		<entity2 rdf:resource="http://ekaw#Research_Institute"/>
+		<measure rdf:datatype="xsd:float">0.308</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://edas#Conference"/>
+		<entity2 rdf:resource="http://ekaw#Conference"/>
+		<measure rdf:datatype="xsd:float">0.527</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://edas#CommunicationsTopic"/>
+		<entity2 rdf:resource="http://ekaw#Location"/>
+		<measure rdf:datatype="xsd:float">0.318</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://edas#Review"/>
+		<entity2 rdf:resource="http://ekaw#Review"/>
+		<measure rdf:datatype="xsd:float">0.854</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://edas#MealMenu"/>
+		<entity2 rdf:resource="http://ekaw#Flyer"/>
+		<measure rdf:datatype="xsd:float">0.276</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://edas#Workshop"/>
+		<entity2 rdf:resource="http://ekaw#Workshop"/>
+		<measure rdf:datatype="xsd:float">0.865</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://edas#hasCall"/>
+		<entity2 rdf:resource="http://ekaw#scientificallyOrganisedBy"/>
+		<measure rdf:datatype="xsd:float">0.3</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://edas#MultimediaTopic"/>
+		<entity2 rdf:resource="http://ekaw#Multi-author_Volume"/>
+		<measure rdf:datatype="xsd:float">0.291</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://edas#Paper"/>
+		<entity2 rdf:resource="http://ekaw#Paper"/>
+		<measure rdf:datatype="xsd:float">0.913</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://edas#relatesTo"/>
+		<entity2 rdf:resource="http://ekaw#updatedVersionOf"/>
+		<measure rdf:datatype="xsd:float">0.431</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://edas#MealBreak"/>
+		<entity2 rdf:resource="http://ekaw#Tutorial"/>
+		<measure rdf:datatype="xsd:float">0.232</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://edas#relatedToPaper"/>
+		<entity2 rdf:resource="http://ekaw#presentationOfPaper"/>
+		<measure rdf:datatype="xsd:float">0.435</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://edas#Attendee"/>
+		<entity2 rdf:resource="http://ekaw#Student"/>
+		<measure rdf:datatype="xsd:float">0.426</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://edas#TPCMember"/>
+		<entity2 rdf:resource="http://ekaw#PC_Member"/>
+		<measure rdf:datatype="xsd:float">0.68</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://edas#hasProgramme"/>
+		<entity2 rdf:resource="http://ekaw#eventOnList"/>
+		<measure rdf:datatype="xsd:float">0.328</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://edas#attendeeAt"/>
+		<entity2 rdf:resource="http://ekaw#organises"/>
+		<measure rdf:datatype="xsd:float">0.386</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://edas#isReviewHistoryOf"/>
+		<entity2 rdf:resource="http://ekaw#reviewWrittenBy"/>
+		<measure rdf:datatype="xsd:float">0.625</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://edas#Reviewer"/>
+		<entity2 rdf:resource="http://ekaw#Possible_Reviewer"/>
+		<measure rdf:datatype="xsd:float">0.728</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://edas#ConferenceDinner"/>
+		<entity2 rdf:resource="http://ekaw#Conference_Proceedings"/>
+		<measure rdf:datatype="xsd:float">0.56</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://edas#isReviewedBy"/>
+		<entity2 rdf:resource="http://ekaw#hasReviewer"/>
+		<measure rdf:datatype="xsd:float">0.629</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://edas#AcademiaOrganization"/>
+		<entity2 rdf:resource="http://ekaw#Academic_Institution"/>
+		<measure rdf:datatype="xsd:float">0.493</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://edas#ConferenceSession"/>
+		<entity2 rdf:resource="http://ekaw#Conference_Session"/>
+		<measure rdf:datatype="xsd:float">0.7</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://edas#ConferenceChair"/>
+		<entity2 rdf:resource="http://ekaw#Conference_Participant"/>
+		<measure rdf:datatype="xsd:float">0.536</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://edas#isMenuOf"/>
+		<entity2 rdf:resource="http://ekaw#partOfEvent"/>
+		<measure rdf:datatype="xsd:float">0.327</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://edas#hasTopic"/>
+		<entity2 rdf:resource="http://ekaw#coversTopic"/>
+		<measure rdf:datatype="xsd:float">0.535</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://edas#ClosingTalk"/>
+		<entity2 rdf:resource="http://ekaw#Contributed_Talk"/>
+		<measure rdf:datatype="xsd:float">0.379</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://edas#relatedToEvent"/>
+		<entity2 rdf:resource="http://ekaw#paperPresentedAs"/>
+		<measure rdf:datatype="xsd:float">0.395</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://edas#TalkEvent"/>
+		<entity2 rdf:resource="http://ekaw#Event"/>
+		<measure rdf:datatype="xsd:float">0.499</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://edas#PaperPresentation"/>
+		<entity2 rdf:resource="http://ekaw#Individual_Presentation"/>
+		<measure rdf:datatype="xsd:float">0.52</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://edas#Excursion"/>
+		<entity2 rdf:resource="http://ekaw#Demo_Session"/>
+		<measure rdf:datatype="xsd:float">0.38</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://edas#isLocationOf"/>
+		<entity2 rdf:resource="http://ekaw#locationOf"/>
+		<measure rdf:datatype="xsd:float">0.418</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://edas#DiningPlace"/>
+		<entity2 rdf:resource="http://ekaw#Proceedings"/>
+		<measure rdf:datatype="xsd:float">0.291</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://edas#IndustryOrganization"/>
+		<entity2 rdf:resource="http://ekaw#Organising_Agency"/>
+		<measure rdf:datatype="xsd:float">0.461</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://edas#Document"/>
+		<entity2 rdf:resource="http://ekaw#Document"/>
+		<measure rdf:datatype="xsd:float">0.786</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://edas#RejectedPaper"/>
+		<entity2 rdf:resource="http://ekaw#Rejected_Paper"/>
+		<measure rdf:datatype="xsd:float">0.76</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://edas#AcceptedPaper"/>
+		<entity2 rdf:resource="http://ekaw#Poster_Paper"/>
+		<measure rdf:datatype="xsd:float">0.623</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://edas#hasReviewHistory"/>
+		<entity2 rdf:resource="http://ekaw#reviewerOfPaper"/>
+		<measure rdf:datatype="xsd:float">0.525</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://edas#SessionChair"/>
+		<entity2 rdf:resource="http://ekaw#Session_Chair"/>
+		<measure rdf:datatype="xsd:float">0.725</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://edas#TravelGrant"/>
+		<entity2 rdf:resource="http://ekaw#Track"/>
+		<measure rdf:datatype="xsd:float">0.235</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://edas#PendingPaper"/>
+		<entity2 rdf:resource="http://ekaw#Industrial_Paper"/>
+		<measure rdf:datatype="xsd:float">0.629</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://edas#forEvent"/>
+		<entity2 rdf:resource="http://ekaw#hasEvent"/>
+		<measure rdf:datatype="xsd:float">0.418</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://edas#hasRelatedDocument"/>
+		<entity2 rdf:resource="http://ekaw#authorOf"/>
+		<measure rdf:datatype="xsd:float">0.475</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+
+</Alignment>
+</rdf:RDF>

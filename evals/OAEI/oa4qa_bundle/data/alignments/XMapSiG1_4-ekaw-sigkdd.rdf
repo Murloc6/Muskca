@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rdf:RDF xmlns="http://knowledgeweb.semanticweb.org/heterogeneity/alignment" 
+	 xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" 
+	 xmlns:xsd="http://www.w3.org/2001/XMLSchema#">
+
+<Alignment>
+<xml>yes</xml>
+<level>0</level>
+<type>??</type>
+
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://ekaw#Document"/>
+		<entity2 rdf:resource="http://sigkdd#Document"/>
+		<measure rdf:datatype="xsd:float">1.0</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://ekaw#Review"/>
+		<entity2 rdf:resource="http://sigkdd#Review"/>
+		<measure rdf:datatype="xsd:float">0.9785355268707399</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://ekaw#Person"/>
+		<entity2 rdf:resource="http://sigkdd#Person"/>
+		<measure rdf:datatype="xsd:float">0.9668517853153908</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://ekaw#Abstract"/>
+		<entity2 rdf:resource="http://sigkdd#Abstract"/>
+		<measure rdf:datatype="xsd:float">1.0</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://ekaw#Paper"/>
+		<entity2 rdf:resource="http://sigkdd#Paper"/>
+		<measure rdf:datatype="xsd:float">0.9748221925486928</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+<map>
+	<Cell>
+		<entity1 rdf:resource="http://ekaw#Invited_Speaker"/>
+		<entity2 rdf:resource="http://sigkdd#Invited_Speaker"/>
+		<measure rdf:datatype="xsd:float">1.0</measure>
+		<relation>=</relation>
+	</Cell>
+</map>
+
+</Alignment>
+</rdf:RDF>

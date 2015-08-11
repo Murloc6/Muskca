@@ -1,30 +1,6 @@
-<http://ontology.irstea.fr/AgronomicTaxon> rdf:type :Ontology ;
-                                           
-                                           terms:title "Agronomic Taxon module"@en ;
-                                           
-                                           terms:creator "Catherine ROUSSEY from Irstea"@en ;
-                                           
-                                           rdfs:comment """created by irstea. This ontology is a module that is based on skos vocabulary, ODP from neon project : linnean taxonomy ODP and classification ODP. 
-It reuse also some rdf label of biol dataset."""@en ,
-                                                        "last update september 2014 "@en ;
-                                           
-                                           :imports <http://www.w3.org/2004/02/skos/core> .
-
-
-#################################################################
-#
-#    Annotation properties
-#
-#################################################################
-
-
-
-
-#################################################################
-#
-#    Object Properties
-#
-#################################################################
+@prefix AgronomicTaxon: <http://ontology.irstea.fr/AgronomicTaxon#>.
+@prefix skos: <http://www.w3.org/2004/02/skos/core#>.
+@prefix swrl: <http://www.w3.org/2003/11/swrl#>.
 
 
 ###  http://ontology.irstea.fr/AgronomicTaxon#classify
@@ -36,7 +12,7 @@ AgronomicTaxon:classify rdf:type :ObjectProperty ;
                                    "classifie"@fr ,
                                    "classifica"@it ;
                         
-                        rdfs:isDefinedBy "\"http://www.ontologydesignpatterns.org/cp/owl/classification.owl#classifies\"" ;
+                        rdfs:isDefinedBy "http://www.ontologydesignpatterns.org/cp/owl/classification.owl#classifies" ;
                         
                         rdfs:comment "A relation between a Concept and an Entity, e.g. the Role student classifies a Person John" ;
                         
@@ -56,7 +32,7 @@ AgronomicTaxon:hasHigherRank rdf:type :ObjectProperty ,
                              rdfs:label "has higher rank"@en ,
                                         "a pour rang supérieur"@fr ;
                              
-                             rdfs:isDefinedBy "\"http://www.ontologydesignpatterns.org/cp/owl/linnaeantaxonomy.owl#hasHigherRank\"" ;
+                             rdfs:isDefinedBy "http://www.ontologydesignpatterns.org/cp/owl/linnaeantaxonomy.owl#hasHigherRank" ;
                              
                              rdfs:seeAlso "Ontology Design Pattern LinneanTaxonomy:hashigherRank"@en ;
                              
@@ -76,7 +52,7 @@ AgronomicTaxon:hasLowerRank rdf:type :ObjectProperty ,
                             rdfs:label "has lower rank"@en ,
                                        "a pour rang inférieur"@fr ;
                             
-                            rdfs:isDefinedBy "\"http://www.ontologydesignpatterns.org/cp/owl/linnaeantaxonomy.owl#hasLowerRank\"" ;
+                            rdfs:isDefinedBy "http://www.ontologydesignpatterns.org/cp/owl/linnaeantaxonomy.owl#hasLowerRank" ;
                             
                             rdfs:seeAlso "Ontology Design Pattern LinneanTaxonomy:hasLowerRank"@en ;
                             
@@ -100,10 +76,9 @@ AgronomicTaxon:isClassifiedBy rdf:type :ObjectProperty ;
                               
                               rdfs:comment "A relation between a Concept and an Entity, e.g. John is considered a typical rude man; your last concert constitutes the achievement of a lifetime; 20-year-old means she is mature enough." ;
                               
-                              rdfs:isDefinedBy "\"http://www.ontologydesignpatterns.org/cp/owl/classification.owl#isClassifiedBy\"" ;
+                              rdfs:isDefinedBy "http://www.ontologydesignpatterns.org/cp/owl/classification.owl#isClassifiedBy" ;
                               
-                              rdfs:seeAlso """Ontology Design Pattern classification: isClassifiedBy
-"""@en ;
+                              rdfs:seeAlso "Ontology Design Pattern classification: isClassifiedBy"@en ;
                               
                               :inverseOf AgronomicTaxon:classify ;
                               
@@ -177,9 +152,7 @@ AgronomicTaxon:memberScheme rdf:type :ObjectProperty ;
                                        "a pour membre"@fr ,
                                        "a pour élément"@fr ;
                             
-                            rdfs:comment """Relates a skos:ConceptScheme to its members, some skos:concepts. 
-A concept scheme has several members.
-"""@en ;
+                            rdfs:comment "Relates a skos:ConceptScheme to its members, some skos:concepts. A concept scheme has several members."@en ;
                             
                             rdfs:domain skos:ConceptScheme ;
                             
@@ -219,8 +192,7 @@ AgronomicTaxon:hasVernacularName rdf:type :DatatypeProperty ;
                                             "a pour nom commun"@fr ,
                                             "a pour nom vernaculaire"@fr ;
                                  
-                                 rdfs:comment """Un nom vernaculaire est un nom usuel, en langue locale, donné à une ou plusieurs espèces animales ou végétales dans son pays ou sa région d'origine. Il peut donc désigner des taxons très différents selon le contexte. Les noms vernaculaires sont souvent repris pour former la base des noms normalisés ou des noms vulgaires créés pour permettre la vulgarisation des noms scientifiques. Malgré leurs imprécisions, ils ont souvent la faveur dans le langage courant et font partie de la culture populaire.
-source wikipedia"""@fr .
+                                 rdfs:comment "Un nom vernaculaire est un nom usuel, en langue locale, donné à une ou plusieurs espèces animales ou végétales dans son pays ou sa région d'origine. Il peut donc désigner des taxons très différents selon le contexte. Les noms vernaculaires sont souvent repris pour former la base des noms normalisés ou des noms vulgaires créés pour permettre la vulgarisation des noms scientifiques. Malgré leurs imprécisions, ils ont souvent la faveur dans le langage courant et font partie de la culture populaire.source wikipedia"@fr .
 
 
 
@@ -244,9 +216,9 @@ AgronomicTaxon:ClassRank rdf:type :Class ;
                          
                          rdfs:seeAlso "Ontology Design Pattern linneanTaxonomy:Class" ;
                          
-                         rdfs:isDefinedBy "\"http://www.ontologydesignpatterns.org/cp/owl/linnaeantaxonomy.owl#Class\"" ;
+                         rdfs:isDefinedBy "http://www.ontologydesignpatterns.org/cp/owl/linnaeantaxonomy.owl#Class" ;
                          
-                         rdfs:comment "Class is the third highest traditional taxon. E.g., in the case of humans the class is \"Mammalia\";."@en .
+                         rdfs:comment "Class is the third highest traditional taxon. E.g., in the case of humans the class is Mammalia;."@en .
 
 
 
@@ -259,9 +231,9 @@ AgronomicTaxon:FamilyRank rdf:type :Class ;
                           
                           rdfs:subClassOf AgronomicTaxon:Taxon ;
                           
-                          rdfs:isDefinedBy "\"http://www.ontologydesignpatterns.org/cp/owl/linnaeantaxonomy.owl#Family\"" ;
+                          rdfs:isDefinedBy "http://www.ontologydesignpatterns.org/cp/owl/linnaeantaxonomy.owl#Family" ;
                           
-                          rdfs:comment "Family is the fifth highest traditional taxon. E.g., in the case of humans the family is \"Hominidae\"."@en ;
+                          rdfs:comment "Family is the fifth highest traditional taxon. E.g., in the case of humans the family is Hominidae."@en ;
                           
                           rdfs:seeAlso "Ontology Design Pattern linneanTaxonomy:Family"@en .
 
@@ -278,9 +250,9 @@ AgronomicTaxon:GenusRank rdf:type :Class ;
                          
                          rdfs:seeAlso "Ontology Design Pattern linneanTaxonomy:Genus" ;
                          
-                         rdfs:isDefinedBy "\"http://www.ontologydesignpatterns.org/cp/owl/linnaeantaxonomy.owl#Genus\"" ;
+                         rdfs:isDefinedBy "http://www.ontologydesignpatterns.org/cp/owl/linnaeantaxonomy.owl#Genus" ;
                          
-                         rdfs:comment "Genus is the sixth highest traditional taxon. E.g., in the case of humans the genus is \"Homo\"."@en .
+                         rdfs:comment "Genus is the sixth highest traditional taxon. E.g., in the case of humans the genus is Homo."@en .
 
 
 
@@ -295,7 +267,7 @@ AgronomicTaxon:KingdomRank rdf:type :Class ;
                            
                            rdfs:isDefinedBy "http://www.ontologydesignpatterns.org/cp/owl/linnaeantaxonomy.owl#Kingdom" ;
                            
-                           rdfs:comment "Kingdom is the highest traditional taxon. E.g., in the case of humans the kingdom is \"Animalia\"."@en ;
+                           rdfs:comment "Kingdom is the highest traditional taxon. E.g., in the case of humans the kingdom is Animalia."@en ;
                            
                            rdfs:seeAlso "Ontology Design Pattern linneanTaxonomy:Kingdom"@en .
 
@@ -308,10 +280,8 @@ AgronomicTaxon:LivingOrganism rdf:type :Class ;
                               rdfs:label "Living Organism"@en ,
                                          "Organisme vivant"@fr ;
                               
-                              rdfs:comment """In biology, an organism is any contiguous living system (such as animal, fungus, micro-organism, or plant). In at least some form, all types of organisms are capable of responding to stimuli, reproduction, growth and development, and maintenance of homeostasis as a stable whole.
-source wikipedia"""@en ,
-                                           """Un organisme  désigne, en biologie et en écologie, un système complexe évolutif formé d'organes qui interagissent de façon à fonctionner comme un ensemble stable.
-source wikipedia"""@fr .
+                              rdfs:comment "In biology, an organism is any contiguous living system (such as animal, fungus, micro-organism, or plant). In at least some form, all types of organisms are capable of responding to stimuli, reproduction, growth and development, and maintenance of homeostasis as a stable whole.source wikipedia"@en ,
+                                           "Un organisme  désigne, en biologie et en écologie, un système complexe évolutif formé d'organes qui interagissent de façon à fonctionner comme un ensemble stable.source wikipedia"@fr .
 
 
 
@@ -326,9 +296,9 @@ AgronomicTaxon:OrderRank rdf:type :Class ;
                          
                          rdfs:seeAlso " Ontology Design Pattern linneanTaxonomy:Order"@en ;
                          
-                         rdfs:isDefinedBy "\"http://www.ontologydesignpatterns.org/cp/owl/linnaeantaxonomy.owl#Order\"" ;
+                         rdfs:isDefinedBy "http://www.ontologydesignpatterns.org/cp/owl/linnaeantaxonomy.owl#Order" ;
                          
-                         rdfs:comment "Order is the fourth highest traditional taxon. E.g., in the case of humans the phylum is \"Primates\"."@en .
+                         rdfs:comment "Order is the fourth highest traditional taxon. E.g., in the case of humans the phylum is Primates."@en .
 
 
 
@@ -342,11 +312,11 @@ AgronomicTaxon:PhylumRank rdf:type :Class ;
                           
                           rdfs:subClassOf AgronomicTaxon:Taxon ;
                           
-                          rdfs:isDefinedBy "\"http://www.ontologydesignpatterns.org/cp/owl/linnaeantaxonomy.owl#Phylum\"" ;
+                          rdfs:isDefinedBy "http://www.ontologydesignpatterns.org/cp/owl/linnaeantaxonomy.owl#Phylum" ;
                           
                           rdfs:seeAlso "Ontology Design Pattern linneanTaxonomy:Phylum"@en ;
                           
-                          rdfs:comment "Phylum is the second highest traditional taxon. E.g., in the case of humans the phylum is \"Chordata\"."@en .
+                          rdfs:comment "Phylum is the second highest traditional taxon. E.g., in the case of humans the phylum is Chordata."@en .
 
 
 
@@ -359,11 +329,11 @@ AgronomicTaxon:SpecyRank rdf:type :Class ;
                          
                          rdfs:subClassOf AgronomicTaxon:Taxon ;
                          
-                         rdfs:isDefinedBy "\"http://www.ontologydesignpatterns.org/cp/owl/linnaeantaxonomy.owl#Species\"" ;
+                         rdfs:isDefinedBy "http://www.ontologydesignpatterns.org/cp/owl/linnaeantaxonomy.owl#Species" ;
                          
                          rdfs:seeAlso "Ontology Design Pattern linneanTaxonomy:Species"@en ;
                          
-                         rdfs:comment "Species is the lowest traditional taxon. E.g., in the case of humans the species is \"Homo sapiens\"."@en .
+                         rdfs:comment "Species is the lowest traditional taxon. E.g., in the case of humans the species is Homo sapiens."@en .
 
 
 
@@ -378,7 +348,7 @@ AgronomicTaxon:Taxon rdf:type :Class ;
                      
                      rdfs:subClassOf skos:Concept ;
                      
-                     rdfs:isDefinedBy "\"http://www.ontologydesignpatterns.org/cp/owl/linnaeantaxonomy.owl#Taxon\"" ;
+                     rdfs:isDefinedBy "http://www.ontologydesignpatterns.org/cp/owl/linnaeantaxonomy.owl#Taxon" ;
                      
                      rdfs:comment "A taxon is a concept denoting a type of organism or of a group of organisms."@en ;
                      
@@ -396,8 +366,7 @@ AgronomicTaxon:Taxonomy rdf:type :Class ;
                         
                         rdfs:subClassOf skos:ConceptScheme ;
                         
-                        rdfs:comment """Taxonomy is the academic discipline of defining groups of biological organisms on the basis of shared characteristics and giving names to those groups. Each group is given a rank and groups of a given rank can be aggregated to form a super group of higher rank and thus create a hierarchical classification. The groups created through this process are referred to as taxa (singular taxon). An example of a modern classification is the one published in 2009 by the Angiosperm Phylogeny Group for all living flowering plant families (the APG III system).
-from wikipedia"""@en .
+                        rdfs:comment "Taxonomy is the academic discipline of defining groups of biological organisms on the basis of shared characteristics and giving names to those groups. Each group is given a rank and groups of a given rank can be aggregated to form a super group of higher rank and thus create a hierarchical classification. The groups created through this process are referred to as taxa (singular taxon). An example of a modern classification is the one published in 2009 by the Angiosperm Phylogeny Group for all living flowering plant families (the APG III system).from wikipedia"@en .
 
 
 
@@ -410,8 +379,7 @@ AgronomicTaxon:VarietyRank rdf:type :Class ;
                            
                            rdfs:subClassOf AgronomicTaxon:Taxon ;
                            
-                           rdfs:comment """Une variété est un rang taxinomique de niveau inférieur au rang d'espèce. Ce rang est utilisé en botanique et en mycologie.
-source wikipedia"""@fr .
+                           rdfs:comment "Une variété est un rang taxinomique de niveau inférieur au rang d'espèce. Ce rang est utilisé en botanique et en mycologie.source wikipedia"@fr .
 
 
 

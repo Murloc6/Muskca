@@ -5,6 +5,7 @@
  */
 package muskca;
 
+import MultiSources.Fusionner;
 import Source.Source;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;

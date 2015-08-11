@@ -34,7 +34,7 @@ public class Muskca
     public static String dateBegin = "";
     public static String dateEnd = "";
     
-    public static String configFile = "in/muskca_params_Triticum.json";
+    public static String configFile = "in/muskca_params_Plantae.json";
     
     private static String projectName;
     
@@ -87,7 +87,7 @@ public class Muskca
             gamma = ((float)sources.size())/2.f;
         
         
-        Fusionner fusionner = new Fusionner(sources, urisLabelsImp, urisRelImp, uriTypeBase, urisTypeImp, aligner, threshold, x0, gamma);
+        Fusionner fusionner = new Fusionner(sources, urisLabelsImp, urisRelImp, uriTypeBase, urisTypeImp, aligner, threshold, x0, gamma, Muskca.moduleFile);
         
         System.out.println("Start filling sources");
         fusionner.setElemsOnSources();
@@ -252,12 +252,12 @@ public class Muskca
         
         String dateFileName = new SimpleDateFormat("dd-MM_HH-mm_").format(new Date());
         
-        System.out.println("EXPORT MONGODB ...");
-        fusionner.exportAllCandsMongoDB(allCands);
+        /*System.out.println("EXPORT MONGODB ...");
+        fusionner.exportAllCandsMongoDB(allCands);*/
         
-        System.out.println("Exporting all candidates (PROVO)...");
+        /*System.out.println("Exporting all candidates (PROVO)...");
         SparqlProxy spOutAllProvo = fusionner.nodeCandidatesToProvo(allCands, Muskca.provoFile, Muskca.spOutProvo, Muskca.moduleFile, Muskca.baseUriMuskca);
-        spOutAllProvo.writeKBFile("Muskca_"+dateFileName+"_"+Muskca.muskcaVersion+"_Provo_"+Muskca.projectName+"_allCands");
+        spOutAllProvo.writeKBFile("Muskca_"+dateFileName+"_"+Muskca.muskcaVersion+"_Provo_"+Muskca.projectName+"_allCands");*/
         
         System.out.println("Exporting all candidates (OWL)...");
         SparqlProxy spOutAllOwl = fusionner.nodeCandidatesToOwlThreshold(allCands, Muskca.spOutProvo, Muskca.moduleFile, Muskca.baseUriMuskca);
@@ -267,10 +267,10 @@ public class Muskca
         Extension ext = Muskca.getBestExtension(fusionner, allCands);
         if(ext != null)
         {
-            System.out.println("Solution found! ("+ext.getCandidates().size()+" NodeCandidates)");
+            /*System.out.println("Solution found! ("+ext.getCandidates().size()+" NodeCandidates)");
             System.out.println("Exporting ext candidates (PROVO) ...");
             SparqlProxy spOutExtProvo = fusionner.nodeCandidatesToProvo(ext.getCandidates(), Muskca.provoFile, Muskca.spOutProvo, Muskca.moduleFile, Muskca.baseUriMuskca);
-            spOutExtProvo.writeKBFile("Muskca_"+dateFileName+"_"+Muskca.muskcaVersion+"_Provo_"+Muskca.projectName+"_bestExt");
+            spOutExtProvo.writeKBFile("Muskca_"+dateFileName+"_"+Muskca.muskcaVersion+"_Provo_"+Muskca.projectName+"_bestExt");*/
             
             System.out.println("Exporting ext candidates (OWL) ...");
             SparqlProxy spOutExtOwl = fusionner.nodeCandidatesToOwl(ext.getCandidates(), Muskca.spOutProvo, Muskca.moduleFile, Muskca.baseUriMuskca);

@@ -1,0 +1,317 @@
+<?xml version='1.0' encoding='utf-8' standalone='no'?>
+<rdf:RDF xmlns='http://knowledgeweb.semanticweb.org/heterogeneity/alignment#'
+	xml:base='http://knowledgeweb.semanticweb.org/heterogeneity/alignment#'
+	xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#'
+	xmlns:xsd='http://www.w3.org/2001/XMLSchema#'>
+<Alignment>
+	<level>0</level>
+	<type>**</type>
+	<time>0.9091082212631675</time>
+	<onto1>http://seals-test.sti2.at/tdrs-web/testdata/persistent/595bcf86-52e2-4c01-b3f8-a4e975202bca/583405fb-8260-4d36-9425-0b19fc5a3243/suite/ekaw-iasted/component/source/</onto1>
+	<onto2>http://seals-test.sti2.at/tdrs-web/testdata/persistent/595bcf86-52e2-4c01-b3f8-a4e975202bca/583405fb-8260-4d36-9425-0b19fc5a3243/suite/ekaw-iasted/component/target/</onto2>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://ekaw#PC_Member"/>
+			<entity2 rdf:resource="http://iasted#Delegate"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.2264808594180071</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://ekaw#Regular_Session"/>
+			<entity2 rdf:resource="http://iasted#Speaker_lecture"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.07982297572432465</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://ekaw#Paper_Author"/>
+			<entity2 rdf:resource="http://iasted#Sponsor"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.07390914192370503</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://ekaw#Paper_Author"/>
+			<entity2 rdf:resource="http://iasted#Delegate"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.07390914192370503</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://ekaw#Demo_Session"/>
+			<entity2 rdf:resource="http://iasted#Speaker_lecture"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.07982297572432465</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://ekaw#Scientific_Event"/>
+			<entity2 rdf:resource="http://iasted#Lecture"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.27607772516039053</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://ekaw#Scientific_Event"/>
+			<entity2 rdf:resource="http://iasted#Conference_activity"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.062243349545875744</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://ekaw#Document"/>
+			<entity2 rdf:resource="http://iasted#Document"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">1.0</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://ekaw#Possible_Reviewer"/>
+			<entity2 rdf:resource="http://iasted#Sponsor"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.07390914192370503</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://ekaw#Possible_Reviewer"/>
+			<entity2 rdf:resource="http://iasted#Delegate"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.07909482154945101</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://ekaw#Person"/>
+			<entity2 rdf:resource="http://iasted#Person"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.3788237648391694</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://ekaw#Review"/>
+			<entity2 rdf:resource="http://iasted#Payment_document"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.048203082953371376</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://ekaw#Review"/>
+			<entity2 rdf:resource="http://iasted#Review"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.2317411965502413</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://ekaw#Review"/>
+			<entity2 rdf:resource="http://iasted#Form"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.04932950042991779</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://ekaw#Review"/>
+			<entity2 rdf:resource="http://iasted#Submission"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.048203082953371376</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://ekaw#Poster_Session"/>
+			<entity2 rdf:resource="http://iasted#Speaker_lecture"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.07982297572432465</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://ekaw#Agency_Staff_Member"/>
+			<entity2 rdf:resource="http://iasted#Sponsor"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.07390914192370503</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://ekaw#Agency_Staff_Member"/>
+			<entity2 rdf:resource="http://iasted#Delegate"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.07390914192370503</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://ekaw#Session_Chair"/>
+			<entity2 rdf:resource="http://iasted#Session_chair"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.20011531838547736</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://ekaw#Student"/>
+			<entity2 rdf:resource="http://iasted#Sponsor"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.07390914192370503</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://ekaw#Student"/>
+			<entity2 rdf:resource="http://iasted#Delegate"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.07390914192370503</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://ekaw#Abstract"/>
+			<entity2 rdf:resource="http://iasted#Payment_document"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.047477900576614454</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://ekaw#Abstract"/>
+			<entity2 rdf:resource="http://iasted#Form"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.04820308295337137</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://ekaw#Abstract"/>
+			<entity2 rdf:resource="http://iasted#Submission"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.047477900576614454</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://ekaw#Conference_Participant"/>
+			<entity2 rdf:resource="http://iasted#Sponsor"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.07390914192370503</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://ekaw#Conference_Participant"/>
+			<entity2 rdf:resource="http://iasted#Delegate"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.3484328562226332</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://ekaw#Conference_Session"/>
+			<entity2 rdf:resource="http://iasted#Speaker_lecture"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.07982297572432465</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://ekaw#Multi-author_Volume"/>
+			<entity2 rdf:resource="http://iasted#Payment_document"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.04631341226184691</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://ekaw#Multi-author_Volume"/>
+			<entity2 rdf:resource="http://iasted#Form"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.04659946512269142</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://ekaw#Multi-author_Volume"/>
+			<entity2 rdf:resource="http://iasted#Submission"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.04631341226184691</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://ekaw#Event"/>
+			<entity2 rdf:resource="http://iasted#Conference_activity"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.05871633064607316</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://ekaw#Session"/>
+			<entity2 rdf:resource="http://iasted#Session"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.275680824439947</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://ekaw#Tutorial"/>
+			<entity2 rdf:resource="http://iasted#Tutorial"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.20336980480794684</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://ekaw#Workshop_Session"/>
+			<entity2 rdf:resource="http://iasted#Speaker_lecture"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.07982297572432465</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://ekaw#Paper"/>
+			<entity2 rdf:resource="http://iasted#Payment_document"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.04971554546140169</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://ekaw#Paper"/>
+			<entity2 rdf:resource="http://iasted#Form"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.05207081831022822</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://ekaw#Paper"/>
+			<entity2 rdf:resource="http://iasted#Submission"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.04971554546140169</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+	<map>
+		<Cell>
+			<entity1 rdf:resource="http://ekaw#Individual_Presentation"/>
+			<entity2 rdf:resource="http://iasted#Lecture"/>
+			<measure rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.25132462831252533</measure>
+			<relation>=</relation>
+		</Cell>
+	</map>
+</Alignment>
+</rdf:RDF>

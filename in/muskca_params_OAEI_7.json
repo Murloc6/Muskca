@@ -63,6 +63,16 @@
     "http://muskca_evals/Location",
     "http://muskca_evals/Paper",
     "http://muskca_evals/Person",
+    "http://muskca_evals/Author",
+    "http://muskca_evals/Speaker",
+    "http://muskca_evals/Chair_PC",
+    "http://muskca_evals/Banquet",
+    "http://muskca_evals/Conference",
+    "http://muskca_evals/Trip",
+    "http://muskca_evals/Attendee",
+    "http://muskca_evals/Reception",
+    "http://muskca_evals/City",
+    "http://muskca_evals/ProgramComitee",
     "http://muskca_evals/Review"
   ],
   "output" :
